@@ -1,0 +1,1770 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محوّل جداول رمضان</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <style>
+        /* ═══════════ VARIABLES ═══════════ */
+        :root {
+            --bg: #F6F4EE;
+            --sf: #FFF;
+            --sf2: #FAFAF6;
+            --pri: #1A4D2E;
+            --prl: #2D7A4A;
+            --prp: #E8F0EB;
+            --acc: #C9A84C;
+            --acg: rgba(232, 201, 104, .25);
+            --txt: #1A1A1A;
+            --mut: #6B7280;
+            --bd: #E5E1D8;
+            --bd2: #C8C3B8;
+            --ok: #16A34A;
+            --dn: #DC2626;
+            --ff: 'Readex Pro', 'IBM Plex Sans Arabic', sans-serif;
+            --fb: 'IBM Plex Sans Arabic', sans-serif
+        }
+
+        /* ═══════════ RESET ═══════════ */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html {
+            font-size: 15px
+        }
+
+        body {
+            font-family: var(--fb);
+            background: var(--bg);
+            color: var(--txt);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 20% 20%, var(--prp) 0%, transparent 50%), radial-gradient(circle at 80% 80%, var(--acg) 0%, transparent 50%);
+            opacity: .5;
+            pointer-events: none;
+            z-index: 0
+        }
+
+        /* ═══════════ LAYOUT ═══════════ */
+        .app {
+            position: relative;
+            z-index: 1;
+            max-width: 1020px;
+            margin: 0 auto;
+            padding: 24px 20px
+        }
+
+        .hdr {
+            text-align: center;
+            margin-bottom: 28px;
+            animation: fsd .6s ease-out
+        }
+
+        .hdr h1 {
+            font-family: var(--ff);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--pri);
+            letter-spacing: -.5px
+        }
+
+        .hdr .cr {
+            display: inline-flex;
+            align-items: center;
+            margin-inline-start: 8px;
+            animation: gfl 3s ease-in-out infinite;
+            color: var(--acc)
+        }
+
+        .hdr .sub {
+            font-size: .88rem;
+            color: var(--mut);
+            margin-top: 2px
+        }
+
+        /* ═══════════ STEPPER ═══════════ */
+        .stepper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 32px;
+            animation: fsd .6s ease-out .1s both
+        }
+
+        .si {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            font-size: .85rem;
+            font-weight: 500;
+            color: var(--mut);
+            cursor: pointer;
+            transition: .3s;
+            border-radius: 24px
+        }
+
+        .si.act {
+            color: var(--pri);
+            background: var(--prp);
+            font-weight: 600
+        }
+
+        .si.dn {
+            color: var(--ok)
+        }
+
+        .sn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .78rem;
+            font-weight: 700;
+            border: 2px solid var(--bd);
+            background: var(--sf);
+            transition: .3s
+        }
+
+        .si.act .sn {
+            border-color: var(--pri);
+            background: var(--pri);
+            color: #fff
+        }
+
+        .si.dn .sn {
+            border-color: var(--ok);
+            background: var(--ok);
+            color: #fff
+        }
+
+        .sc {
+            width: 40px;
+            height: 2px;
+            background: var(--bd);
+            align-self: center;
+            transition: .3s
+        }
+
+        .sc.done {
+            background: var(--ok)
+        }
+
+        /* ═══════════ SCREENS ═══════════ */
+        .scr {
+            display: none;
+            animation: fsu .4s ease-out
+        }
+
+        .scr.active {
+            display: block
+        }
+
+        .card {
+            background: var(--sf);
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
+            border: 1px solid var(--bd);
+            margin-bottom: 20px
+        }
+
+        .ct {
+            font-family: var(--ff);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--pri);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        /* ═══════════ UPLOAD ═══════════ */
+        .uz {
+            border: 2px dashed var(--bd2);
+            border-radius: 16px;
+            padding: 48px 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: .3s;
+            background: var(--sf2)
+        }
+
+        .uz:hover,
+        .uz.dg {
+            border-color: var(--pri);
+            background: var(--prp);
+            transform: scale(1.01)
+        }
+
+        .uz .uzi {
+            font-size: 3rem;
+            margin-bottom: 12px;
+            display: block;
+            opacity: .7
+        }
+
+        .uz .uzt {
+            font-size: 1rem;
+            font-weight: 500
+        }
+
+        .uz .uzh {
+            font-size: .8rem;
+            color: var(--mut)
+        }
+
+        /* ═══════════ STATS ═══════════ */
+        .stb {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-top: 20px
+        }
+
+        .sti {
+            background: var(--sf2);
+            border-radius: 10px;
+            padding: 14px;
+            text-align: center;
+            border: 1px solid var(--bd)
+        }
+
+        .stv {
+            font-family: var(--ff);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--pri)
+        }
+
+        .stl {
+            font-size: .75rem;
+            color: var(--mut);
+            margin-top: 2px
+        }
+
+        /* ═══════════ SETTINGS ═══════════ */
+        .sg {
+            display: grid;
+            gap: 0
+        }
+
+        .sg-columns {
+            display: grid;
+            grid-template-columns: 1fr 20px 1fr;
+            gap: 0;
+            align-items: start
+        }
+
+        .sg-col {
+            display: flex;
+            flex-direction: column;
+            gap: 0
+        }
+
+        .sg-col-title {
+            text-align: center;
+            font-weight: 700;
+            font-size: .8rem;
+            padding: 8px 4px;
+            border-radius: 8px 8px 0 0
+        }
+
+        .sg-col-ramadan .sg-col-title {
+            background: linear-gradient(135deg, #1A4D2E, #2D7A4A);
+            color: #fff
+        }
+
+        .sg-col-old .sg-col-title {
+            background: #d5d0c8;
+            color: #555
+        }
+
+        .sg-col-divider {
+            display: flex;
+            align-items: stretch;
+            justify-content: center
+        }
+
+        .sg-col-divider::after {
+            content: '';
+            width: 2px;
+            background: var(--bd2);
+            margin: 8px 0
+        }
+
+        .sr-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 8px;
+            border: 1px solid transparent;
+            border-bottom: 1px solid var(--bd);
+            transition: .2s;
+            min-height: 44px
+        }
+
+        .sg-col-ramadan .sr-row {
+            background: #f0f8f2
+        }
+
+        .sg-col-ramadan .sr-row:hover {
+            background: #e0f0e4
+        }
+
+        .sg-col-old .sr-row {
+            background: #f5f3ef
+        }
+
+        .sr-row .srl {
+            font-weight: 600;
+            font-size: .8rem;
+            color: var(--pri);
+            min-width: 85px;
+            flex-shrink: 0
+        }
+
+        .sg-col-old .sr-row .srl {
+            color: var(--mut)
+        }
+
+        .time-cell {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex: 1;
+            justify-content: center
+        }
+
+        .time-val {
+            font-family: 'Courier New', monospace;
+            font-size: .85rem;
+            padding: 4px 6px;
+            border-radius: 4px;
+            text-align: center;
+            direction: ltr;
+            min-width: 48px;
+            display: inline-block
+        }
+
+        .sg-col-ramadan .time-val {
+            background: #fff;
+            border: 1px solid var(--prl);
+            color: var(--pri);
+            font-weight: 600
+        }
+
+        .sg-col-ramadan .time-val.end-val {
+            background: var(--prp);
+            border: 1px solid var(--bd);
+            color: var(--pri);
+            font-weight: 500
+        }
+
+        .sg-col-old .time-val {
+            background: #eae7e1;
+            border: 1px solid var(--bd);
+            color: var(--mut);
+            font-weight: 400
+        }
+
+        .time-sep {
+            color: var(--mut);
+            font-size: .75rem
+        }
+
+        /* Arrow buttons */
+        .arrow-btn {
+            display: flex;
+            flex-direction: column;
+            gap: 1px
+        }
+
+        .arrow-btn button {
+            border: 1px solid var(--bd);
+            background: var(--sf);
+            cursor: pointer;
+            padding: 0;
+            width: 20px;
+            height: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: .15s;
+            color: var(--pri);
+            font-size: .55rem;
+            line-height: 1
+        }
+
+        .arrow-btn button:first-child {
+            border-radius: 3px 3px 0 0
+        }
+
+        .arrow-btn button:last-child {
+            border-radius: 0 0 3px 3px;
+            border-top: none
+        }
+
+        .arrow-btn button:hover {
+            background: var(--prp);
+            border-color: var(--prl)
+        }
+
+        .arrow-btn button:active {
+            background: var(--pri);
+            color: #fff
+        }
+
+        /* Break rows */
+        .brk-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2px 8px;
+            min-height: 22px;
+            font-size: .7rem;
+            font-weight: 500
+        }
+
+        .sg-col-ramadan .brk-row {
+            background: linear-gradient(90deg, transparent, rgba(26, 77, 46, .06), transparent);
+            color: var(--pri)
+        }
+
+        .sg-col-ramadan .brk-row.brk-rest {
+            color: var(--acc)
+        }
+
+        .sg-col-ramadan .brk-row.brk-none {
+            color: var(--bd2);
+            font-size: .6rem
+        }
+
+        .sg-col-old .brk-row {
+            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, .03), transparent);
+            color: var(--mut)
+        }
+
+        .sg-col-old .brk-row.brk-none {
+            color: var(--bd2);
+            font-size: .6rem
+        }
+
+        /* Start time input */
+        .start-input {
+            width: 105px;
+            padding: 4px 4px;
+            border: 1.5px solid var(--prl);
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: .85rem;
+            text-align: center;
+            background: #fff;
+            color: var(--pri);
+            font-weight: 600;
+            transition: .2s
+        }
+
+        .start-input:focus {
+            outline: none;
+            border-color: var(--pri);
+            box-shadow: 0 0 0 3px var(--prp)
+        }
+
+        .ct .lucide-icon {
+            width: 20px;
+            height: 20px;
+            stroke: var(--pri);
+            flex-shrink: 0
+        }
+
+        /* ═══════════ LOGO (removed upload section) ═══════════ */
+
+        /* ═══════════ SEARCH & LIST ═══════════ */
+        .sbx {
+            position: relative;
+            margin-bottom: 16px
+        }
+
+        .sbx input {
+            width: 100%;
+            padding: 12px 44px 12px 16px;
+            border: 1px solid var(--bd);
+            border-radius: 10px;
+            font-family: var(--fb);
+            font-size: .9rem;
+            background: var(--sf);
+            transition: .2s
+        }
+
+        .sbx input:focus {
+            outline: none;
+            border-color: var(--pri);
+            box-shadow: 0 0 0 3px var(--prp)
+        }
+
+        .sbx .sic {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.1rem;
+            opacity: .4
+        }
+
+        .tl {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid var(--bd);
+            border-radius: 10px
+        }
+
+        .ti {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--bd);
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .ti:last-child {
+            border-bottom: none
+        }
+
+        .ti:hover,
+        .ti.sel {
+            background: var(--prp)
+        }
+
+        .tn {
+            font-weight: 500;
+            font-size: .9rem;
+            flex: 1
+        }
+
+        .tid2 {
+            font-size: .8rem;
+            color: var(--mut);
+            font-family: 'Courier New', monospace;
+            direction: ltr
+        }
+
+        .tde {
+            font-size: .75rem;
+            color: var(--mut)
+        }
+
+        /* ═══════════ BUTTONS ═══════════ */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            border: none;
+            border-radius: 10px;
+            font-family: var(--fb);
+            font-size: .9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .25s;
+            white-space: nowrap
+        }
+
+        .btn:disabled {
+            opacity: .4;
+            cursor: not-allowed
+        }
+
+        .bp {
+            background: var(--pri);
+            color: #fff
+        }
+
+        .bp:hover:not(:disabled) {
+            background: var(--prl);
+            transform: translateY(-1px)
+        }
+
+        .ba {
+            background: linear-gradient(135deg, var(--acc), #D4B85A);
+            color: #1A1A1A
+        }
+
+        .ba:hover:not(:disabled) {
+            box-shadow: 0 0 40px var(--acg);
+            transform: translateY(-1px)
+        }
+
+        .bo {
+            background: transparent;
+            border: 1.5px solid var(--bd2);
+            color: var(--txt)
+        }
+
+        .bo:hover:not(:disabled) {
+            border-color: var(--pri);
+            background: var(--prp)
+        }
+
+        .bsm {
+            padding: 6px 14px;
+            font-size: .8rem
+        }
+
+        .ab {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap
+        }
+
+        /* ═══════════ PROGRESS ═══════════ */
+        .pw {
+            display: none;
+            margin-top: 16px
+        }
+
+        .pw.sh {
+            display: block
+        }
+
+        .pb {
+            width: 100%;
+            height: 8px;
+            background: var(--bd);
+            border-radius: 99px;
+            overflow: hidden
+        }
+
+        .pfl {
+            height: 100%;
+            background: linear-gradient(90deg, var(--pri), var(--acc));
+            border-radius: 99px;
+            transition: width .3s;
+            width: 0%
+        }
+
+        .ptx {
+            text-align: center;
+            font-size: .8rem;
+            color: var(--mut);
+            margin-top: 6px
+        }
+
+        /* ═══════════ TOAST ═══════════ */
+        .toc {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 8px
+        }
+
+        .tst {
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: .85rem;
+            font-weight: 500;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, .1);
+            animation: tin .3s ease-out;
+            max-width: 400px
+        }
+
+        .tst.ok {
+            background: #F0FDF4;
+            color: var(--ok);
+            border: 1px solid var(--ok)
+        }
+
+        .tst.er {
+            background: #FEF2F2;
+            color: var(--dn);
+            border: 1px solid var(--dn)
+        }
+
+        /* ═══════════ ANIMATIONS ═══════════ */
+        @keyframes fsd {
+            from {
+                opacity: 0;
+                transform: translateY(-16px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        @keyframes fsu {
+            from {
+                opacity: 0;
+                transform: translateY(16px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        @keyframes gfl {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0)
+            }
+
+            50% {
+                transform: translateY(-4px) rotate(5deg)
+            }
+        }
+
+        @keyframes tin {
+            from {
+                opacity: 0;
+                transform: translateY(-12px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2.5px solid var(--bd);
+            border-top-color: var(--pri);
+            border-radius: 50%;
+            animation: spin .7s linear infinite
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg)
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--bd2);
+            border-radius: 99px
+        }
+
+        .print-notice {
+            margin-top: 20px;
+            padding: 12px 14px;
+            background: #fffcf0;
+            border: 1px solid #f0e6c5;
+            border-right: 4px solid var(--acc);
+            border-radius: 8px;
+            font-size: 0.82rem;
+            line-height: 1.6;
+            color: #7c5e10;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        /* ═══════════ RESPONSIVE ═══════════ */
+        @media(max-width:768px) {
+            .g3 {
+                grid-template-columns: 1fr !important
+            }
+        }
+
+        @media(max-width:640px) {
+            html {
+                font-size: 14px
+            }
+
+            .app {
+                padding: 16px 12px
+            }
+
+            .card {
+                padding: 20px 16px
+            }
+
+            .stepper {
+                flex-wrap: wrap;
+                gap: 4px
+            }
+
+            .sc {
+                width: 20px
+            }
+
+            .si {
+                padding: 8px 12px;
+                font-size: .8rem
+            }
+
+            .stb {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .sg-columns {
+                grid-template-columns: 1fr 10px 1fr
+            }
+
+            .sr-row .srl {
+                min-width: 75px;
+                font-size: .7rem
+            }
+
+            .start-input {
+                width: 95px;
+                font-size: .78rem
+            }
+
+            .time-val {
+                font-size: .75rem;
+                min-width: 40px;
+                padding: 3px 4px
+            }
+
+            .arrow-btn button {
+                width: 16px;
+                height: 12px
+            }
+
+            .ab {
+                flex-direction: column
+            }
+
+            .ab .btn {
+                width: 100%;
+                justify-content: center
+            }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════ */
+        /*  PRINT-ONLY SCHEDULE PAGES                                      */
+        /* ═══════════════════════════════════════════════════════════════ */
+        #printArea {
+            display: none
+        }
+
+        .sched-page {
+            page-break-after: always;
+            width: 148mm;
+            /* A5 width */
+            padding: 8mm;
+            font-family: 'IBM Plex Sans Arabic', 'Readex Pro', sans-serif;
+            direction: rtl;
+            font-size: 10px;
+            color: #000;
+        }
+
+        .sched-page:last-child {
+            page-break-after: avoid
+        }
+
+        .sp-logo {
+            text-align: center;
+            margin-bottom: 4px
+        }
+
+        .sp-logo img {
+            max-height: 24mm;
+            max-width: 30mm
+        }
+
+        /* ═══ HEADER SPLIT LAYOUT ═══ */
+        .sp-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 3mm;
+            direction: rtl;
+        }
+
+        .sp-header-logo {
+            flex: 0 0 30mm;
+            text-align: center;
+        }
+
+        .sp-header-logo img {
+            max-height: 22mm;
+            max-width: 28mm;
+        }
+
+        .sp-header-text {
+            flex: 1;
+            text-align: center;
+            font-size: 9px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* ═══ SEMESTER BADGE ═══ */
+        .sp-semester {
+            text-align: center;
+            font-size: 10px;
+            font-weight: 700;
+            color: #1A4D2E;
+            margin: 0.5mm auto 1.5mm;
+            padding: 1.5mm 4mm;
+            background: #E8F0EB;
+            border-radius: 2mm;
+            display: inline-block;
+        }
+
+        .sp-semester-wrap {
+            text-align: center;
+            margin-bottom: 1mm;
+        }
+
+        /* ═══ DAY SEPARATOR ═══ */
+        .sp-tbl .day-separator td {
+            border-top: 2.5px solid #1A4D2E !important;
+            padding-top: 2mm;
+        }
+
+        .sp-hdr {
+            text-align: center;
+            font-size: 9px;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 3mm
+        }
+
+        .sp-title {
+            text-align: center;
+            background: #1A4D2E;
+            color: #fff;
+            padding: 3mm 5mm;
+            border-radius: 3mm;
+            font-size: 13px;
+            font-weight: 700;
+            margin: 1.5mm auto;
+            display: inline-block
+        }
+
+        .sp-title-wrap {
+            text-align: center;
+            margin-bottom: 2mm
+        }
+
+        .sp-info {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2mm;
+            font-size: 9px
+        }
+
+        .sp-info td {
+            border: 0.3px solid #ccc;
+            padding: 2mm;
+            text-align: center
+        }
+
+        .sp-info .lbl {
+            background: #E8F0EB;
+            font-weight: 700;
+            width: 15%;
+            font-size: 8px;
+            color: #1A4D2E
+        }
+
+        .sp-info td:nth-child(2) {
+            width: 35%;
+        }
+
+        .sp-info td:nth-child(4) {
+            width: 35%;
+        }
+
+        .sp-tbl {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 8.5px
+        }
+
+        .sp-tbl th {
+            background: #1A4D2E;
+            color: #fff;
+            padding: 2mm 1.5mm;
+            font-weight: 600;
+            text-align: center;
+            font-size: 8px;
+            white-space: nowrap
+        }
+
+        .sp-tbl td {
+            border: 0.3px solid #bbb;
+            padding: 1.5mm 1mm;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 8px
+        }
+
+        .sp-tbl tr:nth-child(even) td {
+            background: #f9f9f6
+        }
+
+        .sp-tbl .day-c {
+            font-weight: 700;
+            background: #E8F0EB !important;
+            color: #1A4D2E;
+            width: 14%
+        }
+
+        .sp-tbl .time-c {
+            font-family: 'Courier New', monospace;
+            direction: rtl;
+            font-size: 8px;
+            font-weight: 700;
+            white-space: nowrap;
+            width: 16%;
+            min-width: 18mm;
+        }
+
+        .sp-footer {
+            text-align: center;
+            font-size: 9px;
+            margin-top: 3mm;
+            color: #555;
+            font-weight: 600
+        }
+
+        @media print {
+            body>*:not(#printArea) {
+                display: none !important
+            }
+
+            #printArea {
+                display: block !important
+            }
+
+            body {
+                background: #fff;
+                margin: 0;
+                padding: 0
+            }
+
+            body::before {
+                display: none
+            }
+
+            @page {
+                size: A5 portrait;
+                margin: 0
+            }
+
+            .sched-page {
+                width: 100%;
+                padding: 6mm;
+                page-break-after: always
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="toc" id="TC"></div>
+    <div class="app">
+        <header class="hdr">
+            <h1>محوّل جداول رمضان <span class="cr"><i data-lucide="moon"></i></span></h1>
+            <p class="sub">تحويل جداول المتدربين من نظام 50 دقيقة إلى نظام 35 دقيقة</p>
+        </header>
+        <nav class="stepper">
+            <div class="si act" data-s="1" onclick="goTo(1)"><span class="sn">1</span><span>رفع الملف</span></div>
+            <div class="sc" id="c1"></div>
+            <div class="si" data-s="2" onclick="goTo(2)"><span class="sn">2</span><span>الإعدادات</span></div>
+            <div class="sc" id="c2"></div>
+            <div class="si" data-s="3" onclick="goTo(3)"><span class="sn">3</span><span>المعاينة والطباعة</span></div>
+        </nav>
+
+        <!-- S1 -->
+        <section class="scr active" id="s1">
+            <div class="card">
+                <div class="ct"><i data-lucide="file-up" class="lucide-icon"></i> رفع تقرير SS05 جدول المتدرب (CSV)
+                </div>
+                <div class="uz" id="UZ" onclick="document.getElementById('FI').click()">
+                    <span class="uzi"><i data-lucide="upload-cloud"
+                            style="width:3rem;height:3rem;stroke:var(--pri)"></i></span>
+                    <div class="uzt">اضغط هنا لاختيار ملف CSV</div>
+                    <div class="uzh">أو اسحب الملف وأفلته في هذه المنطقة</div>
+                </div>
+                <input type="file" accept=".csv" id="FI" style="display:none">
+                <div id="US" style="display:none">
+                    <div class="stb">
+                        <div class="sti">
+                            <div class="stv" id="sT">0</div>
+                            <div class="stl">متدرب</div>
+                        </div>
+                        <div class="sti">
+                            <div class="stv" id="sR">0</div>
+                            <div class="stl">محاضرة</div>
+                        </div>
+                        <div class="sti">
+                            <div class="stv" id="sM">--</div>
+                            <div class="stl">أول بداية</div>
+                        </div>
+                        <div class="sti">
+                            <div class="stv" id="sX">0</div>
+                            <div class="stl">أقصى محاضرة</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ab">
+                <div></div><button class="btn bp" id="b2" disabled onclick="goTo(2)">التالي — الإعدادات <i
+                        data-lucide="arrow-left" style="width:16px;height:16px"></i></button>
+            </div>
+        </section>
+
+        <!-- S2 -->
+        <section class="scr" id="s2">
+            <div class="card">
+                <div class="ct"><i data-lucide="clock" class="lucide-icon"></i> أوقات محاضرات رمضان</div>
+                <div class="sg" id="SG"></div>
+                <div style="margin-top:12px;text-align:center"><button class="btn bo bsm" onclick="resetS()"><i
+                            data-lucide="rotate-ccw" style="width:14px;height:14px"></i> إعادة
+                        للقيم الافتراضية</button></div>
+            </div>
+            <div class="ab"><button class="btn bo" onclick="goTo(1)"><i data-lucide="arrow-right"
+                        style="width:16px;height:16px"></i> السابق</button><button class="btn bp"
+                    onclick="goTo(3)">التالي — المعاينة <i data-lucide="arrow-left"
+                        style="width:16px;height:16px"></i></button></div>
+        </section>
+
+        <!-- S3 -->
+        <section class="scr" id="s3">
+            <div class="g3" style="display:grid;grid-template-columns:280px 1fr;gap:20px">
+                <div class="card" style="align-self:start">
+                    <div class="ct"><i data-lucide="users" class="lucide-icon"></i> المتدربون</div>
+                    <div class="sbx"><span class="sic"><i data-lucide="search"
+                                style="width:18px;height:18px;stroke:var(--mut)"></i></span><input type="text" id="SI"
+                            placeholder="بحث بالاسم أو الرقم..." oninput="filt()"></div>
+                    <div class="tl" id="TL"></div>
+                </div>
+                <div>
+                    <div class="card">
+                        <div class="ct"><i data-lucide="eye" class="lucide-icon"></i> معاينة الجدول</div>
+                        <div id="PF"
+                            style="background:#fff;border:1px solid var(--bd);border-radius:10px;padding:20px;min-height:200px;direction:rtl">
+                            <div
+                                style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:200px;color:var(--mut)">
+                                <span style="opacity:.3;margin-bottom:12px"><i data-lucide="clipboard-list"
+                                        style="width:3rem;height:3rem;stroke:var(--mut)"></i></span>اختر متدرباً لمعاينة
+                                جدوله
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="ct"><i data-lucide="printer" class="lucide-icon"></i> الطباعة</div>
+                        <div class="ab" style="margin-top:0">
+                            <button class="btn ba" id="bPA" onclick="printAll()"><i data-lucide="printer"
+                                    style="width:16px;height:16px"></i> طباعة جميع الجداول</button>
+                            <button class="btn bo" id="bPS" onclick="printOne()" disabled><i data-lucide="printer"
+                                    style="width:16px;height:16px"></i> طباعة الجدول
+                                المحدد</button>
+                        </div>
+                        <div class="print-notice">
+                            <i data-lucide="info" style="width:18px;height:18px;stroke:var(--acc);margin-top:2px"></i>
+                            <div>
+                                <strong>تنبيه هام:</strong> لضمان ظهور خلفيات الجداول والتنسيقات بشكل سليم؛ عند الطباعة
+                                (من خيار الإعدادات الإضافية) يرجى تفعيل خيار <b>«رسومات الخلفية» (Background
+                                    Graphics)</b>.
+                            </div>
+                        </div>
+                        <div class="pw" id="PW">
+                            <div class="pb">
+                                <div class="pfl" id="PFL"></div>
+                            </div>
+                            <div class="ptx" id="PTX"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ab"><button class="btn bo" onclick="goTo(2)"><i data-lucide="arrow-right"
+                        style="width:16px;height:16px"></i> السابق</button></div>
+        </section>
+    </div>
+
+    <!-- Hidden print area -->
+    <div id="printArea"></div>
+
+    <script>
+        /* @license
+        Papa Parse
+        v5.4.1
+        https://github.com/mholt/PapaParse
+        License: MIT
+        */
+        !function (e, t) { "function" == typeof define && define.amd ? define([], t) : "object" == typeof module && "undefined" != typeof exports ? module.exports = t() : e.Papa = t() }(this, function s() { "use strict"; var f = "undefined" != typeof self ? self : "undefined" != typeof window ? window : void 0 !== f ? f : {}; var n = !f.document && !!f.postMessage, o = f.IS_PAPA_WORKER || !1, a = {}, u = 0, b = { parse: function (e, t) { var r = (t = t || {}).dynamicTyping || !1; J(r) && (t.dynamicTypingFunction = r, r = {}); if (t.dynamicTyping = r, t.transform = !!J(t.transform) && t.transform, t.worker && b.WORKERS_SUPPORTED) { var i = function () { if (!b.WORKERS_SUPPORTED) return !1; var e = (r = f.URL || f.webkitURL || null, i = s.toString(), b.BLOB_URL || (b.BLOB_URL = r.createObjectURL(new Blob(["var global = (function() { if (typeof self !== 'undefined') { return self; } if (typeof window !== 'undefined') { return window; } if (typeof global !== 'undefined') { return global; } return {}; })(); global.IS_PAPA_WORKER=true; ", "(", i, ")();"], { type: "text/javascript" })))), t = new f.Worker(e); var r, i; return t.onmessage = _, t.id = u++, a[t.id] = t }(); return i.userStep = t.step, i.userChunk = t.chunk, i.userComplete = t.complete, i.userError = t.error, t.step = J(t.step), t.chunk = J(t.chunk), t.complete = J(t.complete), t.error = J(t.error), delete t.worker, void i.postMessage({ input: e, config: t, workerId: i.id }) } var n = null; b.NODE_STREAM_INPUT, "string" == typeof e ? (e = function (e) { if (65279 === e.charCodeAt(0)) return e.slice(1); return e }(e), n = t.download ? new l(t) : new p(t)) : !0 === e.readable && J(e.read) && J(e.on) ? n = new g(t) : (f.File && e instanceof File || e instanceof Object) && (n = new c(t)); return n.stream(e) }, unparse: function (e, t) { var n = !1, _ = !0, m = ",", y = "\r\n", s = '"', a = s + s, r = !1, i = null, o = !1; !function () { if ("object" != typeof t) return; "string" != typeof t.delimiter || b.BAD_DELIMITERS.filter(function (e) { return -1 !== t.delimiter.indexOf(e) }).length || (m = t.delimiter); ("boolean" == typeof t.quotes || "function" == typeof t.quotes || Array.isArray(t.quotes)) && (n = t.quotes); "boolean" != typeof t.skipEmptyLines && "string" != typeof t.skipEmptyLines || (r = t.skipEmptyLines); "string" == typeof t.newline && (y = t.newline); "string" == typeof t.quoteChar && (s = t.quoteChar); "boolean" == typeof t.header && (_ = t.header); if (Array.isArray(t.columns)) { if (0 === t.columns.length) throw new Error("Option columns is empty"); i = t.columns } void 0 !== t.escapeChar && (a = t.escapeChar + s); ("boolean" == typeof t.escapeFormulae || t.escapeFormulae instanceof RegExp) && (o = t.escapeFormulae instanceof RegExp ? t.escapeFormulae : /^[=+\-@\t\r].*$/) }(); var u = new RegExp(Q(s), "g"); "string" == typeof e && (e = JSON.parse(e)); if (Array.isArray(e)) { if (!e.length || Array.isArray(e[0])) return h(null, e, r); if ("object" == typeof e[0]) return h(i || Object.keys(e[0]), e, r) } else if ("object" == typeof e) return "string" == typeof e.data && (e.data = JSON.parse(e.data)), Array.isArray(e.data) && (e.fields || (e.fields = e.meta && e.meta.fields || i), e.fields || (e.fields = Array.isArray(e.data[0]) ? e.fields : "object" == typeof e.data[0] ? Object.keys(e.data[0]) : []), Array.isArray(e.data[0]) || "object" == typeof e.data[0] || (e.data = [e.data])), h(e.fields || [], e.data || [], r); throw new Error("Unable to serialize unrecognized input"); function h(e, t, r) { var i = ""; "string" == typeof e && (e = JSON.parse(e)), "string" == typeof t && (t = JSON.parse(t)); var n = Array.isArray(e) && 0 < e.length, s = !Array.isArray(t[0]); if (n && _) { for (var a = 0; a < e.length; a++)0 < a && (i += m), i += v(e[a], a); 0 < t.length && (i += y) } for (var o = 0; o < t.length; o++) { var u = n ? e.length : t[o].length, h = !1, f = n ? 0 === Object.keys(t[o]).length : 0 === t[o].length; if (r && !n && (h = "greedy" === r ? "" === t[o].join("").trim() : 1 === t[o].length && 0 === t[o][0].length), "greedy" === r && n) { for (var d = [], l = 0; l < u; l++) { var c = s ? e[l] : l; d.push(t[o][c]) } h = "" === d.join("").trim() } if (!h) { for (var p = 0; p < u; p++) { 0 < p && !f && (i += m); var g = n && s ? e[p] : p; i += v(t[o][g], p) } o < t.length - 1 && (!r || 0 < u && !f) && (i += y) } } return i } function v(e, t) { if (null == e) return ""; if (e.constructor === Date) return JSON.stringify(e).slice(1, 25); var r = !1; o && "string" == typeof e && o.test(e) && (e = "'" + e, r = !0); var i = e.toString().replace(u, a); return (r = r || !0 === n || "function" == typeof n && n(e, t) || Array.isArray(n) && n[t] || function (e, t) { for (var r = 0; r < t.length; r++)if (-1 < e.indexOf(t[r])) return !0; return !1 }(i, b.BAD_DELIMITERS) || -1 < i.indexOf(m) || " " === i.charAt(0) || " " === i.charAt(i.length - 1)) ? s + i + s : i } } }; if (b.RECORD_SEP = String.fromCharCode(30), b.UNIT_SEP = String.fromCharCode(31), b.BYTE_ORDER_MARK = "\ufeff", b.BAD_DELIMITERS = ["\r", "\n", '"', b.BYTE_ORDER_MARK], b.WORKERS_SUPPORTED = !n && !!f.Worker, b.NODE_STREAM_INPUT = 1, b.LocalChunkSize = 10485760, b.RemoteChunkSize = 5242880, b.DefaultDelimiter = ",", b.Parser = E, b.ParserHandle = r, b.NetworkStreamer = l, b.FileStreamer = c, b.StringStreamer = p, b.ReadableStreamStreamer = g, f.jQuery) { var d = f.jQuery; d.fn.parse = function (o) { var r = o.config || {}, u = []; return this.each(function (e) { if (!("INPUT" === d(this).prop("tagName").toUpperCase() && "file" === d(this).attr("type").toLowerCase() && f.FileReader) || !this.files || 0 === this.files.length) return !0; for (var t = 0; t < this.files.length; t++)u.push({ file: this.files[t], inputElem: this, instanceConfig: d.extend({}, r) }) }), e(), this; function e() { if (0 !== u.length) { var e, t, r, i, n = u[0]; if (J(o.before)) { var s = o.before(n.file, n.inputElem); if ("object" == typeof s) { if ("abort" === s.action) return e = "AbortError", t = n.file, r = n.inputElem, i = s.reason, void (J(o.error) && o.error({ name: e }, t, r, i)); if ("skip" === s.action) return void h(); "object" == typeof s.config && (n.instanceConfig = d.extend(n.instanceConfig, s.config)) } else if ("skip" === s) return void h() } var a = n.instanceConfig.complete; n.instanceConfig.complete = function (e) { J(a) && a(e, n.file, n.inputElem), h() }, b.parse(n.file, n.instanceConfig) } else J(o.complete) && o.complete() } function h() { u.splice(0, 1), e() } } } function h(e) { this._handle = null, this._finished = !1, this._completed = !1, this._halted = !1, this._input = null, this._baseIndex = 0, this._partialLine = "", this._rowCount = 0, this._start = 0, this._nextChunk = null, this.isFirstChunk = !0, this._completeResults = { data: [], errors: [], meta: {} }, function (e) { var t = w(e); t.chunkSize = parseInt(t.chunkSize), e.step || e.chunk || (t.chunkSize = null); this._handle = new r(t), (this._handle.streamer = this)._config = t }.call(this, e), this.parseChunk = function (e, t) { if (this.isFirstChunk && J(this._config.beforeFirstChunk)) { var r = this._config.beforeFirstChunk(e); void 0 !== r && (e = r) } this.isFirstChunk = !1, this._halted = !1; var i = this._partialLine + e; this._partialLine = ""; var n = this._handle.parse(i, this._baseIndex, !this._finished); if (!this._handle.paused() && !this._handle.aborted()) { var s = n.meta.cursor; this._finished || (this._partialLine = i.substring(s - this._baseIndex), this._baseIndex = s), n && n.data && (this._rowCount += n.data.length); var a = this._finished || this._config.preview && this._rowCount >= this._config.preview; if (o) f.postMessage({ results: n, workerId: b.WORKER_ID, finished: a }); else if (J(this._config.chunk) && !t) { if (this._config.chunk(n, this._handle), this._handle.paused() || this._handle.aborted()) return void (this._halted = !0); n = void 0, this._completeResults = void 0 } return this._config.step || this._config.chunk || (this._completeResults.data = this._completeResults.data.concat(n.data), this._completeResults.errors = this._completeResults.errors.concat(n.errors), this._completeResults.meta = n.meta), this._completed || !a || !J(this._config.complete) || n && n.meta.aborted || (this._config.complete(this._completeResults, this._input), this._completed = !0), a || n && n.meta.paused || this._nextChunk(), n } this._halted = !0 }, this._sendError = function (e) { J(this._config.error) ? this._config.error(e) : o && this._config.error && f.postMessage({ workerId: b.WORKER_ID, error: e, finished: !1 }) } } function l(e) { var i; (e = e || {}).chunkSize || (e.chunkSize = b.RemoteChunkSize), h.call(this, e), this._nextChunk = n ? function () { this._readChunk(), this._chunkLoaded() } : function () { this._readChunk() }, this.stream = function (e) { this._input = e, this._nextChunk() }, this._readChunk = function () { if (this._finished) this._chunkLoaded(); else { if (i = new XMLHttpRequest, this._config.withCredentials && (i.withCredentials = this._config.withCredentials), n || (i.onload = v(this._chunkLoaded, this), i.onerror = v(this._chunkError, this)), i.open(this._config.downloadRequestBody ? "POST" : "GET", this._input, !n), this._config.downloadRequestHeaders) { var e = this._config.downloadRequestHeaders; for (var t in e) i.setRequestHeader(t, e[t]) } if (this._config.chunkSize) { var r = this._start + this._config.chunkSize - 1; i.setRequestHeader("Range", "bytes=" + this._start + "-" + r) } try { i.send(this._config.downloadRequestBody) } catch (e) { this._chunkError(e.message) } n && 0 === i.status && this._chunkError() } }, this._chunkLoaded = function () { 4 === i.readyState && (i.status < 200 || 400 <= i.status ? this._chunkError() : (this._start += this._config.chunkSize ? this._config.chunkSize : i.responseText.length, this._finished = !this._config.chunkSize || this._start >= function (e) { var t = e.getResponseHeader("Content-Range"); if (null === t) return -1; return parseInt(t.substring(t.lastIndexOf("/") + 1)) }(i), this.parseChunk(i.responseText))) }, this._chunkError = function (e) { var t = i.statusText || e; this._sendError(new Error(t)) } } function c(e) { var i, n; (e = e || {}).chunkSize || (e.chunkSize = b.LocalChunkSize), h.call(this, e); var s = "undefined" != typeof FileReader; this.stream = function (e) { this._input = e, n = e.slice || e.webkitSlice || e.mozSlice, s ? ((i = new FileReader).onload = v(this._chunkLoaded, this), i.onerror = v(this._chunkError, this)) : i = new FileReaderSync, this._nextChunk() }, this._nextChunk = function () { this._finished || this._config.preview && !(this._rowCount < this._config.preview) || this._readChunk() }, this._readChunk = function () { var e = this._input; if (this._config.chunkSize) { var t = Math.min(this._start + this._config.chunkSize, this._input.size); e = n.call(e, this._start, t) } var r = i.readAsText(e, this._config.encoding); s || this._chunkLoaded({ target: { result: r } }) }, this._chunkLoaded = function (e) { this._start += this._config.chunkSize, this._finished = !this._config.chunkSize || this._start >= this._input.size, this.parseChunk(e.target.result) }, this._chunkError = function () { this._sendError(i.error) } } function p(e) { var r; h.call(this, e = e || {}), this.stream = function (e) { return r = e, this._nextChunk() }, this._nextChunk = function () { if (!this._finished) { var e, t = this._config.chunkSize; return t ? (e = r.substring(0, t), r = r.substring(t)) : (e = r, r = ""), this._finished = !r, this.parseChunk(e) } } } function g(e) { h.call(this, e = e || {}); var t = [], r = !0, i = !1; this.pause = function () { h.prototype.pause.apply(this, arguments), this._input.pause() }, this.resume = function () { h.prototype.resume.apply(this, arguments), this._input.resume() }, this.stream = function (e) { this._input = e, this._input.on("data", this._streamData), this._input.on("end", this._streamEnd), this._input.on("error", this._streamError) }, this._checkIsFinished = function () { i && 1 === t.length && (this._finished = !0) }, this._nextChunk = function () { this._checkIsFinished(), t.length ? this.parseChunk(t.shift()) : r = !0 }, this._streamData = v(function (e) { try { t.push("string" == typeof e ? e : e.toString(this._config.encoding)), r && (r = !1, this._checkIsFinished(), this.parseChunk(t.shift())) } catch (e) { this._streamError(e) } }, this), this._streamError = v(function (e) { this._streamCleanUp(), this._sendError(e) }, this), this._streamEnd = v(function () { this._streamCleanUp(), i = !0, this._streamData("") }, this), this._streamCleanUp = v(function () { this._input.removeListener("data", this._streamData), this._input.removeListener("end", this._streamEnd), this._input.removeListener("error", this._streamError) }, this) } function r(m) { var a, o, u, i = Math.pow(2, 53), n = -i, s = /^\s*-?(\d+\.?|\.\d+|\d+\.\d+)([eE][-+]?\d+)?\s*$/, h = /^((\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z)))$/, t = this, r = 0, f = 0, d = !1, e = !1, l = [], c = { data: [], errors: [], meta: {} }; if (J(m.step)) { var p = m.step; m.step = function (e) { if (c = e, _()) g(); else { if (g(), 0 === c.data.length) return; r += e.data.length, m.preview && r > m.preview ? o.abort() : (c.data = c.data[0], p(c, t)) } } } function y(e) { return "greedy" === m.skipEmptyLines ? "" === e.join("").trim() : 1 === e.length && 0 === e[0].length } function g() { return c && u && (k("Delimiter", "UndetectableDelimiter", "Unable to auto-detect delimiting character; defaulted to '" + b.DefaultDelimiter + "'"), u = !1), m.skipEmptyLines && (c.data = c.data.filter(function (e) { return !y(e) })), _() && function () { if (!c) return; function e(e, t) { J(m.transformHeader) && (e = m.transformHeader(e, t)), l.push(e) } if (Array.isArray(c.data[0])) { for (var t = 0; _() && t < c.data.length; t++)c.data[t].forEach(e); c.data.splice(0, 1) } else c.data.forEach(e) }(), function () { if (!c || !m.header && !m.dynamicTyping && !m.transform) return c; function e(e, t) { var r, i = m.header ? {} : []; for (r = 0; r < e.length; r++) { var n = r, s = e[r]; m.header && (n = r >= l.length ? "__parsed_extra" : l[r]), m.transform && (s = m.transform(s, n)), s = v(n, s), "__parsed_extra" === n ? (i[n] = i[n] || [], i[n].push(s)) : i[n] = s } return m.header && (r > l.length ? k("FieldMismatch", "TooManyFields", "Too many fields: expected " + l.length + " fields but parsed " + r, f + t) : r < l.length && k("FieldMismatch", "TooFewFields", "Too few fields: expected " + l.length + " fields but parsed " + r, f + t)), i } var t = 1; !c.data.length || Array.isArray(c.data[0]) ? (c.data = c.data.map(e), t = c.data.length) : c.data = e(c.data, 0); m.header && c.meta && (c.meta.fields = l); return f += t, c }() } function _() { return m.header && 0 === l.length } function v(e, t) { return r = e, m.dynamicTypingFunction && void 0 === m.dynamicTyping[r] && (m.dynamicTyping[r] = m.dynamicTypingFunction(r)), !0 === (m.dynamicTyping[r] || m.dynamicTyping) ? "true" === t || "TRUE" === t || "false" !== t && "FALSE" !== t && (function (e) { if (s.test(e)) { var t = parseFloat(e); if (n < t && t < i) return !0 } return !1 }(t) ? parseFloat(t) : h.test(t) ? new Date(t) : "" === t ? null : t) : t; var r } function k(e, t, r, i) { var n = { type: e, code: t, message: r }; void 0 !== i && (n.row = i), c.errors.push(n) } this.parse = function (e, t, r) { var i = m.quoteChar || '"'; if (m.newline || (m.newline = function (e, t) { e = e.substring(0, 1048576); var r = new RegExp(Q(t) + "([^]*?)" + Q(t), "gm"), i = (e = e.replace(r, "")).split("\r"), n = e.split("\n"), s = 1 < n.length && n[0].length < i[0].length; if (1 === i.length || s) return "\n"; for (var a = 0, o = 0; o < i.length; o++)"\n" === i[o][0] && a++; return a >= i.length / 2 ? "\r\n" : "\r" }(e, i)), u = !1, m.delimiter) J(m.delimiter) && (m.delimiter = m.delimiter(e), c.meta.delimiter = m.delimiter); else { var n = function (e, t, r, i, n) { var s, a, o, u; n = n || [",", "\t", "|", ";", b.RECORD_SEP, b.UNIT_SEP]; for (var h = 0; h < n.length; h++) { var f = n[h], d = 0, l = 0, c = 0; o = void 0; for (var p = new E({ comments: i, delimiter: f, newline: t, preview: 10 }).parse(e), g = 0; g < p.data.length; g++)if (r && y(p.data[g])) c++; else { var _ = p.data[g].length; l += _, void 0 !== o ? 0 < _ && (d += Math.abs(_ - o), o = _) : o = _ } 0 < p.data.length && (l /= p.data.length - c), (void 0 === a || d <= a) && (void 0 === u || u < l) && 1.99 < l && (a = d, s = f, u = l) } return { successful: !!(m.delimiter = s), bestDelimiter: s } }(e, m.newline, m.skipEmptyLines, m.comments, m.delimitersToGuess); n.successful ? m.delimiter = n.bestDelimiter : (u = !0, m.delimiter = b.DefaultDelimiter), c.meta.delimiter = m.delimiter } var s = w(m); return m.preview && m.header && s.preview++, a = e, o = new E(s), c = o.parse(a, t, r), g(), d ? { meta: { paused: !0 } } : c || { meta: { paused: !1 } } }, this.paused = function () { return d }, this.pause = function () { d = !0, o.abort(), a = J(m.chunk) ? "" : a.substring(o.getCharIndex()) }, this.resume = function () { t.streamer._halted ? (d = !1, t.streamer.parseChunk(a, !0)) : setTimeout(t.resume, 3) }, this.aborted = function () { return e }, this.abort = function () { e = !0, o.abort(), c.meta.aborted = !0, J(m.complete) && m.complete(c), a = "" } } function Q(e) { return e.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") } function E(j) { var z, M = (j = j || {}).delimiter, P = j.newline, U = j.comments, q = j.step, N = j.preview, B = j.fastMode, K = z = void 0 === j.quoteChar || null === j.quoteChar ? '"' : j.quoteChar; if (void 0 !== j.escapeChar && (K = j.escapeChar), ("string" != typeof M || -1 < b.BAD_DELIMITERS.indexOf(M)) && (M = ","), U === M) throw new Error("Comment character same as delimiter"); !0 === U ? U = "#" : ("string" != typeof U || -1 < b.BAD_DELIMITERS.indexOf(U)) && (U = !1), "\n" !== P && "\r" !== P && "\r\n" !== P && (P = "\n"); var W = 0, H = !1; this.parse = function (i, t, r) { if ("string" != typeof i) throw new Error("Input must be a string"); var n = i.length, e = M.length, s = P.length, a = U.length, o = J(q), u = [], h = [], f = [], d = W = 0; if (!i) return L(); if (j.header && !t) { var l = i.split(P)[0].split(M), c = [], p = {}, g = !1; for (var _ in l) { var m = l[_]; J(j.transformHeader) && (m = j.transformHeader(m, _)); var y = m, v = p[m] || 0; for (0 < v && (g = !0, y = m + "_" + v), p[m] = v + 1; c.includes(y);)y = y + "_" + v; c.push(y) } if (g) { var k = i.split(P); k[0] = c.join(M), i = k.join(P) } } if (B || !1 !== B && -1 === i.indexOf(z)) { for (var b = i.split(P), E = 0; E < b.length; E++) { if (f = b[E], W += f.length, E !== b.length - 1) W += P.length; else if (r) return L(); if (!U || f.substring(0, a) !== U) { if (o) { if (u = [], I(f.split(M)), F(), H) return L() } else I(f.split(M)); if (N && N <= E) return u = u.slice(0, N), L(!0) } } return L() } for (var w = i.indexOf(M, W), R = i.indexOf(P, W), C = new RegExp(Q(K) + Q(z), "g"), S = i.indexOf(z, W); ;)if (i[W] !== z) if (U && 0 === f.length && i.substring(W, W + a) === U) { if (-1 === R) return L(); W = R + s, R = i.indexOf(P, W), w = i.indexOf(M, W) } else if (-1 !== w && (w < R || -1 === R)) f.push(i.substring(W, w)), W = w + e, w = i.indexOf(M, W); else { if (-1 === R) break; if (f.push(i.substring(W, R)), D(R + s), o && (F(), H)) return L(); if (N && u.length >= N) return L(!0) } else for (S = W, W++; ;) { if (-1 === (S = i.indexOf(z, S + 1))) return r || h.push({ type: "Quotes", code: "MissingQuotes", message: "Quoted field unterminated", row: u.length, index: W }), T(); if (S === n - 1) return T(i.substring(W, S).replace(C, z)); if (z !== K || i[S + 1] !== K) { if (z === K || 0 === S || i[S - 1] !== K) { -1 !== w && w < S + 1 && (w = i.indexOf(M, S + 1)), -1 !== R && R < S + 1 && (R = i.indexOf(P, S + 1)); var O = A(-1 === R ? w : Math.min(w, R)); if (i.substr(S + 1 + O, e) === M) { f.push(i.substring(W, S).replace(C, z)), i[W = S + 1 + O + e] !== z && (S = i.indexOf(z, W)), w = i.indexOf(M, W), R = i.indexOf(P, W); break } var x = A(R); if (i.substring(S + 1 + x, S + 1 + x + s) === P) { if (f.push(i.substring(W, S).replace(C, z)), D(S + 1 + x + s), w = i.indexOf(M, W), S = i.indexOf(z, W), o && (F(), H)) return L(); if (N && u.length >= N) return L(!0); break } h.push({ type: "Quotes", code: "InvalidQuotes", message: "Trailing quote on quoted field is malformed", row: u.length, index: W }), S++ } } else S++ } return T(); function I(e) { u.push(e), d = W } function A(e) { var t = 0; if (-1 !== e) { var r = i.substring(S + 1, e); r && "" === r.trim() && (t = r.length) } return t } function T(e) { return r || (void 0 === e && (e = i.substring(W)), f.push(e), W = n, I(f), o && F()), L() } function D(e) { W = e, I(f), f = [], R = i.indexOf(P, W) } function L(e) { return { data: u, errors: h, meta: { delimiter: M, linebreak: P, aborted: H, truncated: !!e, cursor: d + (t || 0) } } } function F() { q(L()), u = [], h = [] } }, this.abort = function () { H = !0 }, this.getCharIndex = function () { return W } } function _(e) { var t = e.data, r = a[t.workerId], i = !1; if (t.error) r.userError(t.error, t.file); else if (t.results && t.results.data) { var n = { abort: function () { i = !0, m(t.workerId, { data: [], errors: [], meta: { aborted: !0 } }) }, pause: y, resume: y }; if (J(r.userStep)) { for (var s = 0; s < t.results.data.length && (r.userStep({ data: t.results.data[s], errors: t.results.errors, meta: t.results.meta }, n), !i); s++); delete t.results } else J(r.userChunk) && (r.userChunk(t.results, n, t.file), delete t.results) } t.finished && !i && m(t.workerId, t.results) } function m(e, t) { var r = a[e]; J(r.userComplete) && r.userComplete(t), r.terminate(), delete a[e] } function y() { throw new Error("Not implemented.") } function w(e) { if ("object" != typeof e || null === e) return e; var t = Array.isArray(e) ? [] : {}; for (var r in e) t[r] = w(e[r]); return t } function v(e, t) { return function () { e.apply(t, arguments) } } function J(e) { return "function" == typeof e } return o && (f.onmessage = function (e) { var t = e.data; void 0 === b.WORKER_ID && t && (b.WORKER_ID = t.workerId); if ("string" == typeof t.input) f.postMessage({ workerId: b.WORKER_ID, results: b.parse(t.input, t.config), finished: !0 }); else if (f.File && t.input instanceof File || t.input instanceof Object) { var r = b.parse(t.input, t.config); r && f.postMessage({ workerId: b.WORKER_ID, results: r, finished: !0 }) } }), (l.prototype = Object.create(h.prototype)).constructor = l, (c.prototype = Object.create(h.prototype)).constructor = c, (p.prototype = Object.create(p.prototype)).constructor = p, (g.prototype = Object.create(h.prototype)).constructor = g, b });</script>
+    <script>
+        // ══════════════════════════════════════════════════════════
+        //  STATE & CONFIG
+        // ══════════════════════════════════════════════════════════
+        const A = { recs: [], trainees: new Map(), gMin: Infinity, maxSlot: 0, selId: null, logo: 'logo.png', oldSlots: [], oldBreaks: [] };
+        const LECTURE_DUR = 35; // Ramadan lecture duration in minutes
+        const DEFAULT_BREAKS = [0, 5, 0, 10, 0, 5, 0, 5, 0]; // breaks AFTER lecture index 0..8
+        const DEFAULT_START = 10 * 60 + 15; // 10:15 default first lecture start
+        let ramadanStart = DEFAULT_START; // current first lecture start (in minutes)
+        let ramadanBreaks = [...DEFAULT_BREAKS]; // current breaks (editable)
+        let RS = []; // will be computed from ramadanStart + ramadanBreaks
+        function computeRS() {
+            RS = [];
+            let t = ramadanStart;
+            for (let i = 0; i < 10; i++) {
+                RS.push({ s: m2hm(t), e: m2hm(t + LECTURE_DUR) });
+                t += LECTURE_DUR;
+                if (i < 9) t += ramadanBreaks[i];
+            }
+        }
+        computeRS();
+        const DAYS = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس'];
+        function normDay(d) { let x = d.trim().replace(/\s+/g, ' '); x = x.replace(/الاربعاء/, 'الأربعاء'); return x }
+
+        function toast(m, t = 'ok') { const c = document.getElementById('TC'), d = document.createElement('div'); d.className = 'tst ' + t; d.textContent = m; c.appendChild(d); setTimeout(() => d.remove(), 3500) }
+
+        function goTo(n) {
+            if (n > 1 && A.recs.length === 0) { toast('يرجى رفع ملف CSV أولاً', 'er'); return }
+            if (n === 3) { readSlots(); renderTL() }
+            document.querySelectorAll('.scr').forEach(s => s.classList.remove('active'));
+            document.getElementById('s' + n).classList.add('active');
+            document.querySelectorAll('.si[data-s]').forEach(s => {
+                const sn = +s.dataset.s; s.classList.remove('act', 'dn');
+                if (sn === n) s.classList.add('act'); else if (sn < n) s.classList.add('dn');
+            });
+            document.querySelectorAll('.sc').forEach((c, i) => c.classList.toggle('done', i < n - 1));
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ══════════════════════════════════════════════════════════
+        //  CSV
+        // ══════════════════════════════════════════════════════════
+        function handleFile(f) {
+            if (!f || !f.name.toLowerCase().endsWith('.csv')) { toast('يرجى اختيار ملف CSV', 'er'); return }
+            document.getElementById('UZ').innerHTML = '<span class="spinner"></span><div class="uzt" style="margin-top:16px">جاري تحليل الملف...</div>';
+            Papa.parse(f, {
+                header: true, encoding: 'UTF-8', skipEmptyLines: true,
+                transformHeader: h => h.trim().replace(/^\uFEFF/, ''),
+                complete: r => processCSV(r.data),
+                error: e => { toast('خطأ: ' + e.message, 'er') }
+            });
+        }
+
+        function processCSV(data) {
+            A.recs = []; A.trainees = new Map(); A.gMin = Infinity; A.maxSlot = 0;
+            for (const row of data) {
+                const tid = (row['الرقم التدريبي'] || '').trim();
+                const nm = (row['اسم المتدرب'] || '').trim();
+                const dy = normDay(row['اليوم'] || '');
+                const tm = (row['الوقت'] || '').trim();
+                const cr = (row['المقرر'] || '').trim();
+                const ct = (row['عنوان المقرر'] || '').trim();
+                const rf = (row['ر.مرجعي'] || '').trim();
+                const tp = (row['محاضرة/عملي'] || '').trim();
+                const rn = (row['الغرفة'] || '').trim();
+                const courseStatus = (row['حالة المقرر'] || '').trim();
+                const ad = (row['اسم المرشد'] || '').trim();
+                const dp = (row['القسم'] || '').trim();
+                const pg = (row['البرنامج'] || '').trim();
+                const sm = (row['الفصل التدريبي'] || '').trim();
+                const un = (row['الوحدة التدريبية'] || '').trim();
+                if (!tid || !tm) continue;
+                const pt = parseTime(tm); if (!pt) continue;
+                if (pt.s < A.gMin) A.gMin = pt.s;
+                const rec = { tid, nm, dy, tm, cr, ct, rf, tp, rn, ad, dp, pg, sm, un, pt, courseStatus };
+                A.recs.push(rec);
+                if (!A.trainees.has(tid)) A.trainees.set(tid, { tid, nm, dp, pg, ad, un, sm, recs: [] });
+                A.trainees.get(tid).recs.push(rec);
+            }
+            // Filter out trainees whose ALL courses have withdrawn/dismissed statuses
+            const excludeStatuses = ['انسحاب فصلي', 'مطوي قيده', 'مطوي قيده لإنقطاع أسبوعين'];
+            const toRemove = [];
+            for (const [tid, trainee] of A.trainees) {
+                const allExcluded = trainee.recs.every(r => excludeStatuses.includes(r.courseStatus));
+                if (allExcluded && trainee.recs.length > 0) {
+                    toRemove.push(tid);
+                }
+            }
+            for (const tid of toRemove) {
+                A.trainees.delete(tid);
+                A.recs = A.recs.filter(r => r.tid !== tid);
+            }
+
+            for (const r of A.recs) {
+                const off = r.pt.s - A.gMin, si = Math.round(off / 50), np = Math.round(r.pt.d / 50), ei = si + np;
+                if (ei > A.maxSlot) A.maxSlot = ei;
+            }
+            document.getElementById('sT').textContent = A.trainees.size;
+            document.getElementById('sR').textContent = A.recs.length;
+            document.getElementById('sM').textContent = m2hm(A.gMin);
+            document.getElementById('sX').textContent = A.maxSlot;
+            // Compute old slots from the CSV data
+            computeOldSlots();
+
+            document.getElementById('US').style.display = 'block';
+            document.getElementById('b2').disabled = false;
+            const uz = document.getElementById('UZ');
+            uz.innerHTML = '<span class="uzi"><i data-lucide="check-circle" style="width:3rem;height:3rem;stroke:var(--ok)"></i></span><div class="uzt">تم تحليل الملف بنجاح</div><div class="uzh">' + A.trainees.size + ' متدرب — ' + A.recs.length + ' محاضرة</div>';
+            uz.onclick = () => document.getElementById('FI').click();
+            toast('تم استيراد ' + A.trainees.size + ' متدرب و ' + A.recs.length + ' محاضرة');
+            renderSlotsUI();
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        // Compute old (pre-Ramadan) time slots from actual CSV data
+        // Uses CLUSTERING instead of Math.round(offset/50) to avoid accumulated-break drift
+        function computeOldSlots() {
+            // Helper: find the mode (most frequent value) in an array
+            function mode(arr) {
+                const freq = {};
+                let maxCount = 0, best = arr[0];
+                for (const v of arr) {
+                    freq[v] = (freq[v] || 0) + 1;
+                    if (freq[v] > maxCount) { maxCount = freq[v]; best = v; }
+                }
+                return best;
+            }
+
+            // Step 1: Collect all actual (startMin, endMin) pairs
+            const timePairs = [];
+            for (const r of A.recs) {
+                const np = Math.round(r.pt.d / 50);
+                if (np === 1) {
+                    timePairs.push({ s: r.pt.s, e: r.pt.e });
+                } else {
+                    // Multi-slot: estimate individual slot times
+                    for (let j = 0; j < np; j++) {
+                        timePairs.push({ s: r.pt.s + j * 50, e: r.pt.s + (j + 1) * 50 });
+                    }
+                }
+            }
+
+            // Step 2: Sort by start time
+            timePairs.sort((a, b) => a.s - b.s);
+
+            // Step 3: Cluster by start time proximity (within 15 min = same slot)
+            const clusters = []; // each: { starts: [], ends: [] }
+            for (const tp of timePairs) {
+                let placed = false;
+                for (const cl of clusters) {
+                    if (Math.abs(tp.s - mode(cl.starts)) <= 15) {
+                        cl.starts.push(tp.s);
+                        cl.ends.push(tp.e);
+                        placed = true;
+                        break;
+                    }
+                }
+                if (!placed) {
+                    clusters.push({ starts: [tp.s], ends: [tp.e] });
+                }
+            }
+
+            // Step 4: Sort clusters by representative start time
+            clusters.sort((a, b) => mode(a.starts) - mode(b.starts));
+
+            // Step 5: Build old slots from the first RS.length clusters
+            A.oldSlots = [];
+            for (let i = 0; i < Math.min(clusters.length, RS.length); i++) {
+                A.oldSlots.push({ s: mode(clusters[i].starts), e: mode(clusters[i].ends) });
+            }
+
+            // Fill remaining if fewer clusters than RS.length
+            while (A.oldSlots.length < RS.length) {
+                const prev = A.oldSlots[A.oldSlots.length - 1];
+                A.oldSlots.push({ s: prev.e + 1, e: prev.e + 51 });
+            }
+
+            // Step 6: GUARANTEE no overlaps - each slot starts >= previous slot's end
+            for (let i = 1; i < A.oldSlots.length; i++) {
+                if (A.oldSlots[i].s < A.oldSlots[i - 1].e) {
+                    A.oldSlots[i].s = A.oldSlots[i - 1].e;
+                    if (A.oldSlots[i].e <= A.oldSlots[i].s) {
+                        A.oldSlots[i].e = A.oldSlots[i].s + 50;
+                    }
+                }
+            }
+
+            // Step 7: Compute old breaks (gap <= 1 min => 0)
+            A.oldBreaks = [];
+            for (let i = 0; i < A.oldSlots.length - 1; i++) {
+                const gap = A.oldSlots[i + 1].s - A.oldSlots[i].e;
+                A.oldBreaks.push(gap <= 1 ? 0 : gap);
+            }
+        }
+
+        function parseTime(s) { const m = s.match(/(\d{4})\s*-\s*(\d{4})/); if (!m) return null; const es = m[1], ss = m[2]; return { s: +ss.substring(0, 2) * 60 + +ss.substring(2, 4), e: +es.substring(0, 2) * 60 + +es.substring(2, 4), d: (+es.substring(0, 2) * 60 + +es.substring(2, 4)) - (+ss.substring(0, 2) * 60 + +ss.substring(2, 4)) } }
+        function m2hm(m) { return String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0') }
+        function t12(s) {
+            if (!s || s === '--:--') return s;
+            const p = s.split(':');
+            let h = parseInt(p[0]);
+            let m = p[1];
+            let ampm = h >= 12 ? 'م' : 'ص';
+            h = h % 12;
+            if (h === 0) h = 12;
+            const timeStr = String(h).padStart(2, '0') + ':' + m;
+            // High-precision fix: Using inline-flex with forced LTR direction to ensure 
+            // the indicator (ص/م) is visually to the left of the numbers, matching the input.
+            return `<span style="display:inline-flex;direction:ltr;gap:4px;align-items:baseline;unicode-bidi:isolate"><span>${ampm}</span><span>${timeStr}</span></span>`;
+        }
+        function conv(rec) { const off = rec.pt.s - A.gMin, si = Math.min(Math.round(off / 50), RS.length - 1), np = Math.round(rec.pt.d / 50), ei = Math.min(si + np - 1, RS.length - 1); return { si, ei, np, rs: RS[si].s, re: RS[ei].e } }
+        function simplifyType(t) { if (t.includes('نظري')) return 'نظري'; if (t.includes('عملي')) return 'عملي'; if (t.includes('تعاوني')) return 'تعاوني'; return t }
+        function buildSch(t) { const bd = {}; for (const r of t.recs) { const d = normDay(r.dy); if (!bd[d]) bd[d] = []; bd[d].push(r) } for (const d of Object.keys(bd)) bd[d].sort((a, b) => a.pt.s - b.pt.s); return bd }
+
+        // ══════════════════════════════════════════════════════════
+        //  SETTINGS
+        // ══════════════════════════════════════════════════════════
+        function timeToMin(t) { if (!t) return 0; const p = t.split(':'); return (+p[0]) * 60 + (+p[1]) }
+
+        function renderSlotsUI() {
+            computeRS();
+            const g = document.getElementById('SG'); g.innerHTML = '';
+
+            // Two-column layout
+            const cols = document.createElement('div'); cols.className = 'sg-columns';
+
+            // === RAMADAN COLUMN ===
+            const colR = document.createElement('div'); colR.className = 'sg-col sg-col-ramadan';
+            colR.innerHTML = '<div class="sg-col-title"><i data-lucide="moon" style="width:14px;height:14px;vertical-align:middle;margin-left:4px"></i> أوقات رمضان (35 د)</div>';
+
+            for (let i = 0; i < RS.length; i++) {
+                const row = document.createElement('div'); row.className = 'sr-row';
+                row.innerHTML = '<span class="srl">محاضرة ' + (i + 1) + '</span>'
+                    + '<div class="arrow-btn"><button onclick="adjustStart(' + i + ', 5)" title="تأخير 5 د">▲</button><button onclick="adjustStart(' + i + ', -5)" title="تقديم 5 د">▼</button></div>'
+                    + '<input type="time" class="start-input" id="rs' + i + '" value="' + RS[i].s + '" onchange="onStartChange(' + i + ')">'
+                    + '<span class="time-sep">-</span>'
+                    + '<span class="time-val end-val" id="re' + i + '">' + t12(RS[i].e) + '</span>';
+                colR.appendChild(row);
+                // Break row
+                if (i < RS.length - 1) {
+                    const brk = document.createElement('div');
+                    brk.className = 'brk-row';
+                    brk.id = 'rbrk' + i;
+                    colR.appendChild(brk);
+                }
+            }
+
+            // === DIVIDER ===
+            const divider = document.createElement('div'); divider.className = 'sg-col-divider';
+
+            // === OLD COLUMN ===
+            const colO = document.createElement('div'); colO.className = 'sg-col sg-col-old';
+            colO.innerHTML = '<div class="sg-col-title"><i data-lucide="calendar" style="width:14px;height:14px;vertical-align:middle;margin-left:4px"></i> الأوقات القديمة (50 د)</div>';
+
+            for (let i = 0; i < RS.length; i++) {
+                const oldS = (A.oldSlots && A.oldSlots[i]) ? m2hm(A.oldSlots[i].s) : '--:--';
+                const oldE = (A.oldSlots && A.oldSlots[i]) ? m2hm(A.oldSlots[i].e) : '--:--';
+                const row = document.createElement('div'); row.className = 'sr-row';
+                row.innerHTML = '<span class="srl">محاضرة ' + (i + 1) + '</span>'
+                    + '<div class="time-cell">'
+                    + '<span class="time-val">' + oldS + '</span>'
+                    + '<span class="time-sep">-</span>'
+                    + '<span class="time-val">' + oldE + '</span>'
+                    + '</div>';
+                colO.appendChild(row);
+                // Break row for old
+                if (i < RS.length - 1) {
+                    const brk = document.createElement('div');
+                    brk.className = 'brk-row';
+                    brk.id = 'obrk' + i;
+                    colO.appendChild(brk);
+                }
+            }
+
+            cols.appendChild(colR);
+            cols.appendChild(divider);
+            cols.appendChild(colO);
+            g.appendChild(cols);
+
+            updateAllBreakLabels();
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function adjustStart(idx, delta) {
+            const el = document.getElementById('rs' + idx);
+            if (!el) return;
+            let startMin = timeToMin(el.value) + delta;
+            if (startMin < 0) startMin = 0;
+            if (startMin > 23 * 60 + 55) startMin = 23 * 60 + 55;
+
+            // PREVENT: cannot start before previous lecture ends
+            if (idx > 0) {
+                const prevEnd = timeToMin(RS[idx - 1].e);
+                if (startMin < prevEnd) {
+                    startMin = prevEnd;
+                    toast('لا يمكن التقديم أكثر — المحاضرة السابقة لم تنتهِ بعد', 'er');
+                }
+            }
+
+            el.value = m2hm(startMin);
+            onStartChange(idx);
+        }
+
+        function onStartChange(idx) {
+            const el = document.getElementById('rs' + idx);
+            if (!el) return;
+            let newStart = timeToMin(el.value);
+
+            // VALIDATION: cannot start before previous lecture ends
+            if (idx > 0) {
+                const prevEnd = timeToMin(RS[idx - 1].e);
+                if (newStart < prevEnd) {
+                    newStart = prevEnd;
+                    el.value = m2hm(newStart);
+                    toast('تم تصحيح البداية — لا يمكن أن تسبق نهاية المحاضرة ' + idx, 'er');
+                }
+            }
+
+            // Update RS[idx]
+            RS[idx].s = m2hm(newStart);
+            RS[idx].e = m2hm(newStart + LECTURE_DUR);
+
+            // Compute the break before idx
+            if (idx > 0) {
+                const prevEnd = timeToMin(RS[idx - 1].e);
+                ramadanBreaks[idx - 1] = Math.max(0, newStart - prevEnd);
+            } else {
+                ramadanStart = newStart;
+            }
+
+            // Cascade forward: update all slots after idx
+            let t = newStart + LECTURE_DUR;
+            for (let i = idx + 1; i < 10; i++) {
+                t += ramadanBreaks[i - 1];
+                RS[i].s = m2hm(t);
+                RS[i].e = m2hm(t + LECTURE_DUR);
+                t += LECTURE_DUR;
+            }
+
+            // Update all UI
+            for (let i = 0; i < RS.length; i++) {
+                const sEl = document.getElementById('rs' + i);
+                const eEl = document.getElementById('re' + i);
+                if (sEl) sEl.value = RS[i].s;
+                if (eEl) eEl.innerHTML = t12(RS[i].e);
+            }
+
+            updateAllBreakLabels();
+        }
+
+        function updateAllBreakLabels() {
+            // Ramadan breaks
+            for (let i = 0; i < RS.length - 1; i++) {
+                const brkEl = document.getElementById('rbrk' + i);
+                if (!brkEl) continue;
+                const endMin = timeToMin(RS[i].e);
+                const nextStart = timeToMin(RS[i + 1].s);
+                const gap = nextStart - endMin;
+                ramadanBreaks[i] = Math.max(0, gap);
+                brkEl.className = 'brk-row';
+                if (gap <= 0) {
+                    brkEl.textContent = '—';
+                    brkEl.classList.add('brk-none');
+                } else {
+                    brkEl.textContent = 'فاصل ' + gap + ' د';
+                    brkEl.classList.add('brk-rest');
+                }
+            }
+            // Old breaks
+            for (let i = 0; i < RS.length - 1; i++) {
+                const brkEl = document.getElementById('obrk' + i);
+                if (!brkEl) continue;
+                const gap = (A.oldBreaks && A.oldBreaks[i] !== undefined) ? A.oldBreaks[i] : 0;
+                brkEl.className = 'brk-row';
+                if (gap <= 0) {
+                    brkEl.textContent = '—';
+                    brkEl.classList.add('brk-none');
+                } else {
+                    brkEl.textContent = 'فاصل ' + gap + ' د';
+                }
+            }
+        }
+
+        function readSlots() { computeRS(); }
+        function resetS() {
+            ramadanStart = DEFAULT_START;
+            ramadanBreaks = [...DEFAULT_BREAKS];
+            computeRS();
+            renderSlotsUI();
+            toast('تم إعادة الأوقات للقيم الافتراضية');
+        }
+
+        // ══════════════════════════════════════════════════════════
+        //  LIST & PREVIEW
+        // ══════════════════════════════════════════════════════════
+        function renderTL(q = '') {
+            const l = document.getElementById('TL'); l.innerHTML = '';
+            const sorted = [...A.trainees.values()].sort((a, b) => a.nm.localeCompare(b.nm, 'ar'));
+            const fl = q ? sorted.filter(t => t.nm.includes(q) || t.tid.includes(q)) : sorted;
+            for (const t of fl) {
+                const d = document.createElement('div'); d.className = 'ti' + (A.selId === t.tid ? ' sel' : '');
+                d.innerHTML = '<div style="flex:1"><div class="tn">' + t.nm + '</div><div class="tid2">' + t.tid + '</div></div><div class="tde">' + t.dp + '</div>';
+                d.addEventListener('click', () => selT(t.tid)); l.appendChild(d);
+            }
+        }
+        function filt() { renderTL(document.getElementById('SI').value.trim()) }
+        function selT(id) { A.selId = id; renderTL(document.getElementById('SI').value.trim()); renderPrev(id); document.getElementById('bPS').disabled = false }
+
+        function renderPrev(tid) {
+            const f = document.getElementById('PF'), t = A.trainees.get(tid); if (!t) return; readSlots();
+            f.innerHTML = buildPageHTML(t);
+        }
+
+        // ══════════════════════════════════════════════════════════
+        //  BUILD SCHEDULE PAGE HTML (used for preview AND print)
+        // ══════════════════════════════════════════════════════════
+        function buildPageHTML(t) {
+            const sch = buildSch(t);
+            let h = '<div class="sched-page">';
+
+            // Header row: logo on right, text on left (always use fixed logo.png)
+            h += '<div class="sp-header-row">';
+            h += '<div class="sp-header-logo"><img src="logo.png"></div>';
+            h += '<div class="sp-header-text">';
+            h += 'المملكة العربية السعودية<br>';
+            h += 'المؤسسة العامة للتدريب التقني والمهني<br>';
+            h += t.un;
+            h += '</div>';
+            h += '</div>';
+
+            // Title
+            h += '<div class="sp-title-wrap"><div class="sp-title">جدول المتدرب لشهر رمضان المبارك</div></div>';
+
+            // Semester below title
+            if (t.sm) {
+                h += '<div class="sp-semester-wrap"><span class="sp-semester">' + t.sm + '</span></div>';
+            }
+
+            // Student info - RTL order (right to left)
+            h += '<table class="sp-info"><tr>';
+            h += '<td class="lbl">الرقم التدريبي</td><td>' + t.tid + '</td>';
+            h += '<td class="lbl">البرنامج</td><td>' + t.pg + '</td>';
+            h += '</tr><tr>';
+            h += '<td class="lbl">اسم المتدرب</td><td>' + t.nm + '</td>';
+            h += '<td class="lbl">القسم</td><td>' + t.dp + '</td>';
+            h += '</tr></table>';
+
+            // Schedule table
+            h += '<table class="sp-tbl"><thead><tr>';
+            h += '<th>اليوم</th><th>الوقت</th><th>المقرر</th><th>عنوان المقرر</th><th>ر.مرجعي</th><th>نوع</th><th>القاعة</th>';
+            h += '</tr></thead><tbody>';
+
+            let isFirstDay = true;
+            for (const day of DAYS) {
+                const dr = sch[day]; if (!dr || !dr.length) continue;
+                for (let i = 0; i < dr.length; i++) {
+                    const r = dr[i], rm = conv(r);
+                    // Add day separator (bold colored line between days)
+                    const sepClass = (!isFirstDay && i === 0) ? ' class="day-separator"' : '';
+                    h += '<tr' + sepClass + '>';
+                    h += '<td class="day-c">' + day + '</td>';
+                    h += '<td class="time-c">' + rm.rs + ' - ' + rm.re + '</td>';
+                    h += '<td>' + r.cr + '</td>';
+                    h += '<td>' + r.ct + '</td>';
+                    h += '<td>' + r.rf + '</td>';
+                    h += '<td>' + simplifyType(r.tp) + '</td>';
+                    h += '<td>' + r.rn + '</td>';
+                    h += '</tr>';
+                }
+                isFirstDay = false;
+            }
+            h += '</tbody></table>';
+
+            // Footer
+            h += '<div class="sp-footer">المرشد التدريبي: ' + t.ad + '</div>';
+            h += '</div>';
+            return h;
+        }
+
+        // ══════════════════════════════════════════════════════════
+        //  PRINT
+        // ══════════════════════════════════════════════════════════
+        function printAll() {
+            readSlots();
+            const btn = document.getElementById('bPA');
+            btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> جاري التجهيز...';
+            const pw = document.getElementById('PW'); pw.classList.add('sh');
+
+            setTimeout(() => {
+                const area = document.getElementById('printArea');
+                const sorted = [...A.trainees.values()].sort((a, b) => a.nm.localeCompare(b.nm, 'ar'));
+                let html = '';
+                for (let i = 0; i < sorted.length; i++) {
+                    html += buildPageHTML(sorted[i]);
+                    if (i % 20 === 0) {
+                        document.getElementById('PFL').style.width = Math.round((i + 1) / sorted.length * 100) + '%';
+                        document.getElementById('PTX').textContent = (i + 1) + ' / ' + sorted.length;
+                    }
+                }
+                area.innerHTML = html;
+                document.getElementById('PFL').style.width = '100%';
+                document.getElementById('PTX').textContent = 'جاهز للطباعة!';
+
+                setTimeout(() => {
+                    window.print();
+                    btn.disabled = false;
+                    btn.innerHTML = '<i data-lucide="printer" style="width:16px;height:16px"></i> طباعة جميع الجداول'; if (typeof lucide !== 'undefined') lucide.createIcons();
+                    setTimeout(() => pw.classList.remove('sh'), 1000);
+                }, 300);
+            }, 100);
+        }
+
+        function printOne() {
+            if (!A.selId) return; readSlots();
+            const t = A.trainees.get(A.selId); if (!t) return;
+            const area = document.getElementById('printArea');
+            area.innerHTML = buildPageHTML(t);
+            setTimeout(() => window.print(), 200);
+        }
+
+        // ══════════════════════════════════════════════════════════
+        //  INIT
+        // ══════════════════════════════════════════════════════════
+        document.addEventListener('DOMContentLoaded', () => {
+            const uz = document.getElementById('UZ');
+            uz.addEventListener('dragover', e => { e.preventDefault(); uz.classList.add('dg') });
+            uz.addEventListener('dragleave', () => uz.classList.remove('dg'));
+            uz.addEventListener('drop', e => { e.preventDefault(); uz.classList.remove('dg'); if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]) });
+            document.getElementById('FI').addEventListener('change', e => { if (e.target.files[0]) handleFile(e.target.files[0]) });
+            renderSlotsUI();
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        });
+    </script>
+</body>
+
+</html>
