@@ -884,12 +884,12 @@
 
         .sched-page {
             page-break-after: always;
-            width: 148mm;
-            /* A5 width */
-            padding: 8mm;
+            width: 210mm;
+            /* A4 width */
+            padding: 12mm 15mm;
             font-family: 'IBM Plex Sans Arabic', 'Readex Pro', sans-serif;
             direction: rtl;
-            font-size: 10px;
+            font-size: 13px;
             color: #000;
         }
 
@@ -899,12 +899,12 @@
 
         .sp-logo {
             text-align: center;
-            margin-bottom: 4px
+            margin-bottom: 6px
         }
 
         .sp-logo img {
-            max-height: 24mm;
-            max-width: 30mm
+            max-height: 30mm;
+            max-width: 38mm
         }
 
         /* ═══ HEADER SPLIT LAYOUT ═══ */
@@ -912,128 +912,130 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 3mm;
+            margin-bottom: 5mm;
             direction: rtl;
         }
 
         .sp-header-logo {
-            flex: 0 0 30mm;
+            flex: 0 0 38mm;
             text-align: center;
         }
 
         .sp-header-logo img {
-            max-height: 22mm;
-            max-width: 28mm;
+            max-height: 28mm;
+            max-width: 36mm;
         }
 
         .sp-header-text {
             flex: 1;
             text-align: center;
-            font-size: 9px;
-            line-height: 1.6;
-            color: #333;
+            font-size: 14px;
+            line-height: 1.8;
+            color: #222;
+            font-weight: 500;
         }
 
         /* ═══ SEMESTER BADGE ═══ */
         .sp-semester {
             text-align: center;
-            font-size: 10px;
+            font-size: 13px;
             font-weight: 700;
             color: #1A4D2E;
-            margin: 0.5mm auto 1.5mm;
-            padding: 1.5mm 4mm;
+            margin: 1mm auto 2mm;
+            padding: 2mm 6mm;
             background: #E8F0EB;
-            border-radius: 2mm;
+            border-radius: 3mm;
             display: inline-block;
         }
 
         .sp-semester-wrap {
             text-align: center;
-            margin-bottom: 1mm;
+            margin-bottom: 2mm;
         }
 
         /* ═══ DAY SEPARATOR ═══ */
         .sp-tbl .day-separator td {
             border-top: 2.5px solid #1A4D2E !important;
-            padding-top: 2mm;
+            padding-top: 3mm;
         }
 
         .sp-hdr {
             text-align: center;
-            font-size: 9px;
-            line-height: 1.6;
-            color: #333;
-            margin-bottom: 3mm
+            font-size: 13px;
+            line-height: 1.8;
+            color: #222;
+            margin-bottom: 5mm
         }
 
         .sp-title {
             text-align: center;
             background: #1A4D2E;
             color: #fff;
-            padding: 3mm 5mm;
+            padding: 3.5mm 8mm;
             border-radius: 3mm;
-            font-size: 13px;
+            font-size: 16px;
             font-weight: 700;
-            margin: 1.5mm auto;
-            display: inline-block
+            margin: 2mm auto;
+            display: inline-block;
+            letter-spacing: 0.3px;
         }
 
         .sp-title-wrap {
             text-align: center;
-            margin-bottom: 2mm
+            margin-bottom: 3mm
         }
 
         .sp-info {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 2mm;
-            font-size: 9px
+            margin-bottom: 4mm;
+            font-size: 12px
         }
 
         .sp-info td {
-            border: 0.3px solid #ccc;
-            padding: 2mm;
+            border: 0.5px solid #ccc;
+            padding: 2.5mm 3mm;
             text-align: center
         }
 
         .sp-info .lbl {
             background: #E8F0EB;
             font-weight: 700;
-            width: 15%;
-            font-size: 8px;
+            width: 14%;
+            font-size: 11px;
             color: #1A4D2E
         }
 
         .sp-info td:nth-child(2) {
-            width: 35%;
+            width: 36%;
         }
 
         .sp-info td:nth-child(4) {
-            width: 35%;
+            width: 36%;
         }
 
         .sp-tbl {
             width: 100%;
             border-collapse: collapse;
-            font-size: 8.5px
+            font-size: 12px
         }
 
         .sp-tbl th {
             background: #1A4D2E;
             color: #fff;
-            padding: 2mm 1.5mm;
+            padding: 2.5mm 2mm;
             font-weight: 600;
             text-align: center;
-            font-size: 8px;
+            font-size: 11px;
             white-space: nowrap
         }
 
         .sp-tbl td {
-            border: 0.3px solid #bbb;
-            padding: 1.5mm 1mm;
+            border: 0.5px solid #bbb;
+            padding: 2mm 1.5mm;
             text-align: center;
             vertical-align: middle;
-            font-size: 8px
+            font-size: 11px
         }
 
         .sp-tbl tr:nth-child(even) td {
@@ -1044,25 +1046,65 @@
             font-weight: 700;
             background: #E8F0EB !important;
             color: #1A4D2E;
-            width: 14%
+            width: 12%
         }
 
         .sp-tbl .time-c {
             font-family: 'Courier New', monospace;
             direction: rtl;
-            font-size: 8px;
+            font-size: 11px;
             font-weight: 700;
             white-space: nowrap;
-            width: 16%;
-            min-width: 18mm;
+            width: 14%;
+            min-width: 24mm;
         }
 
         .sp-footer {
             text-align: center;
-            font-size: 9px;
-            margin-top: 3mm;
-            color: #555;
+            font-size: 12px;
+            margin-top: 5mm;
+            color: #444;
             font-weight: 600
+        }
+
+        /* ═══ UNIT NAME EDITOR ═══ */
+        .unit-edit-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            padding: 12px 16px;
+            background: var(--sf2);
+            border: 1px solid var(--bd);
+            border-radius: 10px;
+        }
+
+        .unit-edit-wrap label {
+            font-weight: 600;
+            font-size: .88rem;
+            color: var(--pri);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .unit-edit-wrap input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1.5px solid var(--bd2);
+            border-radius: 8px;
+            font-family: var(--fb);
+            font-size: .9rem;
+            background: #fff;
+            color: var(--txt);
+            transition: .2s;
+        }
+
+        .unit-edit-wrap input:focus {
+            outline: none;
+            border-color: var(--pri);
+            box-shadow: 0 0 0 3px var(--prp);
         }
 
         @media print {
@@ -1085,15 +1127,118 @@
             }
 
             @page {
-                size: A5 portrait;
+                size: A4 portrait;
                 margin: 0
+            }
+
+            .unit-edit-wrap,
+            .controls-bar {
+                display: none !important;
             }
 
             .sched-page {
                 width: 100%;
-                padding: 6mm;
+                padding: 10mm 15mm;
                 page-break-after: always
             }
+        }
+
+        /* ═══ CONTROLS BAR ═══ */
+        .controls-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 16px;
+            align-items: stretch;
+        }
+
+        .ctrl-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            background: var(--sf2);
+            border: 1px solid var(--bd);
+            border-radius: 10px;
+            flex-shrink: 0;
+        }
+
+        .ctrl-group label {
+            font-weight: 600;
+            font-size: .82rem;
+            color: var(--pri);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .ctrl-group select {
+            padding: 6px 10px;
+            border: 1.5px solid var(--bd2);
+            border-radius: 7px;
+            font-family: var(--fb);
+            font-size: .85rem;
+            background: #fff;
+            color: var(--txt);
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .ctrl-group select:focus {
+            outline: none;
+            border-color: var(--pri);
+            box-shadow: 0 0 0 3px var(--prp);
+        }
+
+        .ctrl-notes {
+            flex: 1;
+            min-width: 200px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            background: var(--sf2);
+            border: 1px solid var(--bd);
+            border-radius: 10px;
+        }
+
+        .ctrl-notes label {
+            font-weight: 600;
+            font-size: .82rem;
+            color: var(--pri);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .ctrl-notes input {
+            flex: 1;
+            padding: 6px 10px;
+            border: 1.5px solid var(--bd2);
+            border-radius: 7px;
+            font-family: var(--fb);
+            font-size: .85rem;
+            background: #fff;
+            color: var(--txt);
+            transition: .2s;
+        }
+
+        .ctrl-notes input:focus {
+            outline: none;
+            border-color: var(--pri);
+            box-shadow: 0 0 0 3px var(--prp);
+        }
+
+        /* ═══ SCHEDULE NOTE ═══ */
+        .sp-note {
+            text-align: center;
+            font-size: 12px;
+            margin-top: 3mm;
+            color: #1A4D2E;
+            font-weight: 600;
+            line-height: 1.7;
         }
     </style>
 </head>
@@ -1178,6 +1323,36 @@
                     <div class="tl" id="TL"></div>
                 </div>
                 <div>
+                    <div class="unit-edit-wrap">
+                        <label><i data-lucide="building-2" style="width:18px;height:18px;stroke:var(--pri)"></i> اسم
+                            الوحدة التدريبية</label>
+                        <input type="text" id="unitNameInput" placeholder="اسم الوحدة التدريبية..."
+                            oninput="onUnitNameChange()">
+                    </div>
+                    <div class="controls-bar">
+                        <div class="ctrl-group">
+                            <label><i data-lucide="arrow-up-down" style="width:15px;height:15px;stroke:var(--pri)"></i>
+                                الترتيب</label>
+                            <select id="sortOrder" onchange="onSortChange()">
+                                <option value="tid">حسب الرقم التدريبي</option>
+                                <option value="name">حسب الاسم</option>
+                            </select>
+                        </div>
+                        <div class="ctrl-group">
+                            <label><i data-lucide="user" style="width:15px;height:15px;stroke:var(--pri)"></i>
+                                النوع</label>
+                            <select id="genderType" onchange="onGenderChange()">
+                                <option value="male">متدرب</option>
+                                <option value="female">متدربة</option>
+                            </select>
+                        </div>
+                        <div class="ctrl-notes">
+                            <label><i data-lucide="message-square" style="width:15px;height:15px;stroke:var(--pri)"></i>
+                                ملاحظة</label>
+                            <input type="text" id="schedNote" placeholder="أضف ملاحظة تظهر في جميع الجداول..."
+                                oninput="onNoteChange()">
+                        </div>
+                    </div>
                     <div class="card">
                         <div class="ct"><i data-lucide="eye" class="lucide-icon"></i> معاينة الجدول</div>
                         <div id="PF"
@@ -1204,7 +1379,7 @@
                             <div>
                                 <strong>تنبيه هام:</strong> لضمان ظهور خلفيات الجداول والتنسيقات بشكل سليم؛ عند الطباعة
                                 (من خيار الإعدادات الإضافية) يرجى تفعيل خيار <b>«رسومات الخلفية» (Background
-                                    Graphics)</b>.
+                                    Graphics) أو (Print backgrounds)</b>.
                             </div>
                         </div>
                         <div class="pw" id="PW">
@@ -1242,6 +1417,10 @@
         const DEFAULT_START = 10 * 60 + 15; // 10:15 default first lecture start
         let ramadanStart = DEFAULT_START; // current first lecture start (in minutes)
         let ramadanBreaks = [...DEFAULT_BREAKS]; // current breaks (editable)
+        let customUnitName = ''; // user-editable unit name (from CSV, overridable)
+        let sortOrder = 'tid'; // 'tid' or 'name'
+        let genderType = 'male'; // 'male' or 'female'
+        let schedNote = ''; // user note for all schedules
         let RS = []; // will be computed from ramadanStart + ramadanBreaks
         function computeRS() {
             RS = [];
@@ -1254,13 +1433,42 @@
         }
         computeRS();
         const DAYS = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس'];
-        function normDay(d) { let x = d.trim().replace(/\s+/g, ' '); x = x.replace(/الاربعاء/, 'الأربعاء'); return x }
+        function normDay(d) { let x = d.trim().replace(/\s+/g, ' '); x = x.replace(/الاربعاء/g, 'الأربعاء'); return x }
+
+        // Unicode NFC normalization — ensures Arabic characters use
+        // composed form so PDF text is searchable on all devices (especially mobile)
+        function nfc(s) { return s ? s.normalize('NFC') : s }
+
+        // Split a raw day field that may contain multiple day names
+        // e.g. " الاثنين  الأربعاء   " → ['الاثنين', 'الأربعاء']
+        function splitDays(rawDay) {
+            let x = rawDay.trim().replace(/\s+/g, ' ');
+            x = x.replace(/الاربعاء/g, 'الأربعاء');
+            const found = [];
+            for (const name of DAYS) {
+                if (x.includes(name)) found.push(name);
+            }
+            return found.length > 0 ? found : [x];
+        }
 
         function toast(m, t = 'ok') { const c = document.getElementById('TC'), d = document.createElement('div'); d.className = 'tst ' + t; d.textContent = m; c.appendChild(d); setTimeout(() => d.remove(), 3500) }
 
         function goTo(n) {
             if (n > 1 && A.recs.length === 0) { toast('يرجى رفع ملف CSV أولاً', 'er'); return }
-            if (n === 3) { readSlots(); renderTL() }
+            if (n === 3) {
+                readSlots(); renderTL();
+                // Populate unit name input from CSV data (first trainee's unit)
+                const uInput = document.getElementById('unitNameInput');
+                if (uInput && !customUnitName) {
+                    const firstTrainee = A.trainees.values().next().value;
+                    if (firstTrainee && firstTrainee.un) {
+                        customUnitName = firstTrainee.un;
+                        uInput.value = customUnitName;
+                    }
+                } else if (uInput && customUnitName) {
+                    uInput.value = customUnitName;
+                }
+            }
             document.querySelectorAll('.scr').forEach(s => s.classList.remove('active'));
             document.getElementById('s' + n).classList.add('active');
             document.querySelectorAll('.si[data-s]').forEach(s => {
@@ -1286,30 +1494,35 @@
         }
 
         function processCSV(data) {
-            A.recs = []; A.trainees = new Map(); A.gMin = Infinity; A.maxSlot = 0;
+            A.recs = []; A.trainees = new Map(); A.gMin = Infinity; A.maxSlot = 0; customUnitName = '';
             for (const row of data) {
-                const tid = (row['الرقم التدريبي'] || '').trim();
-                const nm = (row['اسم المتدرب'] || '').trim();
-                const dy = normDay(row['اليوم'] || '');
+                const tid = nfc((row['الرقم التدريبي'] || '').trim());
+                const nm = nfc((row['اسم المتدرب'] || '').trim());
+                const rawDay = row['اليوم'] || '';
                 const tm = (row['الوقت'] || '').trim();
-                const cr = (row['المقرر'] || '').trim();
-                const ct = (row['عنوان المقرر'] || '').trim();
-                const rf = (row['ر.مرجعي'] || '').trim();
-                const tp = (row['محاضرة/عملي'] || '').trim();
-                const rn = (row['الغرفة'] || '').trim();
-                const courseStatus = (row['حالة المقرر'] || '').trim();
-                const ad = (row['اسم المرشد'] || '').trim();
-                const dp = (row['القسم'] || '').trim();
-                const pg = (row['البرنامج'] || '').trim();
-                const sm = (row['الفصل التدريبي'] || '').trim();
-                const un = (row['الوحدة التدريبية'] || '').trim();
+                const cr = nfc((row['المقرر'] || '').trim());
+                const ct = nfc((row['عنوان المقرر'] || '').trim());
+                const rf = nfc((row['ر.مرجعي'] || '').trim());
+                const tp = nfc((row['محاضرة/عملي'] || '').trim());
+                const rn = nfc((row['الغرفة'] || '').trim());
+                const courseStatus = nfc((row['حالة المقرر'] || '').trim());
+                const ad = nfc((row['اسم المرشد'] || '').trim());
+                const dp = nfc((row['القسم'] || '').trim());
+                const pg = nfc((row['البرنامج'] || '').trim());
+                const sm = nfc((row['الفصل التدريبي'] || '').trim());
+                const un = nfc((row['الوحدة التدريبية'] || '').trim());
                 if (!tid || !tm) continue;
                 const pt = parseTime(tm); if (!pt) continue;
                 if (pt.s < A.gMin) A.gMin = pt.s;
-                const rec = { tid, nm, dy, tm, cr, ct, rf, tp, rn, ad, dp, pg, sm, un, pt, courseStatus };
-                A.recs.push(rec);
-                if (!A.trainees.has(tid)) A.trainees.set(tid, { tid, nm, dp, pg, ad, un, sm, recs: [] });
-                A.trainees.get(tid).recs.push(rec);
+
+                // Split multi-day cells: e.g. "الاثنين  الأربعاء" → two separate records
+                const days = splitDays(rawDay);
+                for (const dy of days) {
+                    const rec = { tid, nm, dy, tm, cr, ct, rf, tp, rn, ad, dp, pg, sm, un, pt, courseStatus };
+                    A.recs.push(rec);
+                    if (!A.trainees.has(tid)) A.trainees.set(tid, { tid, nm, dp, pg, ad, un, sm, recs: [] });
+                    A.trainees.get(tid).recs.push(rec);
+                }
             }
             // Filter out trainees whose ALL courses have withdrawn/dismissed statuses
             const excludeStatuses = ['انسحاب فصلي', 'مطوي قيده', 'مطوي قيده لإنقطاع أسبوعين'];
@@ -1627,9 +1840,14 @@
         // ══════════════════════════════════════════════════════════
         //  LIST & PREVIEW
         // ══════════════════════════════════════════════════════════
+        function getSorted() {
+            const arr = [...A.trainees.values()];
+            if (sortOrder === 'name') return arr.sort((a, b) => a.nm.localeCompare(b.nm, 'ar'));
+            return arr.sort((a, b) => a.tid.localeCompare(b.tid, 'ar'));
+        }
         function renderTL(q = '') {
             const l = document.getElementById('TL'); l.innerHTML = '';
-            const sorted = [...A.trainees.values()].sort((a, b) => a.nm.localeCompare(b.nm, 'ar'));
+            const sorted = getSorted();
             const fl = q ? sorted.filter(t => t.nm.includes(q) || t.tid.includes(q)) : sorted;
             for (const t of fl) {
                 const d = document.createElement('div'); d.className = 'ti' + (A.selId === t.tid ? ' sel' : '');
@@ -1645,6 +1863,30 @@
             f.innerHTML = buildPageHTML(t);
         }
 
+        // Called when user edits the unit name
+        function onUnitNameChange() {
+            const input = document.getElementById('unitNameInput');
+            if (input) customUnitName = input.value.trim();
+            // Re-render preview if a trainee is selected
+            if (A.selId) renderPrev(A.selId);
+        }
+
+        function onSortChange() {
+            sortOrder = document.getElementById('sortOrder').value;
+            renderTL(document.getElementById('SI').value.trim());
+        }
+
+        function onGenderChange() {
+            genderType = document.getElementById('genderType').value;
+            // Re-render preview if a trainee is selected
+            if (A.selId) renderPrev(A.selId);
+        }
+
+        function onNoteChange() {
+            schedNote = document.getElementById('schedNote').value.trim();
+            if (A.selId) renderPrev(A.selId);
+        }
+
         // ══════════════════════════════════════════════════════════
         //  BUILD SCHEDULE PAGE HTML (used for preview AND print)
         // ══════════════════════════════════════════════════════════
@@ -1656,14 +1898,15 @@
             h += '<div class="sp-header-row">';
             h += '<div class="sp-header-logo"><img src="logo.png"></div>';
             h += '<div class="sp-header-text">';
-            h += 'المملكة العربية السعودية<br>';
-            h += 'المؤسسة العامة للتدريب التقني والمهني<br>';
-            h += t.un;
+            h += nfc('المملكة العربية السعودية') + '<br>';
+            h += nfc('المؤسسة العامة للتدريب التقني والمهني') + '<br>';
+            h += nfc(customUnitName || t.un);
             h += '</div>';
             h += '</div>';
 
-            // Title
-            h += '<div class="sp-title-wrap"><div class="sp-title">جدول المتدرب لشهر رمضان المبارك</div></div>';
+            // Title (gender-aware)
+            const titleLabel = nfc(genderType === 'female' ? 'جدول المتدربة لشهر رمضان المبارك' : 'جدول المتدرب لشهر رمضان المبارك');
+            h += '<div class="sp-title-wrap"><div class="sp-title">' + titleLabel + '</div></div>';
 
             // Semester below title
             if (t.sm) {
@@ -1673,9 +1916,10 @@
             // Student info - RTL order (right to left)
             h += '<table class="sp-info"><tr>';
             h += '<td class="lbl">الرقم التدريبي</td><td>' + t.tid + '</td>';
-            h += '<td class="lbl">البرنامج</td><td>' + t.pg + '</td>';
+            h += '<td class="lbl">التخصص</td><td>' + t.pg + '</td>';
             h += '</tr><tr>';
-            h += '<td class="lbl">اسم المتدرب</td><td>' + t.nm + '</td>';
+            const nameLabel = nfc(genderType === 'female' ? 'اسم المتدربة' : 'اسم المتدرب');
+            h += '<td class="lbl">' + nameLabel + '</td><td>' + t.nm + '</td>';
             h += '<td class="lbl">القسم</td><td>' + t.dp + '</td>';
             h += '</tr></table>';
 
@@ -1705,8 +1949,13 @@
             }
             h += '</tbody></table>';
 
-            // Footer
-            h += '<div class="sp-footer">المرشد التدريبي: ' + t.ad + '</div>';
+            // Footer (gender-aware)
+            const trainerLabel = nfc(genderType === 'female' ? 'المرشدة التدريبية' : 'المرشد التدريبي');
+            h += '<div class="sp-footer">' + trainerLabel + ': ' + t.ad + '</div>';
+            // Note
+            if (schedNote) {
+                h += '<div class="sp-note">' + nfc(schedNote) + '</div>';
+            }
             h += '</div>';
             return h;
         }
@@ -1722,7 +1971,7 @@
 
             setTimeout(() => {
                 const area = document.getElementById('printArea');
-                const sorted = [...A.trainees.values()].sort((a, b) => a.nm.localeCompare(b.nm, 'ar'));
+                const sorted = getSorted();
                 let html = '';
                 for (let i = 0; i < sorted.length; i++) {
                     html += buildPageHTML(sorted[i]);
