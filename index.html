@@ -1240,6 +1240,21 @@
             font-weight: 600;
             line-height: 1.7;
         }
+
+        /* ═══ VERSION BADGE ═══ */
+        .version-badge {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 3px 14px;
+            font-size: .72rem;
+            font-weight: 600;
+            color: var(--pri);
+            background: var(--prp);
+            border: 1px solid var(--bd);
+            border-radius: 20px;
+            letter-spacing: .5px;
+            opacity: .8;
+        }
     </style>
 </head>
 
@@ -1249,6 +1264,7 @@
         <header class="hdr">
             <h1>محوّل جداول رمضان <span class="cr"><i data-lucide="moon"></i></span></h1>
             <p class="sub">تحويل جداول المتدربين من نظام 50 دقيقة إلى نظام 35 دقيقة</p>
+            <span class="version-badge" id="verBadge">v1.4.0</span>
         </header>
         <nav class="stepper">
             <div class="si act" data-s="1" onclick="goTo(1)"><span class="sn">1</span><span>رفع الملف</span></div>
@@ -1381,6 +1397,11 @@
                                 (من خيار الإعدادات الإضافية) يرجى تفعيل خيار <b>«رسومات الخلفية» (Background
                                     Graphics) أو (Print backgrounds)</b>.
                             </div>
+                        </div>
+                        <div class="ab" style="margin-top:12px">
+                            <button class="btn bo" id="bExport" onclick="exportExcel()" style="width:100%"><i
+                                    data-lucide="download" style="width:16px;height:16px"></i> تصدير تقرير الجداول
+                                (Excel CSV)</button>
                         </div>
                         <div class="pw" id="PW">
                             <div class="pb">
@@ -1655,7 +1676,19 @@
             // the indicator (ص/م) is visually to the left of the numbers, matching the input.
             return `<span style="display:inline-flex;direction:ltr;gap:4px;align-items:baseline;unicode-bidi:isolate"><span>${ampm}</span><span>${timeStr}</span></span>`;
         }
-        function conv(rec) { const off = rec.pt.s - A.gMin, si = Math.min(Math.round(off / 50), RS.length - 1), np = Math.round(rec.pt.d / 50), ei = Math.min(si + np - 1, RS.length - 1); return { si, ei, np, rs: RS[si].s, re: RS[ei].e } }
+        // Convert old schedule to Ramadan:
+        // 1. Determine lecture number from offset: si = round(offset / 50)
+        // 2. Determine number of lectures: np = round(duration / 50)
+        // 3. Start = Ramadan start of lecture si
+        // 4. End = start + (np × 35) — breaks are OUTSIDE the lecture duration
+        function conv(rec) {
+            const off = rec.pt.s - A.gMin;
+            const si = Math.min(Math.round(off / 50), RS.length - 1);
+            const np = Math.round(rec.pt.d / 50);
+            const startMin = timeToMin(RS[si].s);
+            const endMin = startMin + (np * LECTURE_DUR);
+            return { si, np, rs: RS[si].s, re: m2hm(endMin) };
+        }
         function simplifyType(t) { if (t.includes('نظري')) return 'نظري'; if (t.includes('عملي')) return 'عملي'; if (t.includes('تعاوني')) return 'تعاوني'; return t }
         function buildSch(t) { const bd = {}; for (const r of t.recs) { const d = normDay(r.dy); if (!bd[d]) bd[d] = []; bd[d].push(r) } for (const d of Object.keys(bd)) bd[d].sort((a, b) => a.pt.s - b.pt.s); return bd }
 
@@ -1999,6 +2032,92 @@
             const area = document.getElementById('printArea');
             area.innerHTML = buildPageHTML(t);
             setTimeout(() => window.print(), 200);
+        }
+
+        // ══════════════════════════════════════════════════════════
+        //  EXPORT EXCEL (CSV)
+        // ══════════════════════════════════════════════════════════
+        function exportExcel() {
+            if (A.recs.length === 0) { toast('لا توجد بيانات للتصدير', 'er'); return; }
+            readSlots();
+
+            const nameLabel = genderType === 'female' ? 'اسم المتدربة' : 'اسم المتدرب';
+            const trainerLabel = genderType === 'female' ? 'المرشدة التدريبية' : 'المرشد التدريبي';
+
+            // CSV headers
+            const headers = [
+                nameLabel,
+                'الرقم التدريبي',
+                'القسم',
+                'التخصص',
+                'اليوم',
+                'وقت البداية (رمضان)',
+                'وقت النهاية (رمضان)',
+                'المقرر',
+                'عنوان المقرر',
+                'ر.مرجعي',
+                'النوع',
+                'القاعة',
+                trainerLabel
+            ];
+
+            // Build rows sorted by user preference, grouped by trainee then by day
+            const sorted = getSorted();
+            const rows = [];
+
+            for (const t of sorted) {
+                const sch = buildSch(t);
+                for (const day of DAYS) {
+                    const dr = sch[day];
+                    if (!dr || !dr.length) continue;
+                    for (const r of dr) {
+                        const rm = conv(r);
+                        rows.push([
+                            nfc(t.nm),
+                            nfc(t.tid),
+                            nfc(t.dp),
+                            nfc(t.pg),
+                            nfc(day),
+                            nfc(rm.rs),
+                            nfc(rm.re),
+                            nfc(r.cr),
+                            nfc(r.ct),
+                            nfc(r.rf),
+                            nfc(simplifyType(r.tp)),
+                            nfc(r.rn),
+                            nfc(t.ad)
+                        ]);
+                    }
+                }
+            }
+
+            // Build CSV string
+            function csvEscape(val) {
+                const s = (val == null ? '' : String(val));
+                if (s.includes(',') || s.includes('"') || s.includes('\n') || s.includes('\r')) {
+                    return '"' + s.replace(/"/g, '""') + '"';
+                }
+                return s;
+            }
+
+            let csv = '\uFEFF'; // BOM for Excel Arabic support
+            csv += headers.map(csvEscape).join(',') + '\r\n';
+            for (const row of rows) {
+                csv += row.map(csvEscape).join(',') + '\r\n';
+            }
+
+            // Download
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'جداول_رمضان_' + new Date().toISOString().slice(0, 10) + '.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            toast('تم تصدير التقرير بنجاح (' + rows.length + ' سجل)');
         }
 
         // ══════════════════════════════════════════════════════════
