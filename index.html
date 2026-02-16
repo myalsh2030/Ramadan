@@ -378,7 +378,16 @@
             background: var(--prp);
             border: 1px solid var(--bd);
             color: var(--pri);
-            font-weight: 500
+            font-weight: 500;
+            width: 105px;
+            padding: 4px 4px;
+            font-size: .85rem
+        }
+
+        .sg-col-old .time-val.end-val {
+            width: 105px;
+            padding: 4px 4px;
+            font-size: .85rem
         }
 
         .sg-col-old .time-val {
@@ -391,6 +400,69 @@
         .time-sep {
             color: var(--mut);
             font-size: .75rem
+        }
+
+        /* 12h hint wrapper */
+        .time-wrap {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 12h hint below 24h time */
+        .t12-hint {
+            display: block;
+            font-size: .62rem;
+            color: #5c8a8a;
+            opacity: .85;
+            line-height: 1;
+            margin-top: 2px;
+            font-family: inherit;
+            direction: ltr;
+        }
+
+        /* Colored dot indicator for old slot source */
+        .slot-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-left: 4px;
+            vertical-align: middle;
+            flex-shrink: 0;
+        }
+
+        /* Tooltip balloon for old slots */
+        .has-slot-tip {
+            position: relative;
+            cursor: help;
+        }
+
+        .has-slot-tip::after {
+            content: attr(data-slot-tip);
+            position: absolute;
+            bottom: calc(100% + 6px);
+            right: 0;
+            background: #1a1a2e;
+            color: #fff;
+            font-size: .72rem;
+            line-height: 1.5;
+            padding: 8px 12px;
+            border-radius: 8px;
+            white-space: pre-line;
+            min-width: 220px;
+            max-width: 340px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, .25);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .2s;
+            z-index: 100;
+            direction: rtl;
+            text-align: right;
+        }
+
+        .has-slot-tip:hover::after {
+            opacity: 1;
         }
 
         /* Arrow buttons */
@@ -907,18 +979,17 @@
             max-width: 38mm
         }
 
-        /* ═══ HEADER SPLIT LAYOUT ═══ */
+        /* ═══ HEADER 3-COLUMN LAYOUT ═══ */
         .sp-header-row {
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
             align-items: center;
-            justify-content: space-between;
             margin-bottom: 5mm;
             direction: rtl;
         }
 
         .sp-header-logo {
-            flex: 0 0 38mm;
-            text-align: center;
+            text-align: right;
         }
 
         .sp-header-logo img {
@@ -927,12 +998,15 @@
         }
 
         .sp-header-text {
-            flex: 1;
             text-align: center;
             font-size: 14px;
             line-height: 1.8;
             color: #222;
             font-weight: 500;
+        }
+
+        .sp-header-empty {
+            min-width: 0;
         }
 
         /* ═══ SEMESTER BADGE ═══ */
@@ -1241,6 +1315,43 @@
             line-height: 1.7;
         }
 
+        /* ═══ INVISIBLE SEARCHABLE TEXT LAYER ═══ */
+        /* This layer embeds trainee names as real selectable/searchable text
+           using basic system fonts (Arial/Tahoma) that every device supports.
+           The text is invisible visually but remains in the PDF text stream,
+           enabling search on mobile PDF readers (iOS/Android). */
+        .sp-search-layer {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            overflow: hidden;
+            height: 1px;
+            opacity: 0.01;
+            /* near-invisible but forces PDF text embedding */
+            font-family: Arial, Tahoma, 'Segoe UI', sans-serif !important;
+            font-size: 1px !important;
+            line-height: 1px !important;
+            color: rgba(255, 255, 255, 0.01) !important;
+            pointer-events: none;
+            user-select: text;
+            /* must be selectable for PDF search */
+            -webkit-user-select: text;
+            z-index: -1;
+            direction: rtl;
+            unicode-bidi: embed;
+            font-weight: 400 !important;
+            letter-spacing: 0 !important;
+            word-spacing: 0 !important;
+            text-rendering: auto !important;
+            -webkit-font-smoothing: auto !important;
+        }
+
+        /* Ensure sched-page is positioned for the absolute search layer */
+        .sched-page {
+            position: relative;
+        }
+
         /* ═══ VERSION BADGE ═══ */
         .version-badge {
             display: inline-block;
@@ -1264,7 +1375,10 @@
         <header class="hdr">
             <h1>محوّل جداول رمضان <span class="cr"><i data-lucide="moon"></i></span></h1>
             <p class="sub">تحويل جداول المتدربين من نظام 50 دقيقة إلى نظام 35 دقيقة</p>
-            <span class="version-badge" id="verBadge">v1.4.0</span>
+            <span class="version-badge" id="verBadge">v1.5.0</span>
+            <p style="font-size:.68rem;color:var(--mut);margin-top:6px;opacity:.8"><i data-lucide="globe"
+                    style="width:12px;height:12px;vertical-align:middle;margin-left:3px"></i> يعمل بشكل أفضل مع متصفح
+                Google Chrome</p>
         </header>
         <nav class="stepper">
             <div class="si act" data-s="1" onclick="goTo(1)"><span class="sn">1</span><span>رفع الملف</span></div>
@@ -1321,6 +1435,15 @@
                 <div style="margin-top:12px;text-align:center"><button class="btn bo bsm" onclick="resetS()"><i
                             data-lucide="rotate-ccw" style="width:14px;height:14px"></i> إعادة
                         للقيم الافتراضية</button></div>
+            </div>
+            <!-- Mismatched times card -->
+            <div class="card" id="mismatchCard" style="display:none;margin-top:16px">
+                <div class="ct" style="color:var(--acc)"><i data-lucide="alert-triangle" class="lucide-icon"
+                        style="stroke:var(--acc)"></i> أوقات غير متطابقة مع الفترات المحسوبة</div>
+                <p id="mismatchDesc" style="font-size:.82rem;color:var(--mut);margin-bottom:10px">السجلات التالية لا
+                    تتطابق أوقاتها مع
+                    الفترات الأصلية المحسوبة «قبل رمضان» (بداية مختلفة أو مدة ليست من مضاعفات 50 دقيقة):</p>
+                <div id="mismatchTable" style="overflow-x:auto"></div>
             </div>
             <div class="ab"><button class="btn bo" onclick="goTo(1)"><i data-lucide="arrow-right"
                         style="width:16px;height:16px"></i> السابق</button><button class="btn bp"
@@ -1399,9 +1522,12 @@
                             </div>
                         </div>
                         <div class="ab" style="margin-top:12px">
-                            <button class="btn bo" id="bExport" onclick="exportExcel()" style="width:100%"><i
+                            <button class="btn bo" id="bExport" onclick="exportExcel()" style="flex:1"><i
                                     data-lucide="download" style="width:16px;height:16px"></i> تصدير تقرير الجداول
                                 (Excel CSV)</button>
+                            <button class="btn bo" id="bImgExport" onclick="openRamadanCard()" style="flex:1"><i
+                                    data-lucide="image" style="width:16px;height:16px"></i> صورة أوقات
+                                رمضان</button>
                         </div>
                         <div class="pw" id="PW">
                             <div class="pb">
@@ -1415,6 +1541,55 @@
             <div class="ab"><button class="btn bo" onclick="goTo(2)"><i data-lucide="arrow-right"
                         style="width:16px;height:16px"></i> السابق</button></div>
         </section>
+    </div>
+
+    <!-- ═══════════ RAMADAN CARD MODAL ═══════════ -->
+    <div id="ramCardModal"
+        style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);overflow-y:auto;direction:rtl">
+        <div style="max-width:880px;margin:24px auto;padding:20px;display:flex;flex-direction:column;gap:16px">
+            <!-- Top bar -->
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+                <h2 style="color:#fff;font-size:1.2rem;margin:0"><i data-lucide="image"
+                        style="width:20px;height:20px;vertical-align:middle;margin-left:6px"></i> صورة أوقات رمضان</h2>
+                <button onclick="closeRamadanCard()"
+                    style="background:rgba(255,255,255,.15);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;transition:.2s"
+                    onmouseover="this.style.background='rgba(255,255,255,.3)'"
+                    onmouseout="this.style.background='rgba(255,255,255,.15)'">✕</button>
+            </div>
+            <!-- Controls -->
+            <div
+                style="background:var(--bg);border-radius:12px;padding:16px;display:flex;flex-wrap:wrap;gap:12px;align-items:end">
+                <div style="display:flex;flex-direction:column;gap:4px">
+                    <label style="font-size:.78rem;color:var(--mut)">عدد المحاضرات</label>
+                    <select id="rcLectureCount" onchange="refreshRamadanPreview()"
+                        style="padding:6px 10px;border:1.5px solid var(--bd);border-radius:6px;font-size:.85rem;background:#fff"></select>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:4px;min-width:160px">
+                    <label style="font-size:.78rem;color:var(--mut)">الفصل التدريبي</label>
+                    <input type="text" id="rcSemester" onchange="refreshRamadanPreview()"
+                        placeholder="مثال: الفصل الثاني 1446هـ"
+                        style="padding:6px 10px;border:1.5px solid var(--bd);border-radius:6px;font-size:.85rem"
+                        dir="rtl">
+                </div>
+                <div style="display:flex;flex-direction:column;gap:4px;flex:1;min-width:180px" id="rcBreaksWrap"></div>
+                <div style="display:flex;flex-direction:column;gap:4px;flex:1;min-width:200px">
+                    <label style="font-size:.78rem;color:var(--mut)">ملاحظات</label>
+                    <input type="text" id="rcNotes" onchange="refreshRamadanPreview()" placeholder=""
+                        style="padding:6px 10px;border:1.5px solid var(--bd);border-radius:6px;font-size:.85rem"
+                        dir="rtl">
+                </div>
+                <div style="display:flex;gap:8px">
+                    <button class="btn ba" onclick="downloadRamadanCard()" style="padding:6px 16px"><i
+                            data-lucide="download" style="width:15px;height:15px"></i> تصدير صورة</button>
+                    <button class="btn bo" onclick="printRamadanCard()" style="padding:6px 16px"><i
+                            data-lucide="printer" style="width:15px;height:15px"></i> طباعة</button>
+                </div>
+            </div>
+            <!-- Canvas Preview -->
+            <div style="background:#1a1a2e;border-radius:16px;padding:20px;display:flex;justify-content:center">
+                <canvas id="rcCanvas" style="max-width:100%;border-radius:12px"></canvas>
+            </div>
+        </div>
     </div>
 
     <!-- Hidden print area -->
@@ -1476,7 +1651,22 @@
 
         function goTo(n) {
             if (n > 1 && A.recs.length === 0) { toast('يرجى رفع ملف CSV أولاً', 'er'); return }
+            if (n === 2) {
+                renderMismatchTable();
+            }
             if (n === 3) {
+                renderMismatchTable(); // ensure A.mismatchCount is up-to-date for warning
+                // Warn user about mismatches before proceeding
+                if (A.mismatchCount > 0) {
+                    const proceed = confirm(
+                        '⚠ تحذير: يوجد ' + A.mismatchCount + ' رقم مرجعي بأوقات غير متطابقة مع الفترات المحسوبة.\n\n'
+                        + 'الأوقات غير المتطابقة ستُحوَّل تقريبياً وستظهر بلون أحمر في الجداول للتنبيه.\n\n'
+                        + 'هل تريد الإكمال على مسؤوليتك؟\n\n'
+                        + '• موافق = إكمال مع عرض الأوقات المشكوك فيها بالأحمر\n'
+                        + '• إلغاء = العودة للإعدادات لمراجعة المشكلة'
+                    );
+                    if (!proceed) return;
+                }
                 readSlots(); renderTL();
                 // Populate unit name input from CSV data (first trainee's unit)
                 const uInput = document.getElementById('unitNameInput');
@@ -1515,7 +1705,7 @@
         }
 
         function processCSV(data) {
-            A.recs = []; A.trainees = new Map(); A.gMin = Infinity; A.maxSlot = 0; customUnitName = '';
+            A.recs = []; A.trainees = new Map(); A.gMin = Infinity; A.maxSlot = 0; A.mismatchCount = 0; A.mismatchRefs = new Set(); customUnitName = '';
             for (const row of data) {
                 const tid = nfc((row['الرقم التدريبي'] || '').trim());
                 const nm = nfc((row['اسم المتدرب'] || '').trim());
@@ -1581,83 +1771,82 @@
         }
 
         // Compute old (pre-Ramadan) time slots from actual CSV data
-        // Uses CLUSTERING instead of Math.round(offset/50) to avoid accumulated-break drift
+        // Algorithm: collect unique start times → sort → fill gaps ≥ 50 min with inferred lectures → build 50-min slots
+        // Also tracks: which slots come from CSV vs inferred, and nearby actual times with ref numbers
+        const OLD_DUR = 50; // Old lecture duration in minutes
         function computeOldSlots() {
-            // Helper: find the mode (most frequent value) in an array
-            function mode(arr) {
-                const freq = {};
-                let maxCount = 0, best = arr[0];
-                for (const v of arr) {
-                    freq[v] = (freq[v] || 0) + 1;
-                    if (freq[v] > maxCount) { maxCount = freq[v]; best = v; }
-                }
-                return best;
-            }
+            if (A.recs.length === 0) return;
 
-            // Step 1: Collect all actual (startMin, endMin) pairs
-            const timePairs = [];
+            // Step 1: Collect all unique start times (rounded to nearest 5 min for minor variations)
+            const startSet = new Set();
+            // Also collect raw (unrounded) starts with their ref numbers
+            const rawStartMap = new Map(); // rounded → [{actualMin, ref, cr, ct}]
             for (const r of A.recs) {
-                const np = Math.round(r.pt.d / 50);
-                if (np === 1) {
-                    timePairs.push({ s: r.pt.s, e: r.pt.e });
-                } else {
-                    // Multi-slot: estimate individual slot times
-                    for (let j = 0; j < np; j++) {
-                        timePairs.push({ s: r.pt.s + j * 50, e: r.pt.s + (j + 1) * 50 });
+                const s = r.pt.s;
+                const rounded = Math.round(s / 5) * 5;
+                startSet.add(rounded);
+                if (!rawStartMap.has(rounded)) rawStartMap.set(rounded, []);
+                // Avoid duplicate refs per rounded start
+                const arr = rawStartMap.get(rounded);
+                if (!arr.some(x => x.ref === r.rf && x.actualMin === s)) {
+                    arr.push({ actualMin: s, ref: r.rf || '', cr: r.cr || '', ct: r.ct || '' });
+                }
+            }
+
+            // Step 2: Sort unique starts ascending
+            const csvStarts = new Set(startSet); // remember which came from CSV
+            const uniqueStarts = [...startSet].sort((a, b) => a - b);
+            if (uniqueStarts.length === 0) return;
+
+            // Step 3: Build complete start list, filling gaps ≥ 50 min with inferred lectures
+            const allStarts = [];
+            const allFromCSV = []; // parallel array: true if from CSV, false if inferred
+            for (let i = 0; i < uniqueStarts.length; i++) {
+                allStarts.push(uniqueStarts[i]);
+                allFromCSV.push(true);
+                if (i < uniqueStarts.length - 1) {
+                    let currentEnd = uniqueStarts[i] + OLD_DUR;
+                    const nextStart = uniqueStarts[i + 1];
+                    while (nextStart - currentEnd >= OLD_DUR) {
+                        allStarts.push(currentEnd);
+                        allFromCSV.push(false); // inferred
+                        currentEnd += OLD_DUR;
                     }
                 }
             }
 
-            // Step 2: Sort by start time
-            timePairs.sort((a, b) => a.s - b.s);
-
-            // Step 3: Cluster by start time proximity (within 15 min = same slot)
-            const clusters = []; // each: { starts: [], ends: [] }
-            for (const tp of timePairs) {
-                let placed = false;
-                for (const cl of clusters) {
-                    if (Math.abs(tp.s - mode(cl.starts)) <= 15) {
-                        cl.starts.push(tp.s);
-                        cl.ends.push(tp.e);
-                        placed = true;
-                        break;
-                    }
-                }
-                if (!placed) {
-                    clusters.push({ starts: [tp.s], ends: [tp.e] });
-                }
-            }
-
-            // Step 4: Sort clusters by representative start time
-            clusters.sort((a, b) => mode(a.starts) - mode(b.starts));
-
-            // Step 5: Build old slots from the first RS.length clusters
+            // Step 4: Build old slots with metadata
             A.oldSlots = [];
-            for (let i = 0; i < Math.min(clusters.length, RS.length); i++) {
-                A.oldSlots.push({ s: mode(clusters[i].starts), e: mode(clusters[i].ends) });
+            for (let i = 0; i < allStarts.length; i++) {
+                const s = allStarts[i];
+                const fromCSV = allFromCSV[i];
+                // Collect nearby actual times for this slot
+                const nearby = [];
+                if (fromCSV && rawStartMap.has(s)) {
+                    for (const entry of rawStartMap.get(s)) {
+                        if (entry.actualMin !== s) { // only non-exact matches
+                            nearby.push(entry);
+                        }
+                    }
+                }
+                A.oldSlots.push({
+                    s: s, e: s + OLD_DUR,
+                    fromCSV: fromCSV,
+                    nearbyTimes: nearby
+                });
             }
 
-            // Fill remaining if fewer clusters than RS.length
+            // Fill remaining if fewer slots than RS.length
             while (A.oldSlots.length < RS.length) {
                 const prev = A.oldSlots[A.oldSlots.length - 1];
-                A.oldSlots.push({ s: prev.e + 1, e: prev.e + 51 });
+                A.oldSlots.push({ s: prev.e, e: prev.e + OLD_DUR, fromCSV: false, nearbyTimes: [] });
             }
 
-            // Step 6: GUARANTEE no overlaps - each slot starts >= previous slot's end
-            for (let i = 1; i < A.oldSlots.length; i++) {
-                if (A.oldSlots[i].s < A.oldSlots[i - 1].e) {
-                    A.oldSlots[i].s = A.oldSlots[i - 1].e;
-                    if (A.oldSlots[i].e <= A.oldSlots[i].s) {
-                        A.oldSlots[i].e = A.oldSlots[i].s + 50;
-                    }
-                }
-            }
-
-            // Step 7: Compute old breaks (gap <= 1 min => 0)
+            // Step 5: Compute old breaks
             A.oldBreaks = [];
             for (let i = 0; i < A.oldSlots.length - 1; i++) {
                 const gap = A.oldSlots[i + 1].s - A.oldSlots[i].e;
-                A.oldBreaks.push(gap <= 1 ? 0 : gap);
+                A.oldBreaks.push(Math.max(0, gap));
             }
         }
 
@@ -1672,22 +1861,35 @@
             h = h % 12;
             if (h === 0) h = 12;
             const timeStr = String(h).padStart(2, '0') + ':' + m;
-            // High-precision fix: Using inline-flex with forced LTR direction to ensure 
+            // High-precision fix: Using inline-flex with forced LTR direction to ensure
             // the indicator (ص/م) is visually to the left of the numbers, matching the input.
             return `<span style="display:inline-flex;direction:ltr;gap:4px;align-items:baseline;unicode-bidi:isolate"><span>${ampm}</span><span>${timeStr}</span></span>`;
         }
-        // Convert old schedule to Ramadan:
-        // 1. Determine lecture number from offset: si = round(offset / 50)
-        // 2. Determine number of lectures: np = round(duration / 50)
+        // Convert old (original/pre-Ramadan) schedule to Ramadan:
+        // 1. Find lecture index by matching start time against A.oldSlots (accounts for breaks)
+        // 2. Determine number of lectures (fractional): np = duration / 50  (e.g. 1.5)
         // 3. Start = Ramadan start of lecture si
-        // 4. End = start + (np × 35) — breaks are OUTSIDE the lecture duration
+        // 4. End = start + round(np × 35) — breaks are OUTSIDE the lecture duration
+        // 5. Flag mismatched records (ref in A.mismatchRefs) with .mismatch = true
         function conv(rec) {
-            const off = rec.pt.s - A.gMin;
-            const si = Math.min(Math.round(off / 50), RS.length - 1);
-            const np = Math.round(rec.pt.d / 50);
+            // Match against A.oldSlots for accurate index (avoids break-drift from off/50)
+            let si = 0;
+            if (A.oldSlots && A.oldSlots.length > 0) {
+                let bestDist = Infinity;
+                for (let i = 0; i < A.oldSlots.length; i++) {
+                    const dist = Math.abs(rec.pt.s - A.oldSlots[i].s);
+                    if (dist < bestDist) { bestDist = dist; si = i; }
+                }
+            } else {
+                const off = rec.pt.s - A.gMin;
+                si = Math.min(Math.round(off / 50), RS.length - 1);
+            }
+            si = Math.min(si, RS.length - 1);
+            const np = Math.max(0.5, rec.pt.d / 50); // fractional: e.g. 75min/50 = 1.5
             const startMin = timeToMin(RS[si].s);
-            const endMin = startMin + (np * LECTURE_DUR);
-            return { si, np, rs: RS[si].s, re: m2hm(endMin) };
+            const endMin = startMin + Math.round(np * LECTURE_DUR); // round final minutes
+            const isMismatch = A.mismatchRefs && A.mismatchRefs.has(rec.rf);
+            return { si, np, rs: RS[si].s, re: m2hm(endMin), mismatch: isMismatch };
         }
         function simplifyType(t) { if (t.includes('نظري')) return 'نظري'; if (t.includes('عملي')) return 'عملي'; if (t.includes('تعاوني')) return 'تعاوني'; return t }
         function buildSch(t) { const bd = {}; for (const r of t.recs) { const d = normDay(r.dy); if (!bd[d]) bd[d] = []; bd[d].push(r) } for (const d of Object.keys(bd)) bd[d].sort((a, b) => a.pt.s - b.pt.s); return bd }
@@ -1700,6 +1902,13 @@
         function renderSlotsUI() {
             computeRS();
             const g = document.getElementById('SG'); g.innerHTML = '';
+            const numSlots = Math.max(RS.length, A.oldSlots ? A.oldSlots.length : 0);
+
+            // Helper: dual time display (24h primary + 12h small)
+            function dualTime(hm24) {
+                if (!hm24 || hm24 === '--:--') return '--:--';
+                return hm24 + ' <span class="t12-hint">' + t12(hm24) + '</span>';
+            }
 
             // Two-column layout
             const cols = document.createElement('div'); cols.className = 'sg-columns';
@@ -1712,11 +1921,10 @@
                 const row = document.createElement('div'); row.className = 'sr-row';
                 row.innerHTML = '<span class="srl">محاضرة ' + (i + 1) + '</span>'
                     + '<div class="arrow-btn"><button onclick="adjustStart(' + i + ', 5)" title="تأخير 5 د">▲</button><button onclick="adjustStart(' + i + ', -5)" title="تقديم 5 د">▼</button></div>'
-                    + '<input type="time" class="start-input" id="rs' + i + '" value="' + RS[i].s + '" onchange="onStartChange(' + i + ')">'
+                    + '<span class="time-wrap"><input type="text" class="start-input" id="rs' + i + '" value="' + RS[i].s + '" pattern="[0-2][0-9]:[0-5][0-9]" placeholder="HH:MM" maxlength="5" onchange="onStartChange(' + i + ')" dir="ltr"><span class="t12-hint" id="rsh' + i + '">' + t12(RS[i].s) + '</span></span>'
                     + '<span class="time-sep">-</span>'
-                    + '<span class="time-val end-val" id="re' + i + '">' + t12(RS[i].e) + '</span>';
+                    + '<span class="time-wrap"><span class="time-val end-val" id="re' + i + '">' + RS[i].e + '</span><span class="t12-hint" id="reh' + i + '">' + t12(RS[i].e) + '</span></span>';
                 colR.appendChild(row);
-                // Break row
                 if (i < RS.length - 1) {
                     const brk = document.createElement('div');
                     brk.className = 'brk-row';
@@ -1728,23 +1936,53 @@
             // === DIVIDER ===
             const divider = document.createElement('div'); divider.className = 'sg-col-divider';
 
-            // === OLD COLUMN ===
+            // === OLD COLUMN (EDITABLE) ===
             const colO = document.createElement('div'); colO.className = 'sg-col sg-col-old';
-            colO.innerHTML = '<div class="sg-col-title"><i data-lucide="calendar" style="width:14px;height:14px;vertical-align:middle;margin-left:4px"></i> الأوقات القديمة (50 د)</div>';
+            colO.innerHTML = '<div class="sg-col-title"><i data-lucide="calendar" style="width:14px;height:14px;vertical-align:middle;margin-left:4px"></i> الأوقات الأصلية «قبل رمضان» (50 د)</div>';
 
-            for (let i = 0; i < RS.length; i++) {
-                const oldS = (A.oldSlots && A.oldSlots[i]) ? m2hm(A.oldSlots[i].s) : '--:--';
-                const oldE = (A.oldSlots && A.oldSlots[i]) ? m2hm(A.oldSlots[i].e) : '--:--';
+            const oldLen = A.oldSlots ? A.oldSlots.length : 0;
+            for (let i = 0; i < numSlots; i++) {
+                const slot = (i < oldLen) ? A.oldSlots[i] : null;
+                const oldS = slot ? m2hm(slot.s) : '--:--';
+                const oldE = slot ? m2hm(slot.e) : '--:--';
+                const isCSV = slot && slot.fromCSV;
+
+                // Build tooltip text
+                let tipLines = [];
+                if (isCSV) {
+                    tipLines.push('📄 بداية من الملف (قطعية)');
+                    if (slot.nearbyTimes && slot.nearbyTimes.length > 0) {
+                        tipLines.push('⚠ بدايات قريبة فعلية:');
+                        for (const nt of slot.nearbyTimes) {
+                            tipLines.push('  · ' + m2hm(nt.actualMin) + ' — ر.م: ' + nt.ref + ' (' + nt.cr + ')');
+                        }
+                    }
+                } else if (slot) {
+                    tipLines.push('🔧 بداية محسوبة (مُستنتجة من فجوة بين فترتين)');
+                }
+                const tipText = tipLines.join('\n');
+
+                // Color indicator
+                const dotColor = isCSV ? '#4caf50' : '#ff9800';
+                const dotTitle = isCSV ? 'من الملف' : 'محسوبة';
+
                 const row = document.createElement('div'); row.className = 'sr-row';
-                row.innerHTML = '<span class="srl">محاضرة ' + (i + 1) + '</span>'
-                    + '<div class="time-cell">'
-                    + '<span class="time-val">' + oldS + '</span>'
+                row.innerHTML = '<span class="srl">'
+                    + '<span class="slot-dot" style="background:' + dotColor + '" title="' + dotTitle + '"></span>'
+                    + 'محاضرة ' + (i + 1) + '</span>'
+                    + '<div class="arrow-btn"><button onclick="adjustOldStart(' + i + ', 5)" title="تأخير 5 د">▲</button><button onclick="adjustOldStart(' + i + ', -5)" title="تقديم 5 د">▼</button></div>'
+                    + '<span class="time-wrap"><input type="text" class="start-input" id="os' + i + '" value="' + oldS + '" pattern="[0-2][0-9]:[0-5][0-9]" placeholder="HH:MM" maxlength="5" onchange="onOldStartChange(' + i + ')" dir="ltr"><span class="t12-hint" id="osh' + i + '">' + t12(oldS) + '</span></span>'
                     + '<span class="time-sep">-</span>'
-                    + '<span class="time-val">' + oldE + '</span>'
-                    + '</div>';
+                    + '<span class="time-wrap"><span class="time-val end-val" id="oe' + i + '">' + oldE + '</span><span class="t12-hint" id="oeh' + i + '">' + t12(oldE) + '</span></span>';
+
+                // Attach tooltip balloon on hover
+                if (tipText) {
+                    row.classList.add('has-slot-tip');
+                    row.setAttribute('data-slot-tip', tipText);
+                }
+
                 colO.appendChild(row);
-                // Break row for old
-                if (i < RS.length - 1) {
+                if (i < numSlots - 1) {
                     const brk = document.createElement('div');
                     brk.className = 'brk-row';
                     brk.id = 'obrk' + i;
@@ -1821,8 +2059,12 @@
             for (let i = 0; i < RS.length; i++) {
                 const sEl = document.getElementById('rs' + i);
                 const eEl = document.getElementById('re' + i);
+                const shEl = document.getElementById('rsh' + i);
+                const ehEl = document.getElementById('reh' + i);
                 if (sEl) sEl.value = RS[i].s;
-                if (eEl) eEl.innerHTML = t12(RS[i].e);
+                if (shEl) shEl.innerHTML = t12(RS[i].s);
+                if (eEl) eEl.textContent = RS[i].e;
+                if (ehEl) ehEl.innerHTML = t12(RS[i].e);
             }
 
             updateAllBreakLabels();
@@ -1846,11 +2088,13 @@
                     brkEl.classList.add('brk-rest');
                 }
             }
-            // Old breaks
-            for (let i = 0; i < RS.length - 1; i++) {
+            // Old breaks — compute from A.oldSlots directly
+            const oldLen = A.oldSlots ? A.oldSlots.length : 0;
+            for (let i = 0; i < oldLen - 1; i++) {
                 const brkEl = document.getElementById('obrk' + i);
                 if (!brkEl) continue;
-                const gap = (A.oldBreaks && A.oldBreaks[i] !== undefined) ? A.oldBreaks[i] : 0;
+                const gap = A.oldSlots[i + 1].s - A.oldSlots[i].e;
+                A.oldBreaks[i] = Math.max(0, gap);
                 brkEl.className = 'brk-row';
                 if (gap <= 0) {
                     brkEl.textContent = '—';
@@ -1861,7 +2105,202 @@
             }
         }
 
+        // === OLD SLOT EDITING (mirror of Ramadan slot editing) ===
+        function adjustOldStart(idx, delta) {
+            if (!A.oldSlots || !A.oldSlots[idx]) return;
+            let startMin = A.oldSlots[idx].s + delta;
+            if (startMin < 0) startMin = 0;
+            if (startMin > 23 * 60 + 55) startMin = 23 * 60 + 55;
+            // Cannot start before previous lecture ends
+            if (idx > 0) {
+                const prevEnd = A.oldSlots[idx - 1].e;
+                if (startMin < prevEnd) {
+                    startMin = prevEnd;
+                    toast('لا يمكن التقديم أكثر — المحاضرة السابقة لم تنتهِ بعد', 'er');
+                }
+            }
+            A.oldSlots[idx].s = startMin;
+            A.oldSlots[idx].e = startMin + OLD_DUR;
+            cascadeOldSlots(idx);
+            refreshOldUI();
+        }
+
+        function onOldStartChange(idx) {
+            if (!A.oldSlots || !A.oldSlots[idx]) return;
+            const el = document.getElementById('os' + idx);
+            if (!el) return;
+            let newStart = timeToMin(el.value);
+            // Validation: cannot start before previous lecture ends
+            if (idx > 0) {
+                const prevEnd = A.oldSlots[idx - 1].e;
+                if (newStart < prevEnd) {
+                    newStart = prevEnd;
+                    el.value = m2hm(newStart);
+                    toast('تم تصحيح البداية — لا يمكن أن تسبق نهاية المحاضرة ' + idx, 'er');
+                }
+            }
+            A.oldSlots[idx].s = newStart;
+            A.oldSlots[idx].e = newStart + OLD_DUR;
+            cascadeOldSlots(idx);
+            refreshOldUI();
+        }
+
+        // Cascade: recompute all slots after idx maintaining their breaks
+        function cascadeOldSlots(fromIdx) {
+            for (let i = fromIdx + 1; i < A.oldSlots.length; i++) {
+                const brk = (A.oldBreaks && A.oldBreaks[i - 1] !== undefined) ? A.oldBreaks[i - 1] : 0;
+                const minStart = A.oldSlots[i - 1].e; // cannot start before previous ends
+                const currentStart = A.oldSlots[i].s;
+                // Only push forward if current start would overlap
+                if (currentStart < minStart) {
+                    A.oldSlots[i].s = minStart + brk;
+                    A.oldSlots[i].e = A.oldSlots[i].s + OLD_DUR;
+                } else {
+                    // Recompute end to ensure 50 min duration
+                    A.oldSlots[i].e = A.oldSlots[i].s + OLD_DUR;
+                }
+            }
+            // Recompute breaks
+            A.oldBreaks = [];
+            for (let i = 0; i < A.oldSlots.length - 1; i++) {
+                A.oldBreaks.push(Math.max(0, A.oldSlots[i + 1].s - A.oldSlots[i].e));
+            }
+        }
+
+        function refreshOldUI() {
+            for (let i = 0; i < A.oldSlots.length; i++) {
+                const sEl = document.getElementById('os' + i);
+                const eEl = document.getElementById('oe' + i);
+                const shEl = document.getElementById('osh' + i);
+                const ehEl = document.getElementById('oeh' + i);
+                if (sEl) sEl.value = m2hm(A.oldSlots[i].s);
+                if (shEl) shEl.innerHTML = t12(m2hm(A.oldSlots[i].s));
+                if (eEl) eEl.textContent = m2hm(A.oldSlots[i].e);
+                if (ehEl) ehEl.innerHTML = t12(m2hm(A.oldSlots[i].e));
+            }
+            updateAllBreakLabels();
+        }
+
         function readSlots() { computeRS(); }
+
+        // Render mismatched times table on page 2
+        // Columns: # | رمز المقرر | اسم المقرر | ر مرجعي | اليوم | الوقت | السبب | مثال لمتدرب
+        // Deduplicated by ر.مرجعي (ref number)
+        function renderMismatchTable() {
+            const card = document.getElementById('mismatchCard');
+            const container = document.getElementById('mismatchTable');
+            A.mismatchCount = 0;
+            if (!card || !container || !A.oldSlots || A.oldSlots.length === 0 || A.recs.length === 0) {
+                if (card) card.style.display = 'none';
+                return;
+            }
+
+            const TOLERANCE_START = 10; // max distance (min) to consider a "match"
+            const TOLERANCE_DUR = 5;    // max deviation from multiple of 50
+
+            const byRef = new Map(); // dedup by ref number
+
+            for (const r of A.recs) {
+                const ref = r.rf || '';
+                if (!ref || byRef.has(ref)) continue;
+
+                const startMin = r.pt.s;
+                const dur = r.pt.d;
+
+                // Check 1: Does start match any oldSlot?
+                let closestSlot = 0, closestDist = Infinity;
+                for (let i = 0; i < A.oldSlots.length; i++) {
+                    const dist = Math.abs(startMin - A.oldSlots[i].s);
+                    if (dist < closestDist) { closestDist = dist; closestSlot = i; }
+                }
+                const startMismatch = closestDist > TOLERANCE_START;
+
+                // Check 2: Is duration a multiple of 50 (within tolerance)?
+                const remainder = dur % 50;
+                const durMismatch = remainder > TOLERANCE_DUR && remainder < (50 - TOLERANCE_DUR);
+
+                if (startMismatch || durMismatch) {
+                    // Find a trainee example for display
+                    let tName = '';
+                    for (const [tid, t] of A.trainees) {
+                        if (t.recs.some(tr => tr === r)) {
+                            tName = t.nm; break;
+                        }
+                    }
+
+                    const closestTime = m2hm(A.oldSlots[closestSlot].s) + ' - ' + m2hm(A.oldSlots[closestSlot].e);
+                    const actualTime = m2hm(r.pt.s) + ' - ' + m2hm(r.pt.e);
+
+                    const reasons = [];
+                    if (startMismatch) reasons.push('بداية غير متطابقة (الأقرب: ' + closestTime + ' — فرق ' + closestDist + ' د)');
+                    if (durMismatch) reasons.push('مدة غير قياسية (' + dur + ' د ≠ مضاعف 50)');
+
+                    byRef.set(ref, {
+                        cr: r.cr || '', ct: r.ct || '', rf: ref,
+                        dy: r.dy || '',
+                        tm: actualTime,
+                        reason: reasons.join(' ، '),
+                        example: tName
+                    });
+                }
+            }
+
+            A.mismatchCount = byRef.size;
+            A.mismatchRefs = new Set(byRef.keys());
+
+            if (byRef.size === 0) {
+                card.style.display = '';
+                const descP = document.getElementById('mismatchDesc');
+                if (descP) descP.style.display = 'none';
+                card.querySelector('.ct').style.color = 'var(--ok)';
+                card.querySelector('.ct').innerHTML = '<i data-lucide="check-circle" class="lucide-icon" style="stroke:var(--ok)"></i> جميع الأوقات متطابقة مع الفترات المحسوبة ✓';
+                container.innerHTML = '';
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+                return;
+            }
+
+            card.style.display = '';
+            // Restore warning state
+            const descP = document.getElementById('mismatchDesc');
+            if (descP) descP.style.display = '';
+            const ctEl = card.querySelector('.ct');
+            ctEl.style.color = 'var(--acc)';
+            ctEl.innerHTML = '<i data-lucide="alert-triangle" class="lucide-icon" style="stroke:var(--acc)"></i> أوقات غير متطابقة مع الفترات المحسوبة (' + byRef.size + ')';
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+
+            const thStyle = 'padding:6px 8px;border:1px solid #e0d6c8;text-align:center';
+            const tdStyle = 'padding:5px 8px;border:1px solid #e8e0d5;text-align:center';
+
+            let h = '<table style="width:100%;border-collapse:collapse;font-size:.82rem;direction:rtl">';
+            h += '<thead><tr style="background:#FFF3E0">';
+            h += '<th style="' + thStyle + '">#</th>';
+            h += '<th style="' + thStyle + '">رمز المقرر</th>';
+            h += '<th style="' + thStyle + '">اسم المقرر</th>';
+            h += '<th style="' + thStyle + '">ر.مرجعي</th>';
+            h += '<th style="' + thStyle + '">اليوم</th>';
+            h += '<th style="' + thStyle + '">الوقت</th>';
+            h += '<th style="' + thStyle + '">السبب</th>';
+            h += '<th style="' + thStyle + '">مثال لمتدرب</th>';
+            h += '</tr></thead><tbody>';
+
+            let idx = 0;
+            for (const [ref, m] of byRef) {
+                idx++;
+                h += '<tr>';
+                h += '<td style="' + tdStyle + '">' + idx + '</td>';
+                h += '<td style="' + tdStyle + '">' + m.cr + '</td>';
+                h += '<td style="' + tdStyle + '">' + m.ct + '</td>';
+                h += '<td style="' + tdStyle + ';font-family:monospace">' + m.rf + '</td>';
+                h += '<td style="' + tdStyle + '">' + m.dy + '</td>';
+                h += '<td style="' + tdStyle + ';direction:ltr;font-family:monospace">' + m.tm + '</td>';
+                h += '<td style="' + tdStyle + ';font-size:.75rem;color:#c62828;text-align:right">' + m.reason + '</td>';
+                h += '<td style="' + tdStyle + '">' + m.example + '</td>';
+                h += '</tr>';
+            }
+            h += '</tbody></table>';
+            container.innerHTML = h;
+        }
+
         function resetS() {
             ramadanStart = DEFAULT_START;
             ramadanBreaks = [...DEFAULT_BREAKS];
@@ -1894,6 +2333,10 @@
         function renderPrev(tid) {
             const f = document.getElementById('PF'), t = A.trainees.get(tid); if (!t) return; readSlots();
             f.innerHTML = buildPageHTML(t);
+            // Mismatch warning
+            if (A.mismatchCount > 0) {
+                toast('⚠ يوجد ' + A.mismatchCount + ' رقم مرجعي بأوقات غير متطابقة — راجع صفحة الإعدادات', 'er');
+            }
         }
 
         // Called when user edits the unit name
@@ -1923,11 +2366,45 @@
         // ══════════════════════════════════════════════════════════
         //  BUILD SCHEDULE PAGE HTML (used for preview AND print)
         // ══════════════════════════════════════════════════════════
+        // Generate all possible Unicode normalization variants of a string
+        // to maximize PDF search compatibility across all devices and OS versions
+        function getSearchableVariants(name) {
+            if (!name) return '';
+            const variants = new Set();
+            // NFC: Composed form (standard)
+            variants.add(name.normalize('NFC'));
+            // NFKC: Compatibility composed (resolves ligatures)
+            variants.add(name.normalize('NFKC'));
+            // NFD: Decomposed form (base + diacritics separate)
+            variants.add(name.normalize('NFD'));
+            // NFKD: Compatibility decomposed
+            variants.add(name.normalize('NFKD'));
+            // Strip diacritics/tashkeel completely (bare letters)
+            const stripped = name.normalize('NFD').replace(/[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06DC\u06DF-\u06E4\u06E7\u06E8\u06EA-\u06ED]/g, '').normalize('NFC');
+            variants.add(stripped);
+            // Also add without extra spaces
+            variants.add(name.replace(/\s+/g, ' ').trim());
+            return [...variants].join(' ');
+        }
+
         function buildPageHTML(t) {
             const sch = buildSch(t);
             let h = '<div class="sched-page">';
 
-            // Header row: logo on right, text on left (always use fixed logo.png)
+            // ═══ INVISIBLE SEARCHABLE TEXT LAYER ═══
+            // This hidden layer contains the trainee name and ID in plain system fonts
+            // (Arial/Tahoma) which are natively supported on all mobile devices.
+            // Even though the text is invisible, PDF renderers preserve it as
+            // searchable text in the document's text stream.
+            // Multiple Unicode normalization forms ensure the name is found
+            // regardless of how the mobile OS decomposes/composes Arabic characters.
+            const searchName = getSearchableVariants(t.nm);
+            const searchTid = nfc(t.tid);
+            h += '<div class="sp-search-layer" aria-hidden="true">';
+            h += searchName + ' ' + searchTid;
+            h += '</div>';
+
+            // Header row: 3 columns (right=logo, center=texts, left=empty)
             h += '<div class="sp-header-row">';
             h += '<div class="sp-header-logo"><img src="logo.png"></div>';
             h += '<div class="sp-header-text">';
@@ -1935,6 +2412,7 @@
             h += nfc('المؤسسة العامة للتدريب التقني والمهني') + '<br>';
             h += nfc(customUnitName || t.un);
             h += '</div>';
+            h += '<div class="sp-header-empty"></div>';
             h += '</div>';
 
             // Title (gender-aware)
@@ -1970,7 +2448,12 @@
                     const sepClass = (!isFirstDay && i === 0) ? ' class="day-separator"' : '';
                     h += '<tr' + sepClass + '>';
                     h += '<td class="day-c">' + day + '</td>';
-                    h += '<td class="time-c">' + rm.rs + ' - ' + rm.re + '</td>';
+                    // Color mismatched times in red
+                    if (rm.mismatch) {
+                        h += '<td class="time-c" style="color:#d32f2f;font-weight:700" title="وقت غير متطابق — تقريبي">' + rm.rs + ' - ' + rm.re + '</td>';
+                    } else {
+                        h += '<td class="time-c">' + rm.rs + ' - ' + rm.re + '</td>';
+                    }
                     h += '<td>' + r.cr + '</td>';
                     h += '<td>' + r.ct + '</td>';
                     h += '<td>' + r.rf + '</td>';
@@ -1998,6 +2481,10 @@
         // ══════════════════════════════════════════════════════════
         function printAll() {
             readSlots();
+            // Mismatch warning before printing
+            if (A.mismatchCount > 0) {
+                toast('⚠ يوجد ' + A.mismatchCount + ' رقم مرجعي بأوقات غير متطابقة — راجع صفحة الإعدادات', 'er');
+            }
             const btn = document.getElementById('bPA');
             btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> جاري التجهيز...';
             const pw = document.getElementById('PW'); pw.classList.add('sh');
@@ -2044,6 +2531,38 @@
             const nameLabel = genderType === 'female' ? 'اسم المتدربة' : 'اسم المتدرب';
             const trainerLabel = genderType === 'female' ? 'المرشدة التدريبية' : 'المرشد التدريبي';
 
+            // Helper: format old time from r.tm ("0910 - 0730") to readable format ("09:10 - 07:30")
+            function formatOldTime(tm) {
+                if (!tm) return '';
+                // tm comes as "HHMM - HHMM" (end - start) from SS05
+                // Keep the original format as-is (e.g. "0910 - 0730")
+                return tm;
+            }
+
+            // Helper: find old lecture index by matching actual start time against A.oldSlots
+            // Uses closest-match approach against the clustered old slots (which correctly account for breaks)
+            function findOldSlotIndex(startMin) {
+                if (!A.oldSlots || A.oldSlots.length === 0) return 0;
+                let bestIdx = 0, bestDist = Infinity;
+                for (let i = 0; i < A.oldSlots.length; i++) {
+                    const dist = Math.abs(startMin - A.oldSlots[i].s);
+                    if (dist < bestDist) { bestDist = dist; bestIdx = i; }
+                }
+                return bestIdx;
+            }
+
+            // Helper: compute old lecture numbers string
+            // Uses A.oldSlots matching for accuracy (the naive off/50 formula drifts due to breaks)
+            // Uses ~ separator instead of - to prevent Excel from interpreting "5~6" as a date
+            function getOldLectureNumbers(rec) {
+                const si = findOldSlotIndex(rec.pt.s);
+                const np = Math.max(1, Math.ceil(rec.pt.d / 50)); // ceil for lecture numbering display
+                const first = si + 1; // Convert to 1-based
+                if (np <= 1) return String(first);
+                const last = si + np;
+                return first + '~' + last;
+            }
+
             // CSV headers
             const headers = [
                 nameLabel,
@@ -2051,6 +2570,8 @@
                 'القسم',
                 'التخصص',
                 'اليوم',
+                'الوقت (قبل رمضان)',
+                'رقم المحاضرة',
                 'وقت البداية (رمضان)',
                 'وقت النهاية (رمضان)',
                 'المقرر',
@@ -2072,12 +2593,16 @@
                     if (!dr || !dr.length) continue;
                     for (const r of dr) {
                         const rm = conv(r);
+                        const oldTime = formatOldTime(r.tm);
+                        const lectureNums = getOldLectureNumbers(r);
                         rows.push([
                             nfc(t.nm),
                             nfc(t.tid),
                             nfc(t.dp),
                             nfc(t.pg),
                             nfc(day),
+                            nfc(oldTime),
+                            nfc(lectureNums),
                             nfc(rm.rs),
                             nfc(rm.re),
                             nfc(r.cr),
@@ -2119,6 +2644,321 @@
 
             toast('تم تصدير التقرير بنجاح (' + rows.length + ' سجل)');
         }
+
+        // ══════════════════════════════════════════════════════════
+        //  RAMADAN CARD (Canvas-based — fixes Arabic rendering)
+        // ══════════════════════════════════════════════════════════
+        let _rcBreakLabels = [];
+
+        // Pre-load logo as data URL (via fetch+blob to avoid canvas taint on file://)
+        let _logoImg = null;
+        function loadLogoImage() {
+            return new Promise(resolve => {
+                if (_logoImg) { resolve(_logoImg); return; }
+                // Try fetch approach first (works on http:// and some file://)
+                fetch('logo.png').then(r => r.blob()).then(blob => {
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                        const img = new Image();
+                        img.onload = () => { _logoImg = img; resolve(img); };
+                        img.onerror = () => resolve(null);
+                        img.src = reader.result;
+                    };
+                    reader.readAsDataURL(blob);
+                }).catch(() => {
+                    // Fallback: direct load (may taint canvas on file://)
+                    const img = new Image();
+                    img.onload = () => { _logoImg = img; resolve(img); };
+                    img.onerror = () => resolve(null);
+                    img.src = 'logo.png';
+                });
+            });
+        }
+
+        function openRamadanCard() {
+            readSlots();
+            const modal = document.getElementById('ramCardModal');
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+
+            // Populate lecture count selector
+            const sel = document.getElementById('rcLectureCount');
+            sel.innerHTML = '';
+            for (let n = 1; n <= RS.length; n++) {
+                const opt = document.createElement('option');
+                opt.value = n; opt.textContent = n;
+                if (n === RS.length) opt.selected = true;
+                sel.appendChild(opt);
+            }
+
+            // Pre-fill semester from CSV data if available
+            const semInput = document.getElementById('rcSemester');
+            if (semInput && !semInput.value) {
+                const firstTrainee = A.trainees.size > 0 ? A.trainees.values().next().value : null;
+                if (firstTrainee && firstTrainee.sm) semInput.value = firstTrainee.sm;
+            }
+
+            // Init break labels
+            _rcBreakLabels = [];
+            for (let i = 0; i < RS.length - 1; i++) {
+                const brk = ramadanBreaks[i] || 0;
+                _rcBreakLabels.push(brk > 0 ? 'فاصل ' + brk + ' د' : '');
+            }
+            buildBreakControls();
+
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+            loadLogoImage().then(() => refreshRamadanPreview());
+        }
+
+        function closeRamadanCard() {
+            document.getElementById('ramCardModal').style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        function buildBreakControls() {
+            const wrap = document.getElementById('rcBreaksWrap');
+            const count = parseInt(document.getElementById('rcLectureCount').value) || RS.length;
+            let html = '<label style="font-size:.78rem;color:var(--mut)">أسماء الفواصل</label><div style="display:flex;flex-wrap:wrap;gap:6px">';
+            for (let i = 0; i < count - 1; i++) {
+                const brk = ramadanBreaks[i] || 0;
+                if (brk <= 0) continue;
+                html += '<input type="text" data-brk-idx="' + i + '" value="' + (_rcBreakLabels[i] || '') + '" onchange="onBrkLabelChange(this)" style="width:120px;padding:4px 8px;border:1px solid var(--bd);border-radius:5px;font-size:.78rem;text-align:center" dir="rtl">';
+            }
+            html += '</div>';
+            wrap.innerHTML = html;
+        }
+
+        function onBrkLabelChange(el) {
+            const idx = parseInt(el.getAttribute('data-brk-idx'));
+            _rcBreakLabels[idx] = el.value;
+            refreshRamadanPreview();
+        }
+
+        function refreshRamadanPreview() {
+            buildBreakControls();
+            const canvas = document.getElementById('rcCanvas');
+            drawRamadanCard(canvas);
+        }
+
+        function drawRamadanCard(canvas) {
+            const count = parseInt(document.getElementById('rcLectureCount').value) || RS.length;
+            const notes = (document.getElementById('rcNotes') || {}).value || '';
+            const semester = (document.getElementById('rcSemester') || {}).value || '';
+            const unitName = customUnitName || (A.trainees.size > 0 ? A.trainees.values().next().value.un : '');
+
+            // Collect breaks for visible lectures
+            const visibleBreaks = [];
+            for (let i = 0; i < count - 1; i++) {
+                const brk = ramadanBreaks[i] || 0;
+                if (brk > 0) visibleBreaks.push({ idx: i, brk, label: _rcBreakLabels[i] || 'فاصل ' + brk + ' د' });
+            }
+
+            // Dimensions
+            const W = 700, SCALE = 2;
+            const rowH = 44, brkH = 26, headerH = 36;
+            const tableH = headerH + count * rowH + visibleBreaks.length * brkH;
+            const semH = semester ? 28 : 0;
+            const topSection = 180 + semH;
+            const notesH = notes ? 40 : 0;
+            const greetH = 70;
+            const H = topSection + tableH + notesH + greetH + 40;
+
+            canvas.width = W * SCALE;
+            canvas.height = H * SCALE;
+            canvas.style.width = W + 'px';
+            canvas.style.height = H + 'px';
+
+            const ctx = canvas.getContext('2d');
+            ctx.scale(SCALE, SCALE);
+            ctx.textBaseline = 'middle';
+
+            // Background gradient
+            const bg = ctx.createLinearGradient(0, 0, W * 0.3, H);
+            bg.addColorStop(0, '#0d2818');
+            bg.addColorStop(0.35, '#1a4d2e');
+            bg.addColorStop(0.65, '#1a4d2e');
+            bg.addColorStop(1, '#0d2818');
+            ctx.fillStyle = bg;
+            roundRect(ctx, 0, 0, W, H, 24); ctx.fill();
+
+            // Decorative glow
+            const glow1 = ctx.createRadialGradient(70, 80, 0, 70, 80, 280);
+            glow1.addColorStop(0, 'rgba(201,168,76,.12)'); glow1.addColorStop(1, 'transparent');
+            ctx.fillStyle = glow1; ctx.fillRect(0, 0, W, H);
+            const glow2 = ctx.createRadialGradient(W - 70, H - 80, 0, W - 70, H - 80, 280);
+            glow2.addColorStop(0, 'rgba(201,168,76,.08)'); glow2.addColorStop(1, 'transparent');
+            ctx.fillStyle = glow2; ctx.fillRect(0, 0, W, H);
+
+            // Crescent on the LEFT (no star) — drawn with canvas arcs
+            ctx.save();
+            ctx.globalAlpha = 0.15;
+            const cresX = 52, cresY = 48, cresR = 22;
+            ctx.fillStyle = '#e8c968';
+            ctx.beginPath();
+            ctx.arc(cresX, cresY, cresR, 0, Math.PI * 2); ctx.fill();
+            // Cut inner circle to create crescent
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.beginPath();
+            ctx.arc(cresX + 8, cresY - 4, cresR - 3, 0, Math.PI * 2); ctx.fill();
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.restore();
+
+            // Logo on the RIGHT
+            if (_logoImg) {
+                const logoS = 64, pad = 5;
+                const lx = W - 50 - logoS / 2, ly = 30;
+                ctx.fillStyle = 'rgba(255,255,255,.95)';
+                roundRect(ctx, lx - pad, ly - pad, logoS + pad * 2, logoS + pad * 2, 10); ctx.fill();
+                ctx.drawImage(_logoImg, lx, ly, logoS, logoS);
+            }
+
+            // Header text
+            const cx = W / 2;
+            ctx.fillStyle = 'rgba(255,255,255,.72)';
+            ctx.font = '500 13px "Readex Pro", "IBM Plex Sans Arabic", Tahoma, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('المملكة العربية السعودية', cx, 50);
+            ctx.fillText('المؤسسة العامة للتدريب التقني والمهني', cx, 70);
+            if (unitName) {
+                ctx.fillStyle = '#e8c968'; ctx.font = '600 15px "Readex Pro", "IBM Plex Sans Arabic", Tahoma, sans-serif';
+                ctx.fillText(unitName, cx, 95);
+            }
+
+            // Title banner
+            const titleY = 125, titleH2 = 38;
+            const titleW = 420;
+            const titleGrad = ctx.createLinearGradient(cx - titleW / 2, 0, cx + titleW / 2, 0);
+            titleGrad.addColorStop(0, '#C9A84C'); titleGrad.addColorStop(0.5, '#e8c968'); titleGrad.addColorStop(1, '#C9A84C');
+            ctx.fillStyle = titleGrad;
+            roundRect(ctx, cx - titleW / 2, titleY - titleH2 / 2, titleW, titleH2, 12); ctx.fill();
+            ctx.fillStyle = '#0d2818'; ctx.font = '700 16px "Readex Pro", "IBM Plex Sans Arabic", Tahoma, sans-serif';
+            ctx.fillText('أوقات المحاضرات في شهر رمضان المبارك', cx, titleY + 1);
+
+            // Semester below title
+            if (semester) {
+                ctx.fillStyle = 'rgba(255,255,255,.6)';
+                ctx.font = '500 13px "Readex Pro", "IBM Plex Sans Arabic", Tahoma, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(semester, cx, titleY + titleH2 / 2 + 16);
+            }
+
+            // Table
+            let y = topSection;
+            const cols = [
+                { label: 'المحاضرة', x: W - 80, w: 160 },
+                { label: 'البداية', x: W - 240, w: 150 },
+                { label: 'النهاية', x: W - 390, w: 150 },
+                { label: 'المدة', x: W - 540, w: 120 }
+            ];
+            const tblLeft = 35, tblRight = W - 35, tblW = tblRight - tblLeft;
+
+            // Table header
+            ctx.fillStyle = '#e8c968'; ctx.font = '600 12px "Readex Pro", "IBM Plex Sans Arabic", Tahoma, sans-serif';
+            ctx.textAlign = 'center';
+            for (const c of cols) ctx.fillText(c.label, c.x, y + headerH / 2);
+            y += headerH;
+
+            // Table rows
+            for (let i = 0; i < count; i++) {
+                const isEven = i % 2 === 0;
+                ctx.fillStyle = isEven ? 'rgba(255,255,255,.07)' : 'rgba(255,255,255,.03)';
+                roundRect(ctx, tblLeft, y, tblW, rowH, 6); ctx.fill();
+
+                ctx.textAlign = 'center';
+                // Lecture number
+                ctx.fillStyle = '#a8d5ba'; ctx.font = '600 14px "Readex Pro", "IBM Plex Sans Arabic", Tahoma, sans-serif';
+                ctx.fillText('محاضرة ' + (i + 1), cols[0].x, y + rowH / 2);
+                // Start time
+                ctx.fillStyle = '#fff'; ctx.font = '600 15px "Courier New", monospace';
+                ctx.fillText(RS[i].s, cols[1].x, y + rowH / 2);
+                // End time
+                ctx.fillStyle = '#ccc'; ctx.font = '500 15px "Courier New", monospace';
+                ctx.fillText(RS[i].e, cols[2].x, y + rowH / 2);
+                // Duration
+                ctx.fillStyle = '#e8c968'; ctx.font = '500 12px "Readex Pro", "IBM Plex Sans Arabic", Tahoma, sans-serif';
+                ctx.fillText(LECTURE_DUR + ' د', cols[3].x, y + rowH / 2);
+
+                y += rowH;
+
+                // Break row
+                const vb = visibleBreaks.find(b => b.idx === i);
+                if (vb) {
+                    ctx.fillStyle = 'rgba(255,255,255,.25)';
+                    ctx.font = '400 11px "Readex Pro", "IBM Plex Sans Arabic", Tahoma, sans-serif';
+                    ctx.fillText(vb.label, cx, y + brkH / 2);
+                    y += brkH;
+                }
+            }
+
+            // Notes
+            if (notes) {
+                y += 10;
+                ctx.fillStyle = 'rgba(255,255,255,.5)';
+                ctx.font = '400 12px "Readex Pro", "IBM Plex Sans Arabic", Tahoma, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(notes, cx, y + 12);
+                y += notesH - 10;
+            }
+
+            // Greeting
+            y += 12;
+            ctx.fillStyle = '#e8c968'; ctx.font = '700 20px "Readex Pro", "IBM Plex Sans Arabic", Tahoma, sans-serif';
+            ctx.textAlign = 'center'; ctx.fillText('رمضان كريم', cx, y + 5);
+            ctx.fillStyle = 'rgba(255,255,255,.5)'; ctx.font = '400 12px "Readex Pro", "IBM Plex Sans Arabic", Tahoma, sans-serif';
+            ctx.fillText('أعاده الله علينا وعليكم بالخير واليُمن والبركات', cx, y + 30);
+        }
+
+        function roundRect(ctx, x, y, w, h, r) {
+            ctx.beginPath();
+            ctx.moveTo(x + r, y);
+            ctx.lineTo(x + w - r, y);
+            ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+            ctx.lineTo(x + w, y + h - r);
+            ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+            ctx.lineTo(x + r, y + h);
+            ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+            ctx.lineTo(x, y + r);
+            ctx.quadraticCurveTo(x, y, x + r, y);
+            ctx.closePath();
+        }
+
+        function downloadRamadanCard() {
+            const canvas = document.getElementById('rcCanvas');
+            try {
+                canvas.toBlob(blob => {
+                    if (!blob) { toast('خطأ في تصدير الصورة', 'er'); return; }
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'أوقات_رمضان_' + new Date().toISOString().slice(0, 10) + '.png';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    toast('تم تصدير صورة أوقات رمضان بنجاح');
+                }, 'image/png');
+            } catch (e) {
+                toast('خطأ: لا يمكن تصدير الصورة. جرّب فتح الصفحة عبر خادم محلي (Live Server)', 'er');
+            }
+        }
+
+        function printRamadanCard() {
+            const canvas = document.getElementById('rcCanvas');
+            try {
+                const dataUrl = canvas.toDataURL('image/png');
+                const iframe = document.createElement('iframe');
+                iframe.style.cssText = 'position:fixed;left:-9999px;width:0;height:0';
+                document.body.appendChild(iframe);
+                const doc = iframe.contentDocument;
+                doc.open();
+                doc.write('<!DOCTYPE html><html><head><title>أوقات رمضان</title><style>@page{margin:10mm}body{margin:0;display:flex;justify-content:center;align-items:flex-start}img{max-width:100%;height:auto}</style></head><body><img src="' + dataUrl + '"></body></html>');
+                doc.close();
+                setTimeout(() => { iframe.contentWindow.print(); setTimeout(() => iframe.remove(), 2000); }, 400);
+            } catch (e) {
+                toast('خطأ: لا يمكن طباعة الصورة. جرّب فتح الصفحة عبر خادم محلي (Live Server)', 'er');
+            }
+        }
+
 
         // ══════════════════════════════════════════════════════════
         //  INIT
