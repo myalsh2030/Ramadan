@@ -1823,7 +1823,7 @@
                         '⚠ تحذير: يوجد ' + A.mismatchCount + ' رقم مرجعي بأوقات غير متطابقة مع الفترات المحسوبة.\n\n'
                         + 'الأوقات غير المتطابقة ستُحوَّل تقريبياً وستظهر بلون أحمر في الجداول للتنبيه.\n\n'
                         + 'هل تريد الإكمال على مسؤوليتك؟\n\n'
-                        + '• موافق = إكمال مع عرض الأوقات المشكوك فيها بالأحمر\n'
+                        + '• موافق = إكمال مع عرض الأوقات الغير دقيقة بالأحمر\n'
                         + '• إلغاء = العودة للإعدادات لمراجعة المشكلة'
                     );
                     if (!proceed) return;
@@ -3180,7 +3180,7 @@
             // Greeting
             y += 12;
             ctx.fillStyle = '#e8c968'; ctx.font = '700 20px "Readex Pro", "IBM Plex Sans Arabic", Tahoma, sans-serif';
-            ctx.textAlign = 'center'; ctx.fillText('رمضان كريم', cx, y + 5);
+            ctx.textAlign = 'center'; ctx.fillText('رمضان مبارك', cx, y + 5);
             ctx.fillStyle = 'rgba(255,255,255,.5)'; ctx.font = '400 12px "Readex Pro", "IBM Plex Sans Arabic", Tahoma, sans-serif';
             ctx.fillText('أعاده الله علينا وعليكم بالخير واليُمن والبركات', cx, y + 30);
         }
