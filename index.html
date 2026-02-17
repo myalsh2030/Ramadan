@@ -1120,7 +1120,7 @@
             font-weight: 700;
             background: #E8F0EB !important;
             color: #1A4D2E;
-            width: 12%
+            width: 8%
         }
 
         .sp-tbl .time-c {
@@ -1129,8 +1129,8 @@
             font-size: 11px;
             font-weight: 700;
             white-space: nowrap;
-            width: 14%;
-            min-width: 24mm;
+            width: 18%;
+            min-width: 30mm;
         }
 
         .sp-footer {
@@ -1265,29 +1265,59 @@
             box-shadow: 0 0 0 3px var(--prp);
         }
 
-        .ctrl-notes {
-            flex: 1;
-            min-width: 200px;
+        .notes-section {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .notes-header {
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 10px 14px;
-            background: var(--sf2);
-            border: 1px solid var(--bd);
-            border-radius: 10px;
         }
 
-        .ctrl-notes label {
+        .notes-header label {
             font-weight: 600;
             font-size: .82rem;
             color: var(--pri);
-            white-space: nowrap;
             display: flex;
             align-items: center;
             gap: 5px;
         }
 
-        .ctrl-notes input {
+        .note-add-btn {
+            background: var(--pri);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            width: 28px;
+            height: 28px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: .2s;
+        }
+
+        .note-add-btn:hover {
+            background: var(--prh);
+            transform: scale(1.1);
+        }
+
+        .note-entry {
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+            background: var(--sf2);
+            border: 1px solid var(--bd);
+            border-radius: 10px;
+            padding: 10px 14px;
+        }
+
+        .note-entry textarea {
             flex: 1;
             padding: 6px 10px;
             border: 1.5px solid var(--bd2);
@@ -1297,22 +1327,86 @@
             background: #fff;
             color: var(--txt);
             transition: .2s;
+            resize: vertical;
+            min-height: 36px;
+            line-height: 1.6;
         }
 
-        .ctrl-notes input:focus {
+        .note-entry textarea:focus {
             outline: none;
             border-color: var(--pri);
             box-shadow: 0 0 0 3px var(--prp);
+        }
+
+        .note-remove-btn {
+            background: none;
+            border: none;
+            color: #c62828;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 4px;
+            border-radius: 50%;
+            transition: .2s;
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .note-remove-btn:hover {
+            background: rgba(198, 40, 40, 0.1);
+        }
+
+        .note-num {
+            font-size: .72rem;
+            color: var(--mut);
+            font-weight: 700;
+            min-width: 18px;
+            text-align: center;
+            padding-top: 8px;
+            flex-shrink: 0;
         }
 
         /* ═══ SCHEDULE NOTE ═══ */
         .sp-note {
             text-align: center;
             font-size: 12px;
-            margin-top: 3mm;
-            color: #1A4D2E;
-            font-weight: 600;
+            margin-top: 2mm;
+            color: #b8860b;
+            font-weight: 700;
             line-height: 1.7;
+            padding: 2mm 4mm;
+            border-radius: 4px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.12), rgba(255, 165, 0, 0.10));
+            border: 1px solid rgba(218, 165, 32, 0.35);
+            animation: noteGlow 2s ease-in-out infinite alternate;
+            white-space: pre-line;
+        }
+
+        .sp-note+.sp-note {
+            margin-top: 1.5mm;
+        }
+
+        @keyframes noteGlow {
+            0% {
+                box-shadow: 0 0 4px rgba(255, 193, 7, 0.3), 0 0 8px rgba(255, 193, 7, 0.15);
+            }
+
+            100% {
+                box-shadow: 0 0 8px rgba(255, 193, 7, 0.6), 0 0 16px rgba(255, 193, 7, 0.3), 0 0 24px rgba(255, 193, 7, 0.15);
+            }
+        }
+
+        @media print {
+            .sp-note {
+                animation: none !important;
+                box-shadow: none !important;
+                color: #8B6914 !important;
+                border: 1.5px solid #DAA520 !important;
+                background: rgba(255, 215, 0, 0.08) !important;
+            }
         }
 
         /* ═══ INVISIBLE SEARCHABLE TEXT LAYER ═══ */
@@ -1375,7 +1469,7 @@
         <header class="hdr">
             <h1>محوّل جداول رمضان <span class="cr"><i data-lucide="moon"></i></span></h1>
             <p class="sub">تحويل جداول المتدربين من نظام 50 دقيقة إلى نظام 35 دقيقة</p>
-            <span class="version-badge" id="verBadge">v1.5.0</span>
+            <span class="version-badge" id="verBadge">v1.6.0</span>
             <p style="font-size:.68rem;color:var(--mut);margin-top:6px;opacity:.8"><i data-lucide="globe"
                     style="width:12px;height:12px;vertical-align:middle;margin-left:3px"></i> يعمل بشكل أفضل مع متصفح
                 Google Chrome</p>
@@ -1485,12 +1579,22 @@
                                 <option value="female">متدربة</option>
                             </select>
                         </div>
-                        <div class="ctrl-notes">
-                            <label><i data-lucide="message-square" style="width:15px;height:15px;stroke:var(--pri)"></i>
-                                ملاحظة</label>
-                            <input type="text" id="schedNote" placeholder="أضف ملاحظة تظهر في جميع الجداول..."
-                                oninput="onNoteChange()">
+                        <div class="ctrl-group">
+                            <label><i data-lucide="clock" style="width:15px;height:15px;stroke:var(--pri)"></i>
+                                الوقت</label>
+                            <select id="timeFormatSel" onchange="onTimeFormatChange()">
+                                <option value="24h">24 ساعة</option>
+                                <option value="12h">12 ساعة (ص/م)</option>
+                            </select>
                         </div>
+                    </div>
+                    <div class="notes-section" id="notesSection">
+                        <div class="notes-header">
+                            <label><i data-lucide="message-square" style="width:15px;height:15px;stroke:var(--pri)"></i>
+                                الملاحظات</label>
+                            <button class="note-add-btn" onclick="addNote()" title="إضافة ملاحظة جديدة">+</button>
+                        </div>
+                        <div id="noteInputs"></div>
                     </div>
                     <div class="card">
                         <div class="ct"><i data-lucide="eye" class="lucide-icon"></i> معاينة الجدول</div>
@@ -1616,7 +1720,64 @@
         let customUnitName = ''; // user-editable unit name (from CSV, overridable)
         let sortOrder = 'tid'; // 'tid' or 'name'
         let genderType = 'male'; // 'male' or 'female'
-        let schedNote = ''; // user note for all schedules
+        const DEFAULT_NOTE = 'احترامك لمواعيد تدريبك يعكس رقيّ شخصيتك المهنية، وكل عام وأنتم بخير،،،';
+        let schedNotes = [DEFAULT_NOTE]; // array of user notes for all schedules
+        let timeFormat = '12h'; // '24h' or '12h' — time display in trainee schedules (12h default)
+
+        // ═══ MANUAL EDITS STORAGE ═══
+        // Stores user manual edits so they persist across file re-uploads
+        const userEdits = {
+            hasEdits: false,          // true if user made ANY manual edit
+            ramadanStart: null,       // manually edited Ramadan start time
+            ramadanBreaks: null,      // manually edited Ramadan breaks
+            oldSlotStarts: null,      // manually edited old slot start times [array of minutes]
+            customUnitName: null,     // manually edited college/unit name
+            schedNotes: null,         // manually edited notes array
+            timeFormat: null          // manually edited time format preference
+        };
+
+        // Save current edits state
+        function saveUserEdits() {
+            userEdits.ramadanStart = ramadanStart;
+            userEdits.ramadanBreaks = [...ramadanBreaks];
+            userEdits.customUnitName = customUnitName;
+            userEdits.schedNotes = [...schedNotes];
+            userEdits.timeFormat = timeFormat;
+            // Save old slot starts if they exist
+            if (A.oldSlots && A.oldSlots.length > 0) {
+                userEdits.oldSlotStarts = A.oldSlots.map(s => s.s);
+            }
+            userEdits.hasEdits = true;
+        }
+
+        // Restore saved edits after new file upload
+        function restoreUserEdits() {
+            if (!userEdits.hasEdits) return;
+            // Restore Ramadan times
+            if (userEdits.ramadanStart !== null) ramadanStart = userEdits.ramadanStart;
+            if (userEdits.ramadanBreaks !== null) ramadanBreaks = [...userEdits.ramadanBreaks];
+            computeRS();
+            // Restore old slot starts (keep the new fromCSV/nearbyTimes but apply user's start edits)
+            if (userEdits.oldSlotStarts !== null && A.oldSlots.length > 0) {
+                const maxIdx = Math.min(userEdits.oldSlotStarts.length, A.oldSlots.length);
+                for (let i = 0; i < maxIdx; i++) {
+                    A.oldSlots[i].s = userEdits.oldSlotStarts[i];
+                    A.oldSlots[i].e = userEdits.oldSlotStarts[i] + OLD_DUR;
+                }
+                // Recompute old breaks
+                A.oldBreaks = [];
+                for (let i = 0; i < A.oldSlots.length - 1; i++) {
+                    const gap = A.oldSlots[i + 1].s - A.oldSlots[i].e;
+                    A.oldBreaks.push(Math.max(0, gap));
+                }
+            }
+            // Restore unit name
+            if (userEdits.customUnitName !== null) customUnitName = userEdits.customUnitName;
+            // Restore notes
+            if (userEdits.schedNotes !== null) schedNotes = [...userEdits.schedNotes];
+            // Restore time format
+            if (userEdits.timeFormat !== null) timeFormat = userEdits.timeFormat;
+        }
         let RS = []; // will be computed from ramadanStart + ramadanBreaks
         function computeRS() {
             RS = [];
@@ -1679,6 +1840,20 @@
                 } else if (uInput && customUnitName) {
                     uInput.value = customUnitName;
                 }
+                // Restore time format selector
+                const tfSel = document.getElementById('timeFormatSel');
+                if (tfSel) tfSel.value = timeFormat;
+                // Auto-select first trainee if none selected
+                if (!A.selId || !A.trainees.has(A.selId)) {
+                    const sorted = getSorted();
+                    if (sorted.length > 0) {
+                        selT(sorted[0].tid);
+                    }
+                } else {
+                    // Re-render preview for the currently selected trainee
+                    renderPrev(A.selId);
+                    document.getElementById('bPS').disabled = false;
+                }
             }
             document.querySelectorAll('.scr').forEach(s => s.classList.remove('active'));
             document.getElementById('s' + n).classList.add('active');
@@ -1705,7 +1880,11 @@
         }
 
         function processCSV(data) {
-            A.recs = []; A.trainees = new Map(); A.gMin = Infinity; A.maxSlot = 0; A.mismatchCount = 0; A.mismatchRefs = new Set(); customUnitName = '';
+            // Save any existing manual edits before resetting
+            if (A.recs.length > 0) saveUserEdits();
+            A.recs = []; A.trainees = new Map(); A.gMin = Infinity; A.maxSlot = 0; A.mismatchCount = 0; A.mismatchRefs = new Set();
+            // Only reset customUnitName if no user edit stored
+            if (!userEdits.hasEdits || userEdits.customUnitName === null) customUnitName = '';
             for (const row of data) {
                 const tid = nfc((row['الرقم التدريبي'] || '').trim());
                 const nm = nfc((row['اسم المتدرب'] || '').trim());
@@ -1766,7 +1945,33 @@
             uz.innerHTML = '<span class="uzi"><i data-lucide="check-circle" style="width:3rem;height:3rem;stroke:var(--ok)"></i></span><div class="uzt">تم تحليل الملف بنجاح</div><div class="uzh">' + A.trainees.size + ' متدرب — ' + A.recs.length + ' محاضرة</div>';
             uz.onclick = () => document.getElementById('FI').click();
             toast('تم استيراد ' + A.trainees.size + ' متدرب و ' + A.recs.length + ' محاضرة');
+            // Restore user manual edits (Ramadan times, old times, unit name, note)
+            restoreUserEdits();
             renderSlotsUI();
+
+            // Restore unit name input and note input on page 3
+            const uInput = document.getElementById('unitNameInput');
+            if (uInput && customUnitName) uInput.value = customUnitName;
+            renderNoteInputs();
+            const tfSel = document.getElementById('timeFormatSel');
+            if (tfSel) tfSel.value = timeFormat;
+
+            // If we're on page 3 (s3 is active), refresh the trainee list and preview
+            const s3 = document.getElementById('s3');
+            if (s3 && s3.classList.contains('active')) {
+                readSlots();
+                renderTL(document.getElementById('SI') ? document.getElementById('SI').value.trim() : '');
+                // Auto-select first trainee from the new file
+                const sorted = getSorted();
+                if (sorted.length > 0) {
+                    selT(sorted[0].tid);
+                } else {
+                    A.selId = null;
+                    document.getElementById('PF').innerHTML = '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:200px;color:var(--mut)"><span style="opacity:.3;margin-bottom:12px"><i data-lucide="clipboard-list" style="width:3rem;height:3rem;stroke:var(--mut)"></i></span>اختر متدرباً لمعاينة جدوله</div>';
+                    document.getElementById('bPS').disabled = true;
+                }
+            }
+
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
@@ -1864,6 +2069,24 @@
             // High-precision fix: Using inline-flex with forced LTR direction to ensure
             // the indicator (ص/م) is visually to the left of the numbers, matching the input.
             return `<span style="display:inline-flex;direction:ltr;gap:4px;align-items:baseline;unicode-bidi:isolate"><span>${ampm}</span><span>${timeStr}</span></span>`;
+        }
+
+        // Plain-text 12h format for schedule display (no HTML spans)
+        function t12Plain(s) {
+            if (!s || s === '--:--') return s;
+            const p = s.split(':');
+            let h = parseInt(p[0]);
+            let m = p[1];
+            let ampm = h >= 12 ? 'م' : 'ص';
+            h = h % 12;
+            if (h === 0) h = 12;
+            return String(h).padStart(2, '0') + ':' + m + ' ' + ampm;
+        }
+
+        // Format time for schedule display based on current timeFormat setting
+        function schedTime(hm24) {
+            if (!hm24 || hm24 === '--:--') return hm24;
+            return timeFormat === '12h' ? t12Plain(hm24) : hm24;
         }
         // Convert old (original/pre-Ramadan) schedule to Ramadan:
         // 1. Find lecture index by matching start time against A.oldSlots (accounts for breaks)
@@ -2020,6 +2243,7 @@
         }
 
         function onStartChange(idx) {
+            userEdits.hasEdits = true; // Mark as manually edited
             const el = document.getElementById('rs' + idx);
             if (!el) return;
             let newStart = timeToMin(el.value);
@@ -2126,6 +2350,7 @@
         }
 
         function onOldStartChange(idx) {
+            userEdits.hasEdits = true; // Mark as manually edited
             if (!A.oldSlots || !A.oldSlots[idx]) return;
             const el = document.getElementById('os' + idx);
             if (!el) return;
@@ -2343,6 +2568,8 @@
         function onUnitNameChange() {
             const input = document.getElementById('unitNameInput');
             if (input) customUnitName = input.value.trim();
+            userEdits.hasEdits = true;
+            userEdits.customUnitName = customUnitName;
             // Re-render preview if a trainee is selected
             if (A.selId) renderPrev(A.selId);
         }
@@ -2358,8 +2585,51 @@
             if (A.selId) renderPrev(A.selId);
         }
 
+        // ═══ MULTI-NOTE SYSTEM ═══
+        function renderNoteInputs() {
+            const container = document.getElementById('noteInputs');
+            if (!container) return;
+            let h = '';
+            for (let i = 0; i < schedNotes.length; i++) {
+                h += '<div class="note-entry">';
+                if (schedNotes.length > 1) h += '<span class="note-num">' + (i + 1) + '</span>';
+                h += '<textarea id="noteInput' + i + '" rows="2" placeholder="أضف ملاحظة تظهر في جميع الجداول..." oninput="onNoteChange()">' + (schedNotes[i] || '') + '</textarea>';
+                if (schedNotes.length > 1) h += '<button class="note-remove-btn" onclick="removeNote(' + i + ')" title="حذف هذه الملاحظة">&times;</button>';
+                h += '</div>';
+            }
+            container.innerHTML = h;
+        }
+
+        function addNote() {
+            schedNotes.push('');
+            renderNoteInputs();
+            // Focus the new textarea
+            const el = document.getElementById('noteInput' + (schedNotes.length - 1));
+            if (el) el.focus();
+        }
+
+        function removeNote(idx) {
+            if (schedNotes.length <= 1) return;
+            schedNotes.splice(idx, 1);
+            renderNoteInputs();
+            onNoteChange();
+        }
+
         function onNoteChange() {
-            schedNote = document.getElementById('schedNote').value.trim();
+            // Read all note textareas into the array
+            for (let i = 0; i < schedNotes.length; i++) {
+                const el = document.getElementById('noteInput' + i);
+                if (el) schedNotes[i] = el.value;
+            }
+            userEdits.hasEdits = true;
+            userEdits.schedNotes = [...schedNotes];
+            if (A.selId) renderPrev(A.selId);
+        }
+
+        function onTimeFormatChange() {
+            timeFormat = document.getElementById('timeFormatSel').value;
+            userEdits.hasEdits = true;
+            userEdits.timeFormat = timeFormat;
             if (A.selId) renderPrev(A.selId);
         }
 
@@ -2448,11 +2718,14 @@
                     const sepClass = (!isFirstDay && i === 0) ? ' class="day-separator"' : '';
                     h += '<tr' + sepClass + '>';
                     h += '<td class="day-c">' + day + '</td>';
+                    // Format time based on user preference (24h or 12h)
+                    const displayStart = schedTime(rm.rs);
+                    const displayEnd = schedTime(rm.re);
                     // Color mismatched times in red
                     if (rm.mismatch) {
-                        h += '<td class="time-c" style="color:#d32f2f;font-weight:700" title="وقت غير متطابق — تقريبي">' + rm.rs + ' - ' + rm.re + '</td>';
+                        h += '<td class="time-c" style="color:#d32f2f;font-weight:700" title="وقت غير متطابق — تقريبي">' + displayStart + ' - ' + displayEnd + '</td>';
                     } else {
-                        h += '<td class="time-c">' + rm.rs + ' - ' + rm.re + '</td>';
+                        h += '<td class="time-c">' + displayStart + ' - ' + displayEnd + '</td>';
                     }
                     h += '<td>' + r.cr + '</td>';
                     h += '<td>' + r.ct + '</td>';
@@ -2469,8 +2742,12 @@
             const trainerLabel = nfc(genderType === 'female' ? 'المرشدة التدريبية' : 'المرشد التدريبي');
             h += '<div class="sp-footer">' + trainerLabel + ': ' + t.ad + '</div>';
             // Note
-            if (schedNote) {
-                h += '<div class="sp-note">' + nfc(schedNote) + '</div>';
+            // Render each non-empty note as its own box
+            for (const note of schedNotes) {
+                const trimmed = (note || '').trim();
+                if (trimmed) {
+                    h += '<div class="sp-note">' + nfc(trimmed) + '</div>';
+                }
             }
             h += '</div>';
             return h;
