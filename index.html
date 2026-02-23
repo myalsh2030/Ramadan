@@ -1469,9 +1469,9 @@
         <header class="hdr">
             <h1>محوّل جداول رمضان <span class="cr"><i data-lucide="moon"></i></span></h1>
             <p class="sub">تحويل جداول المتدربين من نظام 50 دقيقة إلى نظام 35 دقيقة</p>
-            <span class="version-badge" id="verBadge">v1.8.0</span>
+            <span class="version-badge" id="verBadge">v1.9.0</span>
             <p style="font-size:.68rem;color:var(--mut);margin-top:6px;opacity:.8"><i data-lucide="globe"
-                    style="width:12px;height:12px;vertical-align:middle;margin-left:3px"></i> يعمل بشكل أفضل مع متصفح
+                    style="width:12px;height:12px;vertical-align:middle;margin-left:3px"></i> يعمل مع متصفح
                 Google Chrome</p>
         </header>
         <nav class="stepper">
@@ -1485,15 +1485,16 @@
         <!-- S1 -->
         <section class="scr active" id="s1">
             <div class="card">
-                <div class="ct"><i data-lucide="file-up" class="lucide-icon"></i> رفع تقرير SS05 جدول المتدرب (CSV)
+                <div class="ct"><i data-lucide="file-up" class="lucide-icon"></i> رفع تقرير SS05 جدول المتدرب (CSV) يمكن
+                    رفع أكثر من تقرير
                 </div>
                 <div class="uz" id="UZ" onclick="document.getElementById('FI').click()">
                     <span class="uzi"><i data-lucide="upload-cloud"
                             style="width:3rem;height:3rem;stroke:var(--pri)"></i></span>
-                    <div class="uzt">اضغط هنا لاختيار ملف CSV</div>
-                    <div class="uzh">أو اسحب الملف وأفلته في هذه المنطقة</div>
+                    <div class="uzt">اضغط هنا لاختيار ملف CSV (أو أكثر)</div>
+                    <div class="uzh">أو اسحب الملفات وأفلتها في هذه المنطقة — يمكن اختيار عدة ملفات</div>
                 </div>
-                <input type="file" accept=".csv" id="FI" style="display:none">
+                <input type="file" accept=".csv" id="FI" style="display:none" multiple>
                 <div id="US" style="display:none">
                     <div class="stb">
                         <div class="sti">
@@ -1869,14 +1870,44 @@
         //  CSV
         // ══════════════════════════════════════════════════════════
         function handleFile(f) {
-            if (!f || !f.name.toLowerCase().endsWith('.csv')) { toast('يرجى اختيار ملف CSV', 'er'); return }
-            document.getElementById('UZ').innerHTML = '<span class="spinner"></span><div class="uzt" style="margin-top:16px">جاري تحليل الملف...</div>';
-            Papa.parse(f, {
-                header: true, encoding: 'UTF-8', skipEmptyLines: true,
-                transformHeader: h => h.trim().replace(/^\uFEFF/, ''),
-                complete: r => processCSV(r.data),
-                error: e => { toast('خطأ: ' + e.message, 'er') }
-            });
+            // Legacy single-file entry point — wraps into handleFiles
+            if (!f) return;
+            handleFiles([f]);
+        }
+
+        function handleFiles(fileList) {
+            // Accept an array or FileList of CSV files
+            const files = Array.from(fileList).filter(f => f.name.toLowerCase().endsWith('.csv'));
+            if (files.length === 0) { toast('يرجى اختيار ملف CSV واحد على الأقل', 'er'); return; }
+
+            const fileCount = files.length;
+            const label = fileCount === 1 ? 'جاري تحليل الملف...' : 'جاري تحليل ' + fileCount + ' ملفات...';
+            document.getElementById('UZ').innerHTML = '<span class="spinner"></span><div class="uzt" style="margin-top:16px">' + label + '</div>';
+
+            let allData = [];
+            let completed = 0;
+            let hasError = false;
+
+            for (const file of files) {
+                Papa.parse(file, {
+                    header: true, encoding: 'UTF-8', skipEmptyLines: true,
+                    transformHeader: h => h.trim().replace(/^\uFEFF/, ''),
+                    complete: r => {
+                        if (hasError) return;
+                        allData = allData.concat(r.data);
+                        completed++;
+                        if (completed === fileCount) {
+                            processCSV(allData);
+                        }
+                    },
+                    error: e => {
+                        if (!hasError) {
+                            hasError = true;
+                            toast('خطأ في ملف ' + file.name + ': ' + e.message, 'er');
+                        }
+                    }
+                });
+            }
         }
 
         function processCSV(data) {
@@ -1942,7 +1973,7 @@
             document.getElementById('US').style.display = 'block';
             document.getElementById('b2').disabled = false;
             const uz = document.getElementById('UZ');
-            uz.innerHTML = '<span class="uzi"><i data-lucide="check-circle" style="width:3rem;height:3rem;stroke:var(--ok)"></i></span><div class="uzt">تم تحليل الملف بنجاح</div><div class="uzh">' + A.trainees.size + ' متدرب — ' + A.recs.length + ' محاضرة</div>';
+            uz.innerHTML = '<span class="uzi"><i data-lucide="check-circle" style="width:3rem;height:3rem;stroke:var(--ok)"></i></span><div class="uzt">تم تحليل الملف بنجاح</div><div class="uzh">' + A.trainees.size + ' متدرب — ' + A.recs.length + ' محاضرة</div><div class="uzh" style="margin-top:4px;color:var(--pri);cursor:pointer" onclick="event.stopPropagation();document.getElementById(\'FI\').click()">📂 رفع ملفات أخرى أو إضافية</div>';
             uz.onclick = () => document.getElementById('FI').click();
             toast('تم استيراد ' + A.trainees.size + ' متدرب و ' + A.recs.length + ' محاضرة');
             // Restore user manual edits (Ramadan times, old times, unit name, note)
@@ -2246,7 +2277,22 @@
             userEdits.hasEdits = true; // Mark as manually edited
             const el = document.getElementById('rs' + idx);
             if (!el) return;
-            let newStart = timeToMin(el.value);
+
+            // VALIDATION: format and range (00:00 – 23:59)
+            const rawVal = el.value.trim();
+            if (!/^\d{1,2}:\d{2}$/.test(rawVal)) {
+                el.value = RS[idx].s; // revert to current valid value
+                toast('صيغة الوقت غير صحيحة — استخدم HH:MM', 'er');
+                return;
+            }
+            let newStart = timeToMin(rawVal);
+            const maxMin = 23 * 60 + 59; // 23:59
+            if (newStart > maxMin) {
+                newStart = maxMin;
+                el.value = m2hm(newStart);
+                toast('لا يمكن أن يتجاوز الوقت 23:59', 'er');
+            }
+            if (newStart < 0) newStart = 0;
 
             // VALIDATION: cannot start before previous lecture ends
             if (idx > 0) {
@@ -2354,7 +2400,23 @@
             if (!A.oldSlots || !A.oldSlots[idx]) return;
             const el = document.getElementById('os' + idx);
             if (!el) return;
-            let newStart = timeToMin(el.value);
+
+            // VALIDATION: format and range (00:00 – 23:59)
+            const rawVal = el.value.trim();
+            if (!/^\d{1,2}:\d{2}$/.test(rawVal)) {
+                el.value = m2hm(A.oldSlots[idx].s); // revert to current valid value
+                toast('صيغة الوقت غير صحيحة — استخدم HH:MM', 'er');
+                return;
+            }
+            let newStart = timeToMin(rawVal);
+            const maxMin = 23 * 60 + 59; // 23:59
+            if (newStart > maxMin) {
+                newStart = maxMin;
+                el.value = m2hm(newStart);
+                toast('لا يمكن أن يتجاوز الوقت 23:59', 'er');
+            }
+            if (newStart < 0) newStart = 0;
+
             // Validation: cannot start before previous lecture ends
             if (idx > 0) {
                 const prevEnd = A.oldSlots[idx - 1].e;
@@ -3244,8 +3306,8 @@
             const uz = document.getElementById('UZ');
             uz.addEventListener('dragover', e => { e.preventDefault(); uz.classList.add('dg') });
             uz.addEventListener('dragleave', () => uz.classList.remove('dg'));
-            uz.addEventListener('drop', e => { e.preventDefault(); uz.classList.remove('dg'); if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]) });
-            document.getElementById('FI').addEventListener('change', e => { if (e.target.files[0]) handleFile(e.target.files[0]) });
+            uz.addEventListener('drop', e => { e.preventDefault(); uz.classList.remove('dg'); if (e.dataTransfer.files.length > 0) handleFiles(e.dataTransfer.files) });
+            document.getElementById('FI').addEventListener('change', e => { if (e.target.files.length > 0) handleFiles(e.target.files) });
             renderSlotsUI();
             if (typeof lucide !== 'undefined') lucide.createIcons();
         });
