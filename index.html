@@ -19,6 +19,7 @@
             --sf2: #FAFAF6;
             --pri: #1A4D2E;
             --prl: #2D7A4A;
+            --prh: #245F38;
             --prp: #E8F0EB;
             --acc: #C9A84C;
             --acg: rgba(232, 201, 104, .25);
@@ -836,6 +837,182 @@
             }
         }
 
+        /* ═══════════ ROOM FORMAT ═══════════ */
+        .room-fmt {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 1px;
+            direction: ltr;
+        }
+
+        .room-fmt .rm-bld {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .room-fmt .rm-num {
+            font-size: .78em;
+            color: #d32f2f;
+            font-weight: 600;
+        }
+
+        /* ═══ STEP LABELS above columns ═══ */
+        .sg-step-label {
+            font-size: .82rem;
+            font-weight: 700;
+            color: var(--pri);
+            padding: 6px 12px;
+            background: var(--prp);
+            border-radius: 8px;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+
+        /* ═══ STORED START ALERT ═══ */
+        .stored-start-alert {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            background: #FFF8E1;
+            border: 1px solid #FFD54F;
+            border-radius: 10px;
+            font-size: .82rem;
+            color: #6D4C00;
+            margin-bottom: 14px;
+        }
+
+        .stored-start-alert button {
+            padding: 4px 12px;
+            font-size: .78rem;
+            font-family: var(--fb);
+            background: #FFD54F;
+            border: none;
+            border-radius: 6px;
+            color: #4E3600;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: .2s;
+        }
+
+        .stored-start-alert button:hover {
+            background: #FFC107;
+        }
+
+        /* ═══ MISMATCH WARNING ICON ═══ */
+        .mismatch-warn-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            font-size: .8rem;
+            font-family: var(--fb);
+            background: linear-gradient(135deg, #FF6B35, #E53935);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s;
+            margin-right: 10px;
+            box-shadow: 0 2px 8px rgba(229, 57, 53, .35);
+        }
+
+        .mismatch-warn-btn:hover {
+            background: linear-gradient(135deg, #E53935, #C62828);
+            box-shadow: 0 3px 12px rgba(229, 57, 53, .5);
+            transform: translateY(-1px);
+        }
+
+        @keyframes mismatchPulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: .85;
+                transform: scale(1.03);
+            }
+        }
+
+        /* Room format option row */
+        .opt-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            background: var(--sf2);
+            border: 1px solid var(--bd);
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+
+        .opt-row label {
+            font-size: .82rem;
+            font-weight: 500;
+            color: var(--txt);
+            flex: 1;
+        }
+
+        .opt-row .opt-sample,
+        .ctrl-group .opt-sample {
+            font-size: .85rem;
+            padding: 4px 10px;
+            background: #fff;
+            border: 1px solid var(--bd);
+            border-radius: 6px;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        /* Toggle switch */
+        .tog {
+            position: relative;
+            width: 40px;
+            height: 22px;
+            flex-shrink: 0;
+        }
+
+        .tog input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .tog .slider {
+            position: absolute;
+            inset: 0;
+            background: var(--bd2);
+            border-radius: 22px;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .tog .slider::before {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            left: 3px;
+            bottom: 3px;
+            background: #fff;
+            border-radius: 50%;
+            transition: .3s;
+        }
+
+        .tog input:checked+.slider {
+            background: var(--pri);
+        }
+
+        .tog input:checked+.slider::before {
+            transform: translateX(18px);
+        }
+
         .spinner {
             display: inline-block;
             width: 18px;
@@ -844,6 +1021,164 @@
             border-top-color: var(--pri);
             border-radius: 50%;
             animation: spin .7s linear infinite
+        }
+
+        /* ═══════════ PROCESSING PIPELINE ═══════════ */
+        .proc-wrap {
+            padding: 16px 0;
+        }
+
+        .proc-step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            margin-bottom: 6px;
+            opacity: 0;
+            transform: translateX(12px);
+            transition: opacity .4s ease, transform .4s ease, background .3s;
+        }
+
+        .proc-step.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .proc-step.active {
+            background: var(--prp);
+        }
+
+        .proc-step.done {
+            opacity: .7;
+        }
+
+        .proc-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: .8rem;
+            transition: .3s;
+        }
+
+        .proc-step.waiting .proc-icon {
+            border: 2px solid var(--bd2);
+            background: var(--sf);
+            color: var(--mut);
+        }
+
+        .proc-step.active .proc-icon {
+            border: 2px solid var(--pri);
+            background: var(--pri);
+            color: #fff;
+            animation: spin .8s linear infinite;
+        }
+
+        .proc-step.done .proc-icon {
+            border: 2px solid var(--ok);
+            background: var(--ok);
+            color: #fff;
+            animation: none;
+        }
+
+        .proc-label {
+            font-size: .85rem;
+            font-weight: 500;
+            color: var(--mut);
+            transition: color .3s;
+        }
+
+        .proc-step.active .proc-label {
+            color: var(--pri);
+            font-weight: 600;
+        }
+
+        .proc-step.done .proc-label {
+            color: var(--ok);
+        }
+
+        .proc-bar {
+            width: 100%;
+            height: 4px;
+            background: var(--bd);
+            border-radius: 99px;
+            overflow: hidden;
+            margin: 12px 0 4px;
+        }
+
+        .proc-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--pri), var(--acc));
+            border-radius: 99px;
+            transition: width .5s ease;
+            width: 0%;
+        }
+
+        .proc-done-msg {
+            text-align: center;
+            opacity: 0;
+            transform: scale(.9);
+            transition: opacity .5s ease, transform .5s ease;
+            margin-top: 8px;
+        }
+
+        .proc-done-msg.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Animated number counter */
+        .stv.counting {
+            animation: countPop .4s ease;
+        }
+
+        @keyframes countPop {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.15);
+                color: var(--acc);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Stats reveal */
+        .stb.reveal .sti {
+            opacity: 0;
+            transform: translateY(10px);
+            animation: statReveal .4s ease forwards;
+        }
+
+        .stb.reveal .sti:nth-child(1) {
+            animation-delay: .05s;
+        }
+
+        .stb.reveal .sti:nth-child(2) {
+            animation-delay: .15s;
+        }
+
+        .stb.reveal .sti:nth-child(3) {
+            animation-delay: .25s;
+        }
+
+        .stb.reveal .sti:nth-child(4) {
+            animation-delay: .35s;
+        }
+
+        @keyframes statReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         ::-webkit-scrollbar {
@@ -1446,6 +1781,166 @@
             position: relative;
         }
 
+        /* ═══ QR CODE SECTION ═══ */
+        .qr-section {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .qr-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .qr-header label {
+            font-weight: 600;
+            font-size: .82rem;
+            color: var(--pri);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .qr-entry {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            background: var(--sf2);
+            border: 1px solid var(--bd);
+            border-radius: 10px;
+            padding: 10px 14px;
+        }
+
+        .qr-entry input[type="url"] {
+            flex: 1;
+            padding: 6px 10px;
+            border: 1.5px solid var(--bd2);
+            border-radius: 7px;
+            font-family: var(--fb);
+            font-size: .85rem;
+            background: #fff;
+            color: var(--txt);
+            transition: .2s;
+            direction: ltr;
+        }
+
+        .qr-entry input[type="url"]:focus {
+            outline: none;
+            border-color: var(--pri);
+            box-shadow: 0 0 0 3px var(--prp);
+        }
+
+        .qr-entry .qr-preview-mini {
+            width: 42px;
+            height: 42px;
+            border-radius: 6px;
+            border: 1px solid var(--bd);
+            background: #fff;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .qr-entry .qr-preview-mini canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        .qr-label-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            background: var(--sf2);
+            border: 1px solid var(--bd);
+            border-radius: 10px;
+        }
+
+        .qr-label-input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1.5px solid var(--bd2);
+            border-radius: 8px;
+            font-family: var(--fb);
+            font-size: .85rem;
+            background: #fff;
+            color: var(--txt);
+            transition: .3s;
+            text-align: center;
+        }
+
+        .qr-label-input:focus {
+            outline: none;
+            border-color: var(--pri);
+            box-shadow: 0 0 0 3px var(--prp);
+        }
+
+        .qr-label-glow {
+            animation: qrGlow 2s ease-in-out infinite alternate;
+            border-color: var(--acc) !important;
+        }
+
+        .qr-label-glow:focus {
+            animation: none;
+        }
+
+        @keyframes qrGlow {
+            0% {
+                box-shadow: 0 0 4px rgba(201, 168, 76, .3), 0 0 8px rgba(201, 168, 76, .1);
+                border-color: var(--acc);
+            }
+
+            100% {
+                box-shadow: 0 0 10px rgba(201, 168, 76, .6), 0 0 20px rgba(201, 168, 76, .25);
+                border-color: #d4b85a;
+            }
+        }
+
+        .qr-num {
+            font-size: .72rem;
+            color: var(--mut);
+            font-weight: 700;
+            min-width: 18px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        /* ═══ PRINT QR AREA ═══ */
+        .sp-qr-area {
+            text-align: center;
+            margin-top: 3mm;
+            padding: 2mm 4mm;
+        }
+
+        .sp-qr-codes {
+            display: flex;
+            justify-content: center;
+            gap: 10mm;
+            flex-wrap: wrap;
+            margin-bottom: 2mm;
+            padding: 2mm 0;
+        }
+
+        .sp-qr-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .sp-qr-item canvas {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .sp-qr-label {
+            font-size: 11px;
+            color: #1A4D2E;
+            font-weight: 600;
+            margin-top: 1.5mm;
+        }
+
         /* ═══ VERSION BADGE ═══ */
         .version-badge {
             display: inline-block;
@@ -1469,7 +1964,7 @@
         <header class="hdr">
             <h1>محوّل جداول رمضان <span class="cr"><i data-lucide="moon"></i></span></h1>
             <p class="sub">تحويل جداول المتدربين من نظام 50 دقيقة إلى نظام 35 دقيقة</p>
-            <span class="version-badge" id="verBadge">v1.9.0</span>
+            <span class="version-badge" id="verBadge">v1.10.1</span>
             <p style="font-size:.68rem;color:var(--mut);margin-top:6px;opacity:.8"><i data-lucide="globe"
                     style="width:12px;height:12px;vertical-align:middle;margin-left:3px"></i> يعمل مع متصفح
                 Google Chrome</p>
@@ -1524,8 +2019,21 @@
 
         <!-- S2 -->
         <section class="scr" id="s2">
+            <div id="storedStartAlert" class="stored-start-alert" style="display:none">
+                <i data-lucide="info" style="width:18px;height:18px;stroke:#E6A200;flex-shrink:0"></i>
+                <span id="storedStartMsg">يتم استخدام الأوقات المحفوظة سابقاً. الملف المرفوع يبدأ من وقت مختلف.</span>
+                <button onclick="useFileStart()"><i data-lucide="file-input"
+                        style="width:12px;height:12px;vertical-align:middle;margin-left:3px"></i> استخدام أوقات
+                    الملف</button>
+            </div>
             <div class="card">
-                <div class="ct"><i data-lucide="clock" class="lucide-icon"></i> أوقات محاضرات رمضان</div>
+                <div class="ct">
+                    <i data-lucide="clock" class="lucide-icon"></i> أوقات محاضرات رمضان
+                    <button id="mismatchWarnBtn" class="mismatch-warn-btn" style="display:none"
+                        onclick="document.getElementById('mismatchCard').scrollIntoView({behavior:'smooth'})">
+                        <i data-lucide="alert-triangle" style="width:12px;height:12px"></i> أوقات غير متطابقة
+                    </button>
+                </div>
                 <div class="sg" id="SG"></div>
                 <div style="margin-top:12px;text-align:center"><button class="btn bo bsm" onclick="resetS()"><i
                             data-lucide="rotate-ccw" style="width:14px;height:14px"></i> إعادة
@@ -1588,6 +2096,15 @@
                                 <option value="12h">12 ساعة (ص/م)</option>
                             </select>
                         </div>
+                        <div class="ctrl-group">
+                            <label><i data-lucide="door-open" style="width:15px;height:15px;stroke:var(--pri)"></i>
+                                عرض القاعة</label>
+                            <select id="roomFmtSelect" onchange="onRoomFmtChange()">
+                                <option value="raw">الرقم الكامل — 1350610117</option>
+                                <option value="formatted">مبنى + رقم — 6₁₁₇</option>
+                            </select>
+                            <span class="opt-sample" id="roomFmtSample">1350610117</span>
+                        </div>
                     </div>
                     <div class="notes-section" id="notesSection">
                         <div class="notes-header">
@@ -1596,6 +2113,24 @@
                             <button class="note-add-btn" onclick="addNote()" title="إضافة ملاحظة جديدة">+</button>
                         </div>
                         <div id="noteInputs"></div>
+                    </div>
+                    <div class="qr-section" id="qrSection">
+                        <div class="qr-header">
+                            <label><i data-lucide="qr-code" style="width:15px;height:15px;stroke:var(--pri)"></i>
+                                رموز QR</label>
+                            <button class="note-add-btn" onclick="addQr()" title="إضافة رمز QR جديد">+</button>
+                        </div>
+                        <div id="qrInputs"></div>
+                        <div class="qr-label-wrap" id="qrLabelWrap" style="display:none">
+                            <label
+                                style="font-size:.82rem;font-weight:600;color:var(--pri);display:flex;align-items:center;gap:5px">
+                                <i data-lucide="type" style="width:14px;height:14px;stroke:var(--pri)"></i> عبارة أسفل
+                                رموز QR
+                            </label>
+                            <input type="text" id="qrLabel" value="امسح للوصول إلى روابط مهمة"
+                                placeholder="عبارة تظهر أسفل رموز QR..." oninput="onQrLabelChange()"
+                                class="qr-label-input qr-label-glow">
+                        </div>
                     </div>
                     <div class="card">
                         <div class="ct"><i data-lucide="eye" class="lucide-icon"></i> معاينة الجدول</div>
@@ -1644,7 +2179,9 @@
                 </div>
             </div>
             <div class="ab"><button class="btn bo" onclick="goTo(2)"><i data-lucide="arrow-right"
-                        style="width:16px;height:16px"></i> السابق</button></div>
+                        style="width:16px;height:16px"></i> السابق</button><button class="btn bo bsm"
+                    onclick="resetPage3Prefs()" style="border-color:#e8a04c;color:#b8860b"><i data-lucide="rotate-ccw"
+                        style="width:14px;height:14px"></i> استعادة الخيارات الافتراضية</button></div>
         </section>
     </div>
 
@@ -1700,6 +2237,9 @@
     <!-- Hidden print area -->
     <div id="printArea"></div>
 
+    <!-- QR Code Generator Library -->
+    <script src="https://unpkg.com/qrcode-generator@1.4.4/qrcode.js"></script>
+
     <script>
         /* @license
         Papa Parse
@@ -1710,13 +2250,33 @@
         !function (e, t) { "function" == typeof define && define.amd ? define([], t) : "object" == typeof module && "undefined" != typeof exports ? module.exports = t() : e.Papa = t() }(this, function s() { "use strict"; var f = "undefined" != typeof self ? self : "undefined" != typeof window ? window : void 0 !== f ? f : {}; var n = !f.document && !!f.postMessage, o = f.IS_PAPA_WORKER || !1, a = {}, u = 0, b = { parse: function (e, t) { var r = (t = t || {}).dynamicTyping || !1; J(r) && (t.dynamicTypingFunction = r, r = {}); if (t.dynamicTyping = r, t.transform = !!J(t.transform) && t.transform, t.worker && b.WORKERS_SUPPORTED) { var i = function () { if (!b.WORKERS_SUPPORTED) return !1; var e = (r = f.URL || f.webkitURL || null, i = s.toString(), b.BLOB_URL || (b.BLOB_URL = r.createObjectURL(new Blob(["var global = (function() { if (typeof self !== 'undefined') { return self; } if (typeof window !== 'undefined') { return window; } if (typeof global !== 'undefined') { return global; } return {}; })(); global.IS_PAPA_WORKER=true; ", "(", i, ")();"], { type: "text/javascript" })))), t = new f.Worker(e); var r, i; return t.onmessage = _, t.id = u++, a[t.id] = t }(); return i.userStep = t.step, i.userChunk = t.chunk, i.userComplete = t.complete, i.userError = t.error, t.step = J(t.step), t.chunk = J(t.chunk), t.complete = J(t.complete), t.error = J(t.error), delete t.worker, void i.postMessage({ input: e, config: t, workerId: i.id }) } var n = null; b.NODE_STREAM_INPUT, "string" == typeof e ? (e = function (e) { if (65279 === e.charCodeAt(0)) return e.slice(1); return e }(e), n = t.download ? new l(t) : new p(t)) : !0 === e.readable && J(e.read) && J(e.on) ? n = new g(t) : (f.File && e instanceof File || e instanceof Object) && (n = new c(t)); return n.stream(e) }, unparse: function (e, t) { var n = !1, _ = !0, m = ",", y = "\r\n", s = '"', a = s + s, r = !1, i = null, o = !1; !function () { if ("object" != typeof t) return; "string" != typeof t.delimiter || b.BAD_DELIMITERS.filter(function (e) { return -1 !== t.delimiter.indexOf(e) }).length || (m = t.delimiter); ("boolean" == typeof t.quotes || "function" == typeof t.quotes || Array.isArray(t.quotes)) && (n = t.quotes); "boolean" != typeof t.skipEmptyLines && "string" != typeof t.skipEmptyLines || (r = t.skipEmptyLines); "string" == typeof t.newline && (y = t.newline); "string" == typeof t.quoteChar && (s = t.quoteChar); "boolean" == typeof t.header && (_ = t.header); if (Array.isArray(t.columns)) { if (0 === t.columns.length) throw new Error("Option columns is empty"); i = t.columns } void 0 !== t.escapeChar && (a = t.escapeChar + s); ("boolean" == typeof t.escapeFormulae || t.escapeFormulae instanceof RegExp) && (o = t.escapeFormulae instanceof RegExp ? t.escapeFormulae : /^[=+\-@\t\r].*$/) }(); var u = new RegExp(Q(s), "g"); "string" == typeof e && (e = JSON.parse(e)); if (Array.isArray(e)) { if (!e.length || Array.isArray(e[0])) return h(null, e, r); if ("object" == typeof e[0]) return h(i || Object.keys(e[0]), e, r) } else if ("object" == typeof e) return "string" == typeof e.data && (e.data = JSON.parse(e.data)), Array.isArray(e.data) && (e.fields || (e.fields = e.meta && e.meta.fields || i), e.fields || (e.fields = Array.isArray(e.data[0]) ? e.fields : "object" == typeof e.data[0] ? Object.keys(e.data[0]) : []), Array.isArray(e.data[0]) || "object" == typeof e.data[0] || (e.data = [e.data])), h(e.fields || [], e.data || [], r); throw new Error("Unable to serialize unrecognized input"); function h(e, t, r) { var i = ""; "string" == typeof e && (e = JSON.parse(e)), "string" == typeof t && (t = JSON.parse(t)); var n = Array.isArray(e) && 0 < e.length, s = !Array.isArray(t[0]); if (n && _) { for (var a = 0; a < e.length; a++)0 < a && (i += m), i += v(e[a], a); 0 < t.length && (i += y) } for (var o = 0; o < t.length; o++) { var u = n ? e.length : t[o].length, h = !1, f = n ? 0 === Object.keys(t[o]).length : 0 === t[o].length; if (r && !n && (h = "greedy" === r ? "" === t[o].join("").trim() : 1 === t[o].length && 0 === t[o][0].length), "greedy" === r && n) { for (var d = [], l = 0; l < u; l++) { var c = s ? e[l] : l; d.push(t[o][c]) } h = "" === d.join("").trim() } if (!h) { for (var p = 0; p < u; p++) { 0 < p && !f && (i += m); var g = n && s ? e[p] : p; i += v(t[o][g], p) } o < t.length - 1 && (!r || 0 < u && !f) && (i += y) } } return i } function v(e, t) { if (null == e) return ""; if (e.constructor === Date) return JSON.stringify(e).slice(1, 25); var r = !1; o && "string" == typeof e && o.test(e) && (e = "'" + e, r = !0); var i = e.toString().replace(u, a); return (r = r || !0 === n || "function" == typeof n && n(e, t) || Array.isArray(n) && n[t] || function (e, t) { for (var r = 0; r < t.length; r++)if (-1 < e.indexOf(t[r])) return !0; return !1 }(i, b.BAD_DELIMITERS) || -1 < i.indexOf(m) || " " === i.charAt(0) || " " === i.charAt(i.length - 1)) ? s + i + s : i } } }; if (b.RECORD_SEP = String.fromCharCode(30), b.UNIT_SEP = String.fromCharCode(31), b.BYTE_ORDER_MARK = "\ufeff", b.BAD_DELIMITERS = ["\r", "\n", '"', b.BYTE_ORDER_MARK], b.WORKERS_SUPPORTED = !n && !!f.Worker, b.NODE_STREAM_INPUT = 1, b.LocalChunkSize = 10485760, b.RemoteChunkSize = 5242880, b.DefaultDelimiter = ",", b.Parser = E, b.ParserHandle = r, b.NetworkStreamer = l, b.FileStreamer = c, b.StringStreamer = p, b.ReadableStreamStreamer = g, f.jQuery) { var d = f.jQuery; d.fn.parse = function (o) { var r = o.config || {}, u = []; return this.each(function (e) { if (!("INPUT" === d(this).prop("tagName").toUpperCase() && "file" === d(this).attr("type").toLowerCase() && f.FileReader) || !this.files || 0 === this.files.length) return !0; for (var t = 0; t < this.files.length; t++)u.push({ file: this.files[t], inputElem: this, instanceConfig: d.extend({}, r) }) }), e(), this; function e() { if (0 !== u.length) { var e, t, r, i, n = u[0]; if (J(o.before)) { var s = o.before(n.file, n.inputElem); if ("object" == typeof s) { if ("abort" === s.action) return e = "AbortError", t = n.file, r = n.inputElem, i = s.reason, void (J(o.error) && o.error({ name: e }, t, r, i)); if ("skip" === s.action) return void h(); "object" == typeof s.config && (n.instanceConfig = d.extend(n.instanceConfig, s.config)) } else if ("skip" === s) return void h() } var a = n.instanceConfig.complete; n.instanceConfig.complete = function (e) { J(a) && a(e, n.file, n.inputElem), h() }, b.parse(n.file, n.instanceConfig) } else J(o.complete) && o.complete() } function h() { u.splice(0, 1), e() } } } function h(e) { this._handle = null, this._finished = !1, this._completed = !1, this._halted = !1, this._input = null, this._baseIndex = 0, this._partialLine = "", this._rowCount = 0, this._start = 0, this._nextChunk = null, this.isFirstChunk = !0, this._completeResults = { data: [], errors: [], meta: {} }, function (e) { var t = w(e); t.chunkSize = parseInt(t.chunkSize), e.step || e.chunk || (t.chunkSize = null); this._handle = new r(t), (this._handle.streamer = this)._config = t }.call(this, e), this.parseChunk = function (e, t) { if (this.isFirstChunk && J(this._config.beforeFirstChunk)) { var r = this._config.beforeFirstChunk(e); void 0 !== r && (e = r) } this.isFirstChunk = !1, this._halted = !1; var i = this._partialLine + e; this._partialLine = ""; var n = this._handle.parse(i, this._baseIndex, !this._finished); if (!this._handle.paused() && !this._handle.aborted()) { var s = n.meta.cursor; this._finished || (this._partialLine = i.substring(s - this._baseIndex), this._baseIndex = s), n && n.data && (this._rowCount += n.data.length); var a = this._finished || this._config.preview && this._rowCount >= this._config.preview; if (o) f.postMessage({ results: n, workerId: b.WORKER_ID, finished: a }); else if (J(this._config.chunk) && !t) { if (this._config.chunk(n, this._handle), this._handle.paused() || this._handle.aborted()) return void (this._halted = !0); n = void 0, this._completeResults = void 0 } return this._config.step || this._config.chunk || (this._completeResults.data = this._completeResults.data.concat(n.data), this._completeResults.errors = this._completeResults.errors.concat(n.errors), this._completeResults.meta = n.meta), this._completed || !a || !J(this._config.complete) || n && n.meta.aborted || (this._config.complete(this._completeResults, this._input), this._completed = !0), a || n && n.meta.paused || this._nextChunk(), n } this._halted = !0 }, this._sendError = function (e) { J(this._config.error) ? this._config.error(e) : o && this._config.error && f.postMessage({ workerId: b.WORKER_ID, error: e, finished: !1 }) } } function l(e) { var i; (e = e || {}).chunkSize || (e.chunkSize = b.RemoteChunkSize), h.call(this, e), this._nextChunk = n ? function () { this._readChunk(), this._chunkLoaded() } : function () { this._readChunk() }, this.stream = function (e) { this._input = e, this._nextChunk() }, this._readChunk = function () { if (this._finished) this._chunkLoaded(); else { if (i = new XMLHttpRequest, this._config.withCredentials && (i.withCredentials = this._config.withCredentials), n || (i.onload = v(this._chunkLoaded, this), i.onerror = v(this._chunkError, this)), i.open(this._config.downloadRequestBody ? "POST" : "GET", this._input, !n), this._config.downloadRequestHeaders) { var e = this._config.downloadRequestHeaders; for (var t in e) i.setRequestHeader(t, e[t]) } if (this._config.chunkSize) { var r = this._start + this._config.chunkSize - 1; i.setRequestHeader("Range", "bytes=" + this._start + "-" + r) } try { i.send(this._config.downloadRequestBody) } catch (e) { this._chunkError(e.message) } n && 0 === i.status && this._chunkError() } }, this._chunkLoaded = function () { 4 === i.readyState && (i.status < 200 || 400 <= i.status ? this._chunkError() : (this._start += this._config.chunkSize ? this._config.chunkSize : i.responseText.length, this._finished = !this._config.chunkSize || this._start >= function (e) { var t = e.getResponseHeader("Content-Range"); if (null === t) return -1; return parseInt(t.substring(t.lastIndexOf("/") + 1)) }(i), this.parseChunk(i.responseText))) }, this._chunkError = function (e) { var t = i.statusText || e; this._sendError(new Error(t)) } } function c(e) { var i, n; (e = e || {}).chunkSize || (e.chunkSize = b.LocalChunkSize), h.call(this, e); var s = "undefined" != typeof FileReader; this.stream = function (e) { this._input = e, n = e.slice || e.webkitSlice || e.mozSlice, s ? ((i = new FileReader).onload = v(this._chunkLoaded, this), i.onerror = v(this._chunkError, this)) : i = new FileReaderSync, this._nextChunk() }, this._nextChunk = function () { this._finished || this._config.preview && !(this._rowCount < this._config.preview) || this._readChunk() }, this._readChunk = function () { var e = this._input; if (this._config.chunkSize) { var t = Math.min(this._start + this._config.chunkSize, this._input.size); e = n.call(e, this._start, t) } var r = i.readAsText(e, this._config.encoding); s || this._chunkLoaded({ target: { result: r } }) }, this._chunkLoaded = function (e) { this._start += this._config.chunkSize, this._finished = !this._config.chunkSize || this._start >= this._input.size, this.parseChunk(e.target.result) }, this._chunkError = function () { this._sendError(i.error) } } function p(e) { var r; h.call(this, e = e || {}), this.stream = function (e) { return r = e, this._nextChunk() }, this._nextChunk = function () { if (!this._finished) { var e, t = this._config.chunkSize; return t ? (e = r.substring(0, t), r = r.substring(t)) : (e = r, r = ""), this._finished = !r, this.parseChunk(e) } } } function g(e) { h.call(this, e = e || {}); var t = [], r = !0, i = !1; this.pause = function () { h.prototype.pause.apply(this, arguments), this._input.pause() }, this.resume = function () { h.prototype.resume.apply(this, arguments), this._input.resume() }, this.stream = function (e) { this._input = e, this._input.on("data", this._streamData), this._input.on("end", this._streamEnd), this._input.on("error", this._streamError) }, this._checkIsFinished = function () { i && 1 === t.length && (this._finished = !0) }, this._nextChunk = function () { this._checkIsFinished(), t.length ? this.parseChunk(t.shift()) : r = !0 }, this._streamData = v(function (e) { try { t.push("string" == typeof e ? e : e.toString(this._config.encoding)), r && (r = !1, this._checkIsFinished(), this.parseChunk(t.shift())) } catch (e) { this._streamError(e) } }, this), this._streamError = v(function (e) { this._streamCleanUp(), this._sendError(e) }, this), this._streamEnd = v(function () { this._streamCleanUp(), i = !0, this._streamData("") }, this), this._streamCleanUp = v(function () { this._input.removeListener("data", this._streamData), this._input.removeListener("end", this._streamEnd), this._input.removeListener("error", this._streamError) }, this) } function r(m) { var a, o, u, i = Math.pow(2, 53), n = -i, s = /^\s*-?(\d+\.?|\.\d+|\d+\.\d+)([eE][-+]?\d+)?\s*$/, h = /^((\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z)))$/, t = this, r = 0, f = 0, d = !1, e = !1, l = [], c = { data: [], errors: [], meta: {} }; if (J(m.step)) { var p = m.step; m.step = function (e) { if (c = e, _()) g(); else { if (g(), 0 === c.data.length) return; r += e.data.length, m.preview && r > m.preview ? o.abort() : (c.data = c.data[0], p(c, t)) } } } function y(e) { return "greedy" === m.skipEmptyLines ? "" === e.join("").trim() : 1 === e.length && 0 === e[0].length } function g() { return c && u && (k("Delimiter", "UndetectableDelimiter", "Unable to auto-detect delimiting character; defaulted to '" + b.DefaultDelimiter + "'"), u = !1), m.skipEmptyLines && (c.data = c.data.filter(function (e) { return !y(e) })), _() && function () { if (!c) return; function e(e, t) { J(m.transformHeader) && (e = m.transformHeader(e, t)), l.push(e) } if (Array.isArray(c.data[0])) { for (var t = 0; _() && t < c.data.length; t++)c.data[t].forEach(e); c.data.splice(0, 1) } else c.data.forEach(e) }(), function () { if (!c || !m.header && !m.dynamicTyping && !m.transform) return c; function e(e, t) { var r, i = m.header ? {} : []; for (r = 0; r < e.length; r++) { var n = r, s = e[r]; m.header && (n = r >= l.length ? "__parsed_extra" : l[r]), m.transform && (s = m.transform(s, n)), s = v(n, s), "__parsed_extra" === n ? (i[n] = i[n] || [], i[n].push(s)) : i[n] = s } return m.header && (r > l.length ? k("FieldMismatch", "TooManyFields", "Too many fields: expected " + l.length + " fields but parsed " + r, f + t) : r < l.length && k("FieldMismatch", "TooFewFields", "Too few fields: expected " + l.length + " fields but parsed " + r, f + t)), i } var t = 1; !c.data.length || Array.isArray(c.data[0]) ? (c.data = c.data.map(e), t = c.data.length) : c.data = e(c.data, 0); m.header && c.meta && (c.meta.fields = l); return f += t, c }() } function _() { return m.header && 0 === l.length } function v(e, t) { return r = e, m.dynamicTypingFunction && void 0 === m.dynamicTyping[r] && (m.dynamicTyping[r] = m.dynamicTypingFunction(r)), !0 === (m.dynamicTyping[r] || m.dynamicTyping) ? "true" === t || "TRUE" === t || "false" !== t && "FALSE" !== t && (function (e) { if (s.test(e)) { var t = parseFloat(e); if (n < t && t < i) return !0 } return !1 }(t) ? parseFloat(t) : h.test(t) ? new Date(t) : "" === t ? null : t) : t; var r } function k(e, t, r, i) { var n = { type: e, code: t, message: r }; void 0 !== i && (n.row = i), c.errors.push(n) } this.parse = function (e, t, r) { var i = m.quoteChar || '"'; if (m.newline || (m.newline = function (e, t) { e = e.substring(0, 1048576); var r = new RegExp(Q(t) + "([^]*?)" + Q(t), "gm"), i = (e = e.replace(r, "")).split("\r"), n = e.split("\n"), s = 1 < n.length && n[0].length < i[0].length; if (1 === i.length || s) return "\n"; for (var a = 0, o = 0; o < i.length; o++)"\n" === i[o][0] && a++; return a >= i.length / 2 ? "\r\n" : "\r" }(e, i)), u = !1, m.delimiter) J(m.delimiter) && (m.delimiter = m.delimiter(e), c.meta.delimiter = m.delimiter); else { var n = function (e, t, r, i, n) { var s, a, o, u; n = n || [",", "\t", "|", ";", b.RECORD_SEP, b.UNIT_SEP]; for (var h = 0; h < n.length; h++) { var f = n[h], d = 0, l = 0, c = 0; o = void 0; for (var p = new E({ comments: i, delimiter: f, newline: t, preview: 10 }).parse(e), g = 0; g < p.data.length; g++)if (r && y(p.data[g])) c++; else { var _ = p.data[g].length; l += _, void 0 !== o ? 0 < _ && (d += Math.abs(_ - o), o = _) : o = _ } 0 < p.data.length && (l /= p.data.length - c), (void 0 === a || d <= a) && (void 0 === u || u < l) && 1.99 < l && (a = d, s = f, u = l) } return { successful: !!(m.delimiter = s), bestDelimiter: s } }(e, m.newline, m.skipEmptyLines, m.comments, m.delimitersToGuess); n.successful ? m.delimiter = n.bestDelimiter : (u = !0, m.delimiter = b.DefaultDelimiter), c.meta.delimiter = m.delimiter } var s = w(m); return m.preview && m.header && s.preview++, a = e, o = new E(s), c = o.parse(a, t, r), g(), d ? { meta: { paused: !0 } } : c || { meta: { paused: !1 } } }, this.paused = function () { return d }, this.pause = function () { d = !0, o.abort(), a = J(m.chunk) ? "" : a.substring(o.getCharIndex()) }, this.resume = function () { t.streamer._halted ? (d = !1, t.streamer.parseChunk(a, !0)) : setTimeout(t.resume, 3) }, this.aborted = function () { return e }, this.abort = function () { e = !0, o.abort(), c.meta.aborted = !0, J(m.complete) && m.complete(c), a = "" } } function Q(e) { return e.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") } function E(j) { var z, M = (j = j || {}).delimiter, P = j.newline, U = j.comments, q = j.step, N = j.preview, B = j.fastMode, K = z = void 0 === j.quoteChar || null === j.quoteChar ? '"' : j.quoteChar; if (void 0 !== j.escapeChar && (K = j.escapeChar), ("string" != typeof M || -1 < b.BAD_DELIMITERS.indexOf(M)) && (M = ","), U === M) throw new Error("Comment character same as delimiter"); !0 === U ? U = "#" : ("string" != typeof U || -1 < b.BAD_DELIMITERS.indexOf(U)) && (U = !1), "\n" !== P && "\r" !== P && "\r\n" !== P && (P = "\n"); var W = 0, H = !1; this.parse = function (i, t, r) { if ("string" != typeof i) throw new Error("Input must be a string"); var n = i.length, e = M.length, s = P.length, a = U.length, o = J(q), u = [], h = [], f = [], d = W = 0; if (!i) return L(); if (j.header && !t) { var l = i.split(P)[0].split(M), c = [], p = {}, g = !1; for (var _ in l) { var m = l[_]; J(j.transformHeader) && (m = j.transformHeader(m, _)); var y = m, v = p[m] || 0; for (0 < v && (g = !0, y = m + "_" + v), p[m] = v + 1; c.includes(y);)y = y + "_" + v; c.push(y) } if (g) { var k = i.split(P); k[0] = c.join(M), i = k.join(P) } } if (B || !1 !== B && -1 === i.indexOf(z)) { for (var b = i.split(P), E = 0; E < b.length; E++) { if (f = b[E], W += f.length, E !== b.length - 1) W += P.length; else if (r) return L(); if (!U || f.substring(0, a) !== U) { if (o) { if (u = [], I(f.split(M)), F(), H) return L() } else I(f.split(M)); if (N && N <= E) return u = u.slice(0, N), L(!0) } } return L() } for (var w = i.indexOf(M, W), R = i.indexOf(P, W), C = new RegExp(Q(K) + Q(z), "g"), S = i.indexOf(z, W); ;)if (i[W] !== z) if (U && 0 === f.length && i.substring(W, W + a) === U) { if (-1 === R) return L(); W = R + s, R = i.indexOf(P, W), w = i.indexOf(M, W) } else if (-1 !== w && (w < R || -1 === R)) f.push(i.substring(W, w)), W = w + e, w = i.indexOf(M, W); else { if (-1 === R) break; if (f.push(i.substring(W, R)), D(R + s), o && (F(), H)) return L(); if (N && u.length >= N) return L(!0) } else for (S = W, W++; ;) { if (-1 === (S = i.indexOf(z, S + 1))) return r || h.push({ type: "Quotes", code: "MissingQuotes", message: "Quoted field unterminated", row: u.length, index: W }), T(); if (S === n - 1) return T(i.substring(W, S).replace(C, z)); if (z !== K || i[S + 1] !== K) { if (z === K || 0 === S || i[S - 1] !== K) { -1 !== w && w < S + 1 && (w = i.indexOf(M, S + 1)), -1 !== R && R < S + 1 && (R = i.indexOf(P, S + 1)); var O = A(-1 === R ? w : Math.min(w, R)); if (i.substr(S + 1 + O, e) === M) { f.push(i.substring(W, S).replace(C, z)), i[W = S + 1 + O + e] !== z && (S = i.indexOf(z, W)), w = i.indexOf(M, W), R = i.indexOf(P, W); break } var x = A(R); if (i.substring(S + 1 + x, S + 1 + x + s) === P) { if (f.push(i.substring(W, S).replace(C, z)), D(S + 1 + x + s), w = i.indexOf(M, W), S = i.indexOf(z, W), o && (F(), H)) return L(); if (N && u.length >= N) return L(!0); break } h.push({ type: "Quotes", code: "InvalidQuotes", message: "Trailing quote on quoted field is malformed", row: u.length, index: W }), S++ } } else S++ } return T(); function I(e) { u.push(e), d = W } function A(e) { var t = 0; if (-1 !== e) { var r = i.substring(S + 1, e); r && "" === r.trim() && (t = r.length) } return t } function T(e) { return r || (void 0 === e && (e = i.substring(W)), f.push(e), W = n, I(f), o && F()), L() } function D(e) { W = e, I(f), f = [], R = i.indexOf(P, W) } function L(e) { return { data: u, errors: h, meta: { delimiter: M, linebreak: P, aborted: H, truncated: !!e, cursor: d + (t || 0) } } } function F() { q(L()), u = [], h = [] } }, this.abort = function () { H = !0 }, this.getCharIndex = function () { return W } } function _(e) { var t = e.data, r = a[t.workerId], i = !1; if (t.error) r.userError(t.error, t.file); else if (t.results && t.results.data) { var n = { abort: function () { i = !0, m(t.workerId, { data: [], errors: [], meta: { aborted: !0 } }) }, pause: y, resume: y }; if (J(r.userStep)) { for (var s = 0; s < t.results.data.length && (r.userStep({ data: t.results.data[s], errors: t.results.errors, meta: t.results.meta }, n), !i); s++); delete t.results } else J(r.userChunk) && (r.userChunk(t.results, n, t.file), delete t.results) } t.finished && !i && m(t.workerId, t.results) } function m(e, t) { var r = a[e]; J(r.userComplete) && r.userComplete(t), r.terminate(), delete a[e] } function y() { throw new Error("Not implemented.") } function w(e) { if ("object" != typeof e || null === e) return e; var t = Array.isArray(e) ? [] : {}; for (var r in e) t[r] = w(e[r]); return t } function v(e, t) { return function () { e.apply(t, arguments) } } function J(e) { return "function" == typeof e } return o && (f.onmessage = function (e) { var t = e.data; void 0 === b.WORKER_ID && t && (b.WORKER_ID = t.workerId); if ("string" == typeof t.input) f.postMessage({ workerId: b.WORKER_ID, results: b.parse(t.input, t.config), finished: !0 }); else if (f.File && t.input instanceof File || t.input instanceof Object) { var r = b.parse(t.input, t.config); r && f.postMessage({ workerId: b.WORKER_ID, results: r, finished: !0 }) } }), (l.prototype = Object.create(h.prototype)).constructor = l, (c.prototype = Object.create(h.prototype)).constructor = c, (p.prototype = Object.create(p.prototype)).constructor = p, (g.prototype = Object.create(h.prototype)).constructor = g, b });</script>
     <script>
         // ══════════════════════════════════════════════════════════
+        //  UTILITIES — HTML SANITIZATION (XSS PROTECTION)
+        // ══════════════════════════════════════════════════════════
+        // Escapes HTML special characters to prevent XSS injection from CSV data
+        function escHtml(s) {
+            if (s == null) return '';
+            return String(s)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+        // Escape for HTML attribute values (also escapes newlines)
+        function escAttr(s) {
+            if (s == null) return '';
+            return escHtml(s).replace(/\n/g, '&#10;').replace(/\r/g, '&#13;');
+        }
+
+        // ══════════════════════════════════════════════════════════
         //  STATE & CONFIG
         // ══════════════════════════════════════════════════════════
         const A = { recs: [], trainees: new Map(), gMin: Infinity, maxSlot: 0, selId: null, logo: 'logo.png', oldSlots: [], oldBreaks: [] };
         const LECTURE_DUR = 35; // Ramadan lecture duration in minutes
-        const DEFAULT_BREAKS = [0, 5, 0, 10, 0, 5, 0, 5, 0]; // breaks AFTER lecture index 0..8
+        const DEFAULT_BREAKS = [0, 5, 0, 10, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5]; // breaks AFTER lecture index 0..13 (supports up to 15 lectures)
         const DEFAULT_START = 10 * 60 + 15; // 10:15 default first lecture start
         let ramadanStart = DEFAULT_START; // current first lecture start (in minutes)
+        let fileDetectedStart = null; // start time detected from the uploaded CSV file
         let ramadanBreaks = [...DEFAULT_BREAKS]; // current breaks (editable)
         let customUnitName = ''; // user-editable unit name (from CSV, overridable)
         let sortOrder = 'tid'; // 'tid' or 'name'
@@ -1724,6 +2284,172 @@
         const DEFAULT_NOTE = 'احترامك لمواعيد تدريبك يعكس رقيّ شخصيتك المهنية، وكل عام وأنتم بخير،،،';
         let schedNotes = [DEFAULT_NOTE]; // array of user notes for all schedules
         let timeFormat = '12h'; // '24h' or '12h' — time display in trainee schedules (12h default)
+        let roomFmtEnabled = false; // show room as building+number format
+        let qrLinks = []; // array of {url, title} objects
+        let qrLabel = 'امسح للوصول إلى روابط مهمة'; // shared label shown below all QR codes
+        const DEFAULT_QR_LABEL = 'امسح للوصول إلى روابط مهمة';
+
+        // ═══ PREFERENCES PERSISTENCE (localStorage) ═══
+        const PREFS_KEY = 'seculViewerPrefs';
+
+        function savePrefs() {
+            try {
+                const prefs = {
+                    sortOrder: sortOrder,
+                    genderType: genderType,
+                    timeFormat: timeFormat,
+                    roomFmtEnabled: roomFmtEnabled,
+                    customUnitName: customUnitName,
+                    schedNotes: schedNotes,
+                    qrLinks: qrLinks,
+                    qrLabel: qrLabel
+                };
+                localStorage.setItem(PREFS_KEY, JSON.stringify(prefs));
+            } catch (e) { /* localStorage unavailable */ }
+        }
+
+        function loadPrefs() {
+            try {
+                const raw = localStorage.getItem(PREFS_KEY);
+                if (!raw) return;
+                const p = JSON.parse(raw);
+                if (p.sortOrder) sortOrder = p.sortOrder;
+                if (p.genderType) genderType = p.genderType;
+                if (p.timeFormat) timeFormat = p.timeFormat;
+                if (typeof p.roomFmtEnabled === 'boolean') roomFmtEnabled = p.roomFmtEnabled;
+                if (typeof p.customUnitName === 'string') customUnitName = p.customUnitName;
+                if (Array.isArray(p.schedNotes) && p.schedNotes.length > 0) schedNotes = p.schedNotes;
+                if (Array.isArray(p.qrLinks)) qrLinks = p.qrLinks;
+                if (typeof p.qrLabel === 'string') qrLabel = p.qrLabel;
+            } catch (e) { /* parse error, use defaults */ }
+        }
+
+        function resetPage3Prefs() {
+            if (!confirm('هل تريد استعادة جميع الخيارات إلى القيم الافتراضية؟')) return;
+            sortOrder = 'tid';
+            genderType = 'male';
+            timeFormat = '12h';
+            roomFmtEnabled = false;
+            customUnitName = '';
+            schedNotes = [DEFAULT_NOTE];
+            qrLinks = [];
+            qrLabel = DEFAULT_QR_LABEL;
+            // Update UI elements
+            const sortSel = document.getElementById('sortOrder');
+            if (sortSel) sortSel.value = sortOrder;
+            const genderSel = document.getElementById('genderType');
+            if (genderSel) genderSel.value = genderType;
+            const tfSel = document.getElementById('timeFormatSel');
+            if (tfSel) tfSel.value = timeFormat;
+            const roomSel = document.getElementById('roomFmtSelect');
+            if (roomSel) roomSel.value = 'raw';
+            const uInput = document.getElementById('unitNameInput');
+            if (uInput) {
+                const firstTrainee = A.trainees.size > 0 ? A.trainees.values().next().value : null;
+                uInput.value = firstTrainee ? firstTrainee.un : '';
+                customUnitName = uInput.value;
+            }
+            const qrLabelEl = document.getElementById('qrLabel');
+            if (qrLabelEl) { qrLabelEl.value = qrLabel; qrLabelEl.classList.add('qr-label-glow'); }
+            renderNoteInputs();
+            renderQrInputs();
+            onRoomFmtChange();
+            savePrefs();
+            if (A.selId) renderPrev(A.selId);
+            renderTL(document.getElementById('SI') ? document.getElementById('SI').value.trim() : '');
+            toast('تم استعادة الخيارات الافتراضية');
+        }
+
+        // Load saved preferences on script init
+        loadPrefs();
+
+        // ═══ FILE START vs STORED START (ORIGINAL TIMES) ═══
+        function useFileStart() {
+            if (fileDetectedStart === null) return;
+            // Recompute old slots from file data (discard stored old slot edits)
+            userEdits.oldSlotStarts = null;
+            computeOldSlots();
+            renderSlotsUI();
+            renderMismatchTable();
+            updateMismatchWarnBtn();
+            // Hide the alert
+            const alertEl = document.getElementById('storedStartAlert');
+            if (alertEl) alertEl.style.display = 'none';
+            toast('تم تحديث الأوقات الأصلية من الملف — البداية: ' + m2hm(fileDetectedStart));
+        }
+
+        function checkStoredStart() {
+            const alertEl = document.getElementById('storedStartAlert');
+            if (!alertEl) return;
+            // Compare stored old slot starts with file-detected start
+            const storedOldStart = (userEdits.hasEdits && userEdits.oldSlotStarts && userEdits.oldSlotStarts.length > 0) ? userEdits.oldSlotStarts[0] : null;
+            if (fileDetectedStart !== null && storedOldStart !== null && storedOldStart !== fileDetectedStart) {
+                const msg = document.getElementById('storedStartMsg');
+                if (msg) {
+                    msg.textContent = 'يتم استخدام الأوقات الأصلية المحفوظة (البداية: ' + m2hm(storedOldStart) + '). الملف المرفوع يبدأ من (' + m2hm(fileDetectedStart) + ').';
+                }
+                alertEl.style.display = '';
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+            } else {
+                alertEl.style.display = 'none';
+            }
+        }
+
+        function updateMismatchWarnBtn() {
+            const btn = document.getElementById('mismatchWarnBtn');
+            if (!btn) return;
+            if (A.mismatchCount > 0) {
+                btn.style.display = '';
+                btn.innerHTML = '<i data-lucide="alert-triangle" style="width:14px;height:14px"></i> ⚠ ' + A.mismatchCount + ' أوقات غير متطابقة — اضغط للمراجعة';
+                btn.style.animation = 'mismatchPulse 1.5s ease-in-out infinite';
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+            } else {
+                btn.style.display = 'none';
+            }
+        }
+
+        // Format room code: 1350610117 → building=06→6, room=117
+        function fmtRoom(rn) {
+            if (!roomFmtEnabled || !rn || rn.length !== 10 || !/^\d{10}$/.test(rn)) return escHtml(rn);
+            const bld = parseInt(rn.substring(3, 5), 10);
+            const room = rn.substring(7);
+            return '<span class="room-fmt"><span class="rm-bld">' + bld + '</span><span class="rm-num">' + escHtml(room) + '</span></span>';
+        }
+
+        function onRoomFmtChange() {
+            const sel = document.getElementById('roomFmtSelect');
+            roomFmtEnabled = sel ? sel.value === 'formatted' : false;
+            // Update sample preview
+            const sample = document.getElementById('roomFmtSample');
+            if (sample) {
+                let sampleRn = '1350610117';
+                for (const r of A.recs) {
+                    if (r.rn && r.rn.length === 10 && /^\d{10}$/.test(r.rn)) { sampleRn = r.rn; break; }
+                }
+                if (roomFmtEnabled) {
+                    const bld = parseInt(sampleRn.substring(3, 5), 10);
+                    const room = sampleRn.substring(7);
+                    sample.innerHTML = '<span class="room-fmt"><span class="rm-bld">' + bld + '</span><span class="rm-num">' + room + '</span></span>';
+                } else {
+                    sample.textContent = sampleRn;
+                }
+            }
+            // Update option text with real room number
+            if (sel && A.recs.length > 0) {
+                let sampleRn = '1350610117';
+                for (const r of A.recs) {
+                    if (r.rn && r.rn.length === 10 && /^\d{10}$/.test(r.rn)) { sampleRn = r.rn; break; }
+                }
+                const bld = parseInt(sampleRn.substring(3, 5), 10);
+                const room = sampleRn.substring(7);
+                for (const opt of sel.options) {
+                    if (opt.value === 'raw') opt.textContent = 'الرقم الكامل — ' + sampleRn;
+                    if (opt.value === 'formatted') opt.textContent = 'مبنى + رقم — ' + bld + '₋' + room;
+                }
+            }
+            if (A.selId) renderPrev(A.selId);
+            savePrefs();
+        }
 
         // ═══ MANUAL EDITS STORAGE ═══
         // Stores user manual edits so they persist across file re-uploads
@@ -1782,11 +2508,13 @@
         let RS = []; // will be computed from ramadanStart + ramadanBreaks
         function computeRS() {
             RS = [];
+            // Use actual data slot count, or default 10 if no data loaded yet
+            const count = A.maxSlot > 0 ? A.maxSlot : 10;
             let t = ramadanStart;
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < count; i++) {
                 RS.push({ s: m2hm(t), e: m2hm(t + LECTURE_DUR) });
                 t += LECTURE_DUR;
-                if (i < 9) t += ramadanBreaks[i];
+                if (i < count - 1) t += (ramadanBreaks[i] || 0);
             }
         }
         computeRS();
@@ -1815,6 +2543,8 @@
             if (n > 1 && A.recs.length === 0) { toast('يرجى رفع ملف CSV أولاً', 'er'); return }
             if (n === 2) {
                 renderMismatchTable();
+                checkStoredStart();
+                updateMismatchWarnBtn();
             }
             if (n === 3) {
                 renderMismatchTable(); // ensure A.mismatchCount is up-to-date for warning
@@ -1844,6 +2574,20 @@
                 // Restore time format selector
                 const tfSel = document.getElementById('timeFormatSel');
                 if (tfSel) tfSel.value = timeFormat;
+                // Restore sort order
+                const sortSel = document.getElementById('sortOrder');
+                if (sortSel) sortSel.value = sortOrder;
+                // Restore gender type
+                const genderSel = document.getElementById('genderType');
+                if (genderSel) genderSel.value = genderType;
+                // Update room format dropdown and examples with real data
+                const roomSel = document.getElementById('roomFmtSelect');
+                if (roomSel) roomSel.value = roomFmtEnabled ? 'formatted' : 'raw';
+                onRoomFmtChange();
+                // Render QR inputs and restore label
+                renderQrInputs();
+                const qrLabelEl = document.getElementById('qrLabel');
+                if (qrLabelEl) qrLabelEl.value = qrLabel;
                 // Auto-select first trainee if none selected
                 if (!A.selId || !A.trainees.has(A.selId)) {
                     const sorted = getSorted();
@@ -1876,45 +2620,74 @@
         }
 
         function handleFiles(fileList) {
-            // Accept an array or FileList of CSV files
             const files = Array.from(fileList).filter(f => f.name.toLowerCase().endsWith('.csv'));
             if (files.length === 0) { toast('يرجى اختيار ملف CSV واحد على الأقل', 'er'); return; }
-
+            const uz = document.getElementById('UZ');
+            uz.innerHTML = '<div class="proc-wrap">'
+                + '<div class="proc-step waiting" id="ps0"><div class="proc-icon">○</div><span class="proc-label">قراءة الملف وتحليل البيانات</span></div>'
+                + '<div class="proc-step waiting" id="ps1"><div class="proc-icon">○</div><span class="proc-label">استخراج بيانات المتدربين والمحاضرات</span></div>'
+                + '<div class="proc-step waiting" id="ps2"><div class="proc-icon">○</div><span class="proc-label">حساب الفترات الزمنية والفواصل</span></div>'
+                + '<div class="proc-step waiting" id="ps3"><div class="proc-icon">○</div><span class="proc-label">التحقق من تطابق الأوقات</span></div>'
+                + '<div class="proc-bar"><div class="proc-bar-fill" id="procFill"></div></div></div>';
+            uz.onclick = null;
+            ['ps0', 'ps1', 'ps2', 'ps3'].forEach((id, i) => setTimeout(() => document.getElementById(id).classList.add('visible'), i * 100));
+            setTimeout(() => _psSet(0, 'active'), 150);
+            let allData = [], completed = 0, hasError = false;
             const fileCount = files.length;
-            const label = fileCount === 1 ? 'جاري تحليل الملف...' : 'جاري تحليل ' + fileCount + ' ملفات...';
-            document.getElementById('UZ').innerHTML = '<span class="spinner"></span><div class="uzt" style="margin-top:16px">' + label + '</div>';
-
-            let allData = [];
-            let completed = 0;
-            let hasError = false;
-
             for (const file of files) {
                 Papa.parse(file, {
                     header: true, encoding: 'UTF-8', skipEmptyLines: true,
                     transformHeader: h => h.trim().replace(/^\uFEFF/, ''),
-                    complete: r => {
-                        if (hasError) return;
-                        allData = allData.concat(r.data);
-                        completed++;
-                        if (completed === fileCount) {
-                            processCSV(allData);
-                        }
-                    },
-                    error: e => {
-                        if (!hasError) {
-                            hasError = true;
-                            toast('خطأ في ملف ' + file.name + ': ' + e.message, 'er');
-                        }
-                    }
+                    complete: r => { if (hasError) return; allData = allData.concat(r.data); completed++; if (completed === fileCount) _runPipeline(allData); },
+                    error: e => { if (!hasError) { hasError = true; toast('خطأ في ملف ' + file.name + ': ' + e.message, 'er'); } }
                 });
             }
         }
 
-        function processCSV(data) {
-            // Save any existing manual edits before resetting
+        function _psSet(i, state) {
+            const el = document.getElementById('ps' + i); if (!el) return;
+            el.classList.remove('active', 'waiting', 'done'); el.classList.add(state, 'visible');
+            el.querySelector('.proc-icon').innerHTML = state === 'done' ? '✓' : state === 'active' ? '<span class="spinner" style="width:14px;height:14px;border-width:2px"></span>' : '○';
+        }
+        function _psFill(p) { const b = document.getElementById('procFill'); if (b) b.style.width = p + '%'; }
+
+        function _runPipeline(data) {
+            _psSet(0, 'done'); _psFill(20);
+            setTimeout(() => {
+                _psSet(1, 'active'); _psFill(35);
+                setTimeout(() => {
+                    try {
+                        _csvExtract(data);
+                        _psSet(1, 'done'); _psFill(55);
+                        setTimeout(() => {
+                            _psSet(2, 'active'); _psFill(65);
+                            setTimeout(() => {
+                                computeOldSlots();
+                                _psSet(2, 'done'); _psFill(80);
+                                setTimeout(() => {
+                                    _psSet(3, 'active'); _psFill(90);
+                                    setTimeout(() => {
+                                        _csvFinalize();
+                                        _psSet(3, 'done'); _psFill(100);
+                                        setTimeout(() => _showDone(), 800);
+                                    }, 500);
+                                }, 400);
+                            }, 600);
+                        }, 400);
+                    } catch (err) {
+                        console.error('processCSV error:', err);
+                        toast('حدث خطأ أثناء معالجة البيانات: ' + err.message, 'er');
+                        const uz = document.getElementById('UZ');
+                        uz.innerHTML = '<span class="uzi"><i data-lucide="alert-circle" style="width:3rem;height:3rem;stroke:var(--dn)"></i></span><div class="uzt" style="color:var(--dn)">حدث خطأ في تحليل الملف</div><div class="uzh">' + escHtml(err.message) + '</div>';
+                        if (typeof lucide !== 'undefined') lucide.createIcons();
+                    }
+                }, 700);
+            }, 500);
+        }
+
+        function _csvExtract(data) {
             if (A.recs.length > 0) saveUserEdits();
             A.recs = []; A.trainees = new Map(); A.gMin = Infinity; A.maxSlot = 0; A.mismatchCount = 0; A.mismatchRefs = new Set();
-            // Only reset customUnitName if no user edit stored
             if (!userEdits.hasEdits || userEdits.customUnitName === null) customUnitName = '';
             for (const row of data) {
                 const tid = nfc((row['الرقم التدريبي'] || '').trim());
@@ -1935,8 +2708,6 @@
                 if (!tid || !tm) continue;
                 const pt = parseTime(tm); if (!pt) continue;
                 if (pt.s < A.gMin) A.gMin = pt.s;
-
-                // Split multi-day cells: e.g. "الاثنين  الأربعاء" → two separate records
                 const days = splitDays(rawDay);
                 for (const dy of days) {
                     const rec = { tid, nm, dy, tm, cr, ct, rf, tp, rn, ad, dp, pg, sm, un, pt, courseStatus };
@@ -1945,64 +2716,67 @@
                     A.trainees.get(tid).recs.push(rec);
                 }
             }
-            // Filter out trainees whose ALL courses have withdrawn/dismissed statuses
             const excludeStatuses = ['انسحاب فصلي', 'مطوي قيده', 'مطوي قيده لإنقطاع أسبوعين'];
             const toRemove = [];
             for (const [tid, trainee] of A.trainees) {
-                const allExcluded = trainee.recs.every(r => excludeStatuses.includes(r.courseStatus));
-                if (allExcluded && trainee.recs.length > 0) {
-                    toRemove.push(tid);
-                }
+                if (trainee.recs.every(r => excludeStatuses.includes(r.courseStatus)) && trainee.recs.length > 0) toRemove.push(tid);
             }
-            for (const tid of toRemove) {
-                A.trainees.delete(tid);
-                A.recs = A.recs.filter(r => r.tid !== tid);
-            }
-
+            for (const tid of toRemove) { A.trainees.delete(tid); A.recs = A.recs.filter(r => r.tid !== tid); }
             for (const r of A.recs) {
                 const off = r.pt.s - A.gMin, si = Math.round(off / 50), np = Math.round(r.pt.d / 50), ei = si + np;
                 if (ei > A.maxSlot) A.maxSlot = ei;
             }
-            document.getElementById('sT').textContent = A.trainees.size;
-            document.getElementById('sR').textContent = A.recs.length;
-            document.getElementById('sM').textContent = m2hm(A.gMin);
-            document.getElementById('sX').textContent = A.maxSlot;
-            // Compute old slots from the CSV data
-            computeOldSlots();
+        }
 
-            document.getElementById('US').style.display = 'block';
-            document.getElementById('b2').disabled = false;
-            const uz = document.getElementById('UZ');
-            uz.innerHTML = '<span class="uzi"><i data-lucide="check-circle" style="width:3rem;height:3rem;stroke:var(--ok)"></i></span><div class="uzt">تم تحليل الملف بنجاح</div><div class="uzh">' + A.trainees.size + ' متدرب — ' + A.recs.length + ' محاضرة</div><div class="uzh" style="margin-top:4px;color:var(--pri);cursor:pointer" onclick="event.stopPropagation();document.getElementById(\'FI\').click()">📂 رفع ملفات أخرى أو إضافية</div>';
-            uz.onclick = () => document.getElementById('FI').click();
-            toast('تم استيراد ' + A.trainees.size + ' متدرب و ' + A.recs.length + ' محاضرة');
-            // Restore user manual edits (Ramadan times, old times, unit name, note)
+        function _csvFinalize() {
             restoreUserEdits();
             renderSlotsUI();
-
-            // Restore unit name input and note input on page 3
             const uInput = document.getElementById('unitNameInput');
             if (uInput && customUnitName) uInput.value = customUnitName;
             renderNoteInputs();
             const tfSel = document.getElementById('timeFormatSel');
             if (tfSel) tfSel.value = timeFormat;
-
-            // If we're on page 3 (s3 is active), refresh the trainee list and preview
+            onRoomFmtChange(); // update room format examples with real data
             const s3 = document.getElementById('s3');
             if (s3 && s3.classList.contains('active')) {
                 readSlots();
                 renderTL(document.getElementById('SI') ? document.getElementById('SI').value.trim() : '');
-                // Auto-select first trainee from the new file
                 const sorted = getSorted();
-                if (sorted.length > 0) {
-                    selT(sorted[0].tid);
-                } else {
-                    A.selId = null;
-                    document.getElementById('PF').innerHTML = '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:200px;color:var(--mut)"><span style="opacity:.3;margin-bottom:12px"><i data-lucide="clipboard-list" style="width:3rem;height:3rem;stroke:var(--mut)"></i></span>اختر متدرباً لمعاينة جدوله</div>';
-                    document.getElementById('bPS').disabled = true;
-                }
+                if (sorted.length > 0) { selT(sorted[0].tid); }
+                else { A.selId = null; document.getElementById('bPS').disabled = true; }
             }
+        }
 
+        function _animNum(el, target, dur) {
+            if (!el) return;
+            if (typeof target !== 'number') { el.textContent = target; el.classList.add('counting'); setTimeout(() => el.classList.remove('counting'), 400); return; }
+            const t0 = performance.now();
+            (function tick(now) {
+                const p = Math.min((now - t0) / dur, 1);
+                el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
+                if (p < 1) requestAnimationFrame(tick);
+                else { el.textContent = target; el.classList.add('counting'); setTimeout(() => el.classList.remove('counting'), 400); }
+            })(t0);
+        }
+
+        function _showDone() {
+            const uz = document.getElementById('UZ');
+            uz.innerHTML = '<span class="uzi"><i data-lucide="check-circle" style="width:3rem;height:3rem;stroke:var(--ok)"></i></span>'
+                + '<div class="uzt">تم تحليل الملف بنجاح</div>'
+                + '<div class="uzh">' + A.trainees.size + ' متدرب — ' + A.recs.length + ' محاضرة</div>'
+                + '<div class="uzh" style="margin-top:4px;color:var(--pri);cursor:pointer" onclick="event.stopPropagation();document.getElementById(\'FI\').click()">📂 رفع ملفات أخرى أو إضافية</div>';
+            uz.onclick = () => document.getElementById('FI').click();
+            document.getElementById('US').style.display = 'block';
+            const stb = document.querySelector('.stb');
+            if (stb) stb.classList.add('reveal');
+            setTimeout(() => {
+                _animNum(document.getElementById('sT'), A.trainees.size, 600);
+                _animNum(document.getElementById('sR'), A.recs.length, 700);
+                _animNum(document.getElementById('sM'), m2hm(A.gMin), 400);
+                _animNum(document.getElementById('sX'), A.maxSlot, 500);
+            }, 200);
+            document.getElementById('b2').disabled = false;
+            toast('تم استيراد ' + A.trainees.size + ' متدرب و ' + A.recs.length + ' محاضرة');
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
@@ -2033,6 +2807,9 @@
             const csvStarts = new Set(startSet); // remember which came from CSV
             const uniqueStarts = [...startSet].sort((a, b) => a - b);
             if (uniqueStarts.length === 0) return;
+
+            // Save the first detected start time from the file
+            fileDetectedStart = uniqueStarts[0];
 
             // Step 3: Build complete start list, filling gaps ≥ 50 min with inferred lectures
             const allStarts = [];
@@ -2138,7 +2915,9 @@
                 const off = rec.pt.s - A.gMin;
                 si = Math.min(Math.round(off / 50), RS.length - 1);
             }
-            si = Math.min(si, RS.length - 1);
+            si = Math.max(0, Math.min(si, RS.length - 1));
+            // Safety guard: if RS is empty, return fallback
+            if (RS.length === 0) return { si: 0, np: 1, rs: '--:--', re: '--:--', mismatch: false };
             const np = Math.max(0.5, rec.pt.d / 50); // fractional: e.g. 75min/50 = 1.5
             const startMin = timeToMin(RS[si].s);
             const endMin = startMin + Math.round(np * LECTURE_DUR); // round final minutes
@@ -2156,7 +2935,7 @@
         function renderSlotsUI() {
             computeRS();
             const g = document.getElementById('SG'); g.innerHTML = '';
-            const numSlots = Math.max(RS.length, A.oldSlots ? A.oldSlots.length : 0);
+            const numSlots = RS.length;
 
             // Helper: dual time display (24h primary + 12h small)
             function dualTime(hm24) {
@@ -2169,7 +2948,8 @@
 
             // === RAMADAN COLUMN ===
             const colR = document.createElement('div'); colR.className = 'sg-col sg-col-ramadan';
-            colR.innerHTML = '<div class="sg-col-title"><i data-lucide="moon" style="width:14px;height:14px;vertical-align:middle;margin-left:4px"></i> أوقات رمضان (35 د)</div>';
+            colR.innerHTML = '<div class="sg-step-label"><i data-lucide="arrow-left-circle" style="width:14px;height:14px;vertical-align:middle;margin-left:4px"></i> ثانياً: راجع وعدّل أوقات رمضان</div>'
+                + '<div class="sg-col-title"><i data-lucide="moon" style="width:14px;height:14px;vertical-align:middle;margin-left:4px"></i> أوقات رمضان (35 د)</div>';
 
             for (let i = 0; i < RS.length; i++) {
                 const row = document.createElement('div'); row.className = 'sr-row';
@@ -2192,7 +2972,8 @@
 
             // === OLD COLUMN (EDITABLE) ===
             const colO = document.createElement('div'); colO.className = 'sg-col sg-col-old';
-            colO.innerHTML = '<div class="sg-col-title"><i data-lucide="calendar" style="width:14px;height:14px;vertical-align:middle;margin-left:4px"></i> الأوقات الأصلية «قبل رمضان» (50 د)</div>';
+            colO.innerHTML = '<div class="sg-step-label"><i data-lucide="arrow-right-circle" style="width:14px;height:14px;vertical-align:middle;margin-left:4px"></i> أولاً: راجع وعدّل الأوقات الأصلية (إن لزم)</div>'
+                + '<div class="sg-col-title"><i data-lucide="calendar" style="width:14px;height:14px;vertical-align:middle;margin-left:4px"></i> الأوقات الأصلية «قبل رمضان» (50 د)</div>';
 
             const oldLen = A.oldSlots ? A.oldSlots.length : 0;
             for (let i = 0; i < numSlots; i++) {
@@ -2229,10 +3010,10 @@
                     + '<span class="time-sep">-</span>'
                     + '<span class="time-wrap"><span class="time-val end-val" id="oe' + i + '">' + oldE + '</span><span class="t12-hint" id="oeh' + i + '">' + t12(oldE) + '</span></span>';
 
-                // Attach tooltip balloon on hover
+                // Attach tooltip balloon on hover (sanitized)
                 if (tipText) {
                     row.classList.add('has-slot-tip');
-                    row.setAttribute('data-slot-tip', tipText);
+                    row.setAttribute('data-slot-tip', tipText.replace(/"/g, '\u201c').replace(/'/g, '\u2018'));
                 }
 
                 colO.appendChild(row);
@@ -2244,9 +3025,9 @@
                 }
             }
 
-            cols.appendChild(colR);
-            cols.appendChild(divider);
             cols.appendChild(colO);
+            cols.appendChild(divider);
+            cols.appendChild(colR);
             g.appendChild(cols);
 
             updateAllBreakLabels();
@@ -2318,7 +3099,7 @@
 
             // Cascade forward: update all slots after idx
             let t = newStart + LECTURE_DUR;
-            for (let i = idx + 1; i < 10; i++) {
+            for (let i = idx + 1; i < RS.length; i++) {
                 t += ramadanBreaks[i - 1];
                 RS[i].s = m2hm(t);
                 RS[i].e = m2hm(t + LECTURE_DUR);
@@ -2575,13 +3356,13 @@
                 idx++;
                 h += '<tr>';
                 h += '<td style="' + tdStyle + '">' + idx + '</td>';
-                h += '<td style="' + tdStyle + '">' + m.cr + '</td>';
-                h += '<td style="' + tdStyle + '">' + m.ct + '</td>';
-                h += '<td style="' + tdStyle + ';font-family:monospace">' + m.rf + '</td>';
-                h += '<td style="' + tdStyle + '">' + m.dy + '</td>';
-                h += '<td style="' + tdStyle + ';direction:ltr;font-family:monospace">' + m.tm + '</td>';
-                h += '<td style="' + tdStyle + ';font-size:.75rem;color:#c62828;text-align:right">' + m.reason + '</td>';
-                h += '<td style="' + tdStyle + '">' + m.example + '</td>';
+                h += '<td style="' + tdStyle + '">' + escHtml(m.cr) + '</td>';
+                h += '<td style="' + tdStyle + '">' + escHtml(m.ct) + '</td>';
+                h += '<td style="' + tdStyle + ';font-family:monospace">' + escHtml(m.rf) + '</td>';
+                h += '<td style="' + tdStyle + '">' + escHtml(m.dy) + '</td>';
+                h += '<td style="' + tdStyle + ';direction:ltr;font-family:monospace">' + escHtml(m.tm) + '</td>';
+                h += '<td style="' + tdStyle + ';font-size:.75rem;color:#c62828;text-align:right">' + escHtml(m.reason) + '</td>';
+                h += '<td style="' + tdStyle + '">' + escHtml(m.example) + '</td>';
                 h += '</tr>';
             }
             h += '</tbody></table>';
@@ -2610,7 +3391,7 @@
             const fl = q ? sorted.filter(t => t.nm.includes(q) || t.tid.includes(q)) : sorted;
             for (const t of fl) {
                 const d = document.createElement('div'); d.className = 'ti' + (A.selId === t.tid ? ' sel' : '');
-                d.innerHTML = '<div style="flex:1"><div class="tn">' + t.nm + '</div><div class="tid2">' + t.tid + '</div></div><div class="tde">' + t.dp + '</div>';
+                d.innerHTML = '<div style="flex:1"><div class="tn">' + escHtml(t.nm) + '</div><div class="tid2">' + escHtml(t.tid) + '</div></div><div class="tde">' + escHtml(t.dp) + '</div>';
                 d.addEventListener('click', () => selT(t.tid)); l.appendChild(d);
             }
         }
@@ -2620,6 +3401,7 @@
         function renderPrev(tid) {
             const f = document.getElementById('PF'), t = A.trainees.get(tid); if (!t) return; readSlots();
             f.innerHTML = buildPageHTML(t);
+            injectQrCanvases(f);
             // Mismatch warning
             if (A.mismatchCount > 0) {
                 toast('⚠ يوجد ' + A.mismatchCount + ' رقم مرجعي بأوقات غير متطابقة — راجع صفحة الإعدادات', 'er');
@@ -2634,17 +3416,20 @@
             userEdits.customUnitName = customUnitName;
             // Re-render preview if a trainee is selected
             if (A.selId) renderPrev(A.selId);
+            savePrefs();
         }
 
         function onSortChange() {
             sortOrder = document.getElementById('sortOrder').value;
             renderTL(document.getElementById('SI').value.trim());
+            savePrefs();
         }
 
         function onGenderChange() {
             genderType = document.getElementById('genderType').value;
             // Re-render preview if a trainee is selected
             if (A.selId) renderPrev(A.selId);
+            savePrefs();
         }
 
         // ═══ MULTI-NOTE SYSTEM ═══
@@ -2655,7 +3440,7 @@
             for (let i = 0; i < schedNotes.length; i++) {
                 h += '<div class="note-entry">';
                 if (schedNotes.length > 1) h += '<span class="note-num">' + (i + 1) + '</span>';
-                h += '<textarea id="noteInput' + i + '" rows="2" placeholder="أضف ملاحظة تظهر في جميع الجداول..." oninput="onNoteChange()">' + (schedNotes[i] || '') + '</textarea>';
+                h += '<textarea id="noteInput' + i + '" rows="2" placeholder="أضف ملاحظة تظهر في جميع الجداول..." oninput="onNoteChange()">' + escHtml(schedNotes[i] || '') + '</textarea>';
                 if (schedNotes.length > 1) h += '<button class="note-remove-btn" onclick="removeNote(' + i + ')" title="حذف هذه الملاحظة">&times;</button>';
                 h += '</div>';
             }
@@ -2686,6 +3471,7 @@
             userEdits.hasEdits = true;
             userEdits.schedNotes = [...schedNotes];
             if (A.selId) renderPrev(A.selId);
+            savePrefs();
         }
 
         function onTimeFormatChange() {
@@ -2693,6 +3479,128 @@
             userEdits.hasEdits = true;
             userEdits.timeFormat = timeFormat;
             if (A.selId) renderPrev(A.selId);
+            savePrefs();
+        }
+
+        // ═══ QR CODE SYSTEM ═══
+        function renderQrInputs() {
+            const container = document.getElementById('qrInputs');
+            if (!container) return;
+            let h = '';
+            for (let i = 0; i < qrLinks.length; i++) {
+                const item = qrLinks[i];
+                h += '<div class="qr-entry">';
+                if (qrLinks.length > 1) h += '<span class="qr-num">' + (i + 1) + '</span>';
+                h += '<div style="flex:1;display:flex;flex-direction:column;gap:4px">';
+                h += '<input type="url" id="qrInput' + i + '" value="' + escAttr(item.url || '') + '" placeholder="https://example.com" oninput="onQrChange()">';
+                h += '<input type="text" id="qrTitle' + i + '" value="' + escAttr(item.title || '') + '" placeholder="عنوان يظهر أسفل رمز QR (اختياري)" oninput="onQrChange()" style="padding:5px 10px;border:1px solid var(--bd);border-radius:6px;font-family:var(--fb);font-size:.78rem;background:#fff;color:var(--txt);text-align:center">';
+                h += '</div>';
+                h += '<div class="qr-preview-mini" id="qrMini' + i + '"></div>';
+                h += '<button class="note-remove-btn" onclick="removeQr(' + i + ')" title="حذف هذا الرابط">&times;</button>';
+                h += '</div>';
+            }
+            container.innerHTML = h;
+            // Show/hide label wrap
+            const labelWrap = document.getElementById('qrLabelWrap');
+            if (labelWrap) labelWrap.style.display = qrLinks.length > 0 ? '' : 'none';
+            // Render mini QR previews
+            for (let i = 0; i < qrLinks.length; i++) {
+                renderMiniQr(i);
+            }
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function renderMiniQr(idx) {
+            const container = document.getElementById('qrMini' + idx);
+            if (!container) return;
+            const url = (qrLinks[idx] && qrLinks[idx].url || '').trim();
+            container.innerHTML = '';
+            if (!url) return;
+            try {
+                const qr = qrcode(0, 'M');
+                qr.addData(url);
+                qr.make();
+                const size = qr.getModuleCount();
+                const canvas = document.createElement('canvas');
+                const scale = 3;
+                canvas.width = size * scale;
+                canvas.height = size * scale;
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = '#fff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#1A4D2E';
+                for (let r = 0; r < size; r++) {
+                    for (let c = 0; c < size; c++) {
+                        if (qr.isDark(r, c)) ctx.fillRect(c * scale, r * scale, scale, scale);
+                    }
+                }
+                container.appendChild(canvas);
+            } catch (e) { /* invalid URL, ignore */ }
+        }
+
+        function createQrCanvas(url, pixelSize) {
+            if (!url || !url.trim()) return null;
+            try {
+                const qr = qrcode(0, 'M');
+                qr.addData(url.trim());
+                qr.make();
+                const size = qr.getModuleCount();
+                const scale = Math.max(1, Math.floor(pixelSize / size));
+                const canvas = document.createElement('canvas');
+                canvas.width = size * scale;
+                canvas.height = size * scale;
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = '#fff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#1A4D2E';
+                for (let r = 0; r < size; r++) {
+                    for (let c = 0; c < size; c++) {
+                        if (qr.isDark(r, c)) ctx.fillRect(c * scale, r * scale, scale, scale);
+                    }
+                }
+                return canvas;
+            } catch (e) { return null; }
+        }
+
+        function addQr() {
+            qrLinks.push({ url: '', title: '' });
+            renderQrInputs();
+            const el = document.getElementById('qrInput' + (qrLinks.length - 1));
+            if (el) el.focus();
+        }
+
+        function removeQr(idx) {
+            qrLinks.splice(idx, 1);
+            renderQrInputs();
+            onQrChange();
+        }
+
+        function onQrChange() {
+            for (let i = 0; i < qrLinks.length; i++) {
+                const urlEl = document.getElementById('qrInput' + i);
+                const titleEl = document.getElementById('qrTitle' + i);
+                if (urlEl) qrLinks[i].url = urlEl.value;
+                if (titleEl) qrLinks[i].title = titleEl.value;
+            }
+            // Remove glow class from label once user starts editing
+            const labelEl = document.getElementById('qrLabel');
+            if (labelEl) labelEl.classList.remove('qr-label-glow');
+            // Render mini previews
+            for (let i = 0; i < qrLinks.length; i++) {
+                renderMiniQr(i);
+            }
+            if (A.selId) renderPrev(A.selId);
+            savePrefs();
+        }
+
+        function onQrLabelChange() {
+            const el = document.getElementById('qrLabel');
+            if (el) {
+                qrLabel = el.value;
+                el.classList.remove('qr-label-glow');
+            }
+            if (A.selId) renderPrev(A.selId);
+            savePrefs();
         }
 
         // ══════════════════════════════════════════════════════════
@@ -2753,17 +3661,17 @@
 
             // Semester below title
             if (t.sm) {
-                h += '<div class="sp-semester-wrap"><span class="sp-semester">' + t.sm + '</span></div>';
+                h += '<div class="sp-semester-wrap"><span class="sp-semester">' + escHtml(t.sm) + '</span></div>';
             }
 
             // Student info - RTL order (right to left)
             h += '<table class="sp-info"><tr>';
-            h += '<td class="lbl">الرقم التدريبي</td><td>' + t.tid + '</td>';
-            h += '<td class="lbl">التخصص</td><td>' + t.pg + '</td>';
+            h += '<td class="lbl">الرقم التدريبي</td><td>' + escHtml(t.tid) + '</td>';
+            h += '<td class="lbl">التخصص</td><td>' + escHtml(t.pg) + '</td>';
             h += '</tr><tr>';
             const nameLabel = nfc(genderType === 'female' ? 'اسم المتدربة' : 'اسم المتدرب');
-            h += '<td class="lbl">' + nameLabel + '</td><td>' + t.nm + '</td>';
-            h += '<td class="lbl">القسم</td><td>' + t.dp + '</td>';
+            h += '<td class="lbl">' + nameLabel + '</td><td>' + escHtml(t.nm) + '</td>';
+            h += '<td class="lbl">القسم</td><td>' + escHtml(t.dp) + '</td>';
             h += '</tr></table>';
 
             // Schedule table
@@ -2789,11 +3697,11 @@
                     } else {
                         h += '<td class="time-c">' + displayStart + ' - ' + displayEnd + '</td>';
                     }
-                    h += '<td>' + r.cr + '</td>';
-                    h += '<td>' + r.ct + '</td>';
-                    h += '<td>' + r.rf + '</td>';
-                    h += '<td>' + simplifyType(r.tp) + '</td>';
-                    h += '<td>' + r.rn + '</td>';
+                    h += '<td>' + escHtml(r.cr) + '</td>';
+                    h += '<td>' + escHtml(r.ct) + '</td>';
+                    h += '<td>' + escHtml(r.rf) + '</td>';
+                    h += '<td>' + escHtml(simplifyType(r.tp)) + '</td>';
+                    h += '<td>' + fmtRoom(r.rn) + '</td>';
                     h += '</tr>';
                 }
                 isFirstDay = false;
@@ -2802,17 +3710,54 @@
 
             // Footer (gender-aware)
             const trainerLabel = nfc(genderType === 'female' ? 'المرشدة التدريبية' : 'المرشد التدريبي');
-            h += '<div class="sp-footer">' + trainerLabel + ': ' + t.ad + '</div>';
+            h += '<div class="sp-footer">' + trainerLabel + ': ' + escHtml(t.ad) + '</div>';
             // Note
             // Render each non-empty note as its own box
             for (const note of schedNotes) {
                 const trimmed = (note || '').trim();
                 if (trimmed) {
-                    h += '<div class="sp-note">' + nfc(trimmed) + '</div>';
+                    h += '<div class="sp-note">' + escHtml(nfc(trimmed)) + '</div>';
                 }
+            }
+            // QR codes below notes
+            const validQrs = qrLinks.filter(item => item && item.url && item.url.trim());
+            if (validQrs.length > 0) {
+                h += '<div class="sp-qr-area">';
+                if (qrLabel && qrLabel.trim()) {
+                    h += '<div class="sp-qr-label">' + escHtml(nfc(qrLabel.trim())) + '</div>';
+                }
+                h += '<div class="sp-qr-codes">';
+                for (let i = 0; i < validQrs.length; i++) {
+                    h += '<div class="sp-qr-item" data-qr-url="' + escAttr(validQrs[i].url.trim()) + '" data-qr-title="' + escAttr(validQrs[i].title || '') + '"></div>';
+                }
+                h += '</div>';
+                h += '</div>';
             }
             h += '</div>';
             return h;
+        }
+
+        // After inserting buildPageHTML into DOM, call this to render QR canvases
+        function injectQrCanvases(container) {
+            if (!container) return;
+            const items = container.querySelectorAll('.sp-qr-item[data-qr-url]');
+            for (const item of items) {
+                const url = item.getAttribute('data-qr-url');
+                const title = item.getAttribute('data-qr-title') || '';
+                if (!url) continue;
+                const canvas = createQrCanvas(url, 120);
+                if (canvas) {
+                    canvas.style.width = '25mm';
+                    canvas.style.height = '25mm';
+                    item.appendChild(canvas);
+                    if (title.trim()) {
+                        const cap = document.createElement('div');
+                        cap.style.cssText = 'font-size:9px;color:#1A4D2E;font-weight:500;margin-top:1.5mm;text-align:center;max-width:30mm;word-wrap:break-word';
+                        cap.textContent = title.trim();
+                        item.appendChild(cap);
+                    }
+                }
+            }
         }
 
         // ══════════════════════════════════════════════════════════
@@ -2831,24 +3776,32 @@
             setTimeout(() => {
                 const area = document.getElementById('printArea');
                 const sorted = getSorted();
+                const BATCH = 15; // process in batches to let UI update
                 let html = '';
-                for (let i = 0; i < sorted.length; i++) {
-                    html += buildPageHTML(sorted[i]);
-                    if (i % 20 === 0) {
-                        document.getElementById('PFL').style.width = Math.round((i + 1) / sorted.length * 100) + '%';
-                        document.getElementById('PTX').textContent = (i + 1) + ' / ' + sorted.length;
+                let idx = 0;
+                function processBatch() {
+                    const end = Math.min(idx + BATCH, sorted.length);
+                    for (; idx < end; idx++) {
+                        html += buildPageHTML(sorted[idx]);
+                    }
+                    document.getElementById('PFL').style.width = Math.round(idx / sorted.length * 100) + '%';
+                    document.getElementById('PTX').textContent = idx + ' / ' + sorted.length;
+                    if (idx < sorted.length) {
+                        requestAnimationFrame(processBatch);
+                    } else {
+                        area.innerHTML = html;
+                        injectQrCanvases(area);
+                        document.getElementById('PFL').style.width = '100%';
+                        document.getElementById('PTX').textContent = 'جاهز للطباعة!';
+                        setTimeout(() => {
+                            window.print();
+                            btn.disabled = false;
+                            btn.innerHTML = '<i data-lucide="printer" style="width:16px;height:16px"></i> طباعة جميع الجداول'; if (typeof lucide !== 'undefined') lucide.createIcons();
+                            setTimeout(() => pw.classList.remove('sh'), 1000);
+                        }, 300);
                     }
                 }
-                area.innerHTML = html;
-                document.getElementById('PFL').style.width = '100%';
-                document.getElementById('PTX').textContent = 'جاهز للطباعة!';
-
-                setTimeout(() => {
-                    window.print();
-                    btn.disabled = false;
-                    btn.innerHTML = '<i data-lucide="printer" style="width:16px;height:16px"></i> طباعة جميع الجداول'; if (typeof lucide !== 'undefined') lucide.createIcons();
-                    setTimeout(() => pw.classList.remove('sh'), 1000);
-                }, 300);
+                processBatch();
             }, 100);
         }
 
@@ -2857,6 +3810,7 @@
             const t = A.trainees.get(A.selId); if (!t) return;
             const area = document.getElementById('printArea');
             area.innerHTML = buildPageHTML(t);
+            injectQrCanvases(area);
             setTimeout(() => window.print(), 200);
         }
 
